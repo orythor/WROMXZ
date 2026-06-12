@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, shrink-to-fit=no">
   <title>WROMXZ · AI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="importmap">
-    { "imports": { "three": "https://unpkg.com/three@0.157.0/build/three.module.js" } }
-  </script>
   <style>
     :root {
       --bg: #0a0a0a; --sidebar-bg: #110000; --surface: #180000; --surface2: #1f0000;
@@ -25,11 +22,45 @@
       -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; touch-action: manipulation;
       overscroll-behavior: none; position: fixed; inset: 0; -webkit-touch-callout: none;
     }
-    #splash-screen { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s ease; background: #0a0000; }
+    /* === SPLASH SCREEN === */
+    #splash-screen {
+      position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease; background: #0a0404;
+    }
     #splash-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-    #shader-container { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
-    .splash-content { position: relative; z-index: 10; text-align: center; padding: 0 1rem; }
-    #app-container { display: flex; height: 100%; width: 100%; position: relative; overflow: hidden; opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease; }
+    #particle-canvas {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    }
+    .splash-content {
+      position: relative; z-index: 10; text-align: center; padding: 0 1rem;
+    }
+    .splash-content h1 {
+      font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 700; letter-spacing: 0.15em;
+      background: linear-gradient(135deg, #dc2626, #f97316, #b91c1c, #fbbf24);
+      background-size: 200% 200%; -webkit-background-clip: text; background-clip: text;
+      color: transparent; animation: gradientShift 6s ease infinite, fadeInUp 1.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      opacity: 0; transform: translateY(30px); text-shadow: 0 0 30px rgba(220, 38, 38, 0.5);
+    }
+    .splash-content p {
+      font-size: clamp(1rem, 2.5vw, 1.8rem); font-weight: 300; letter-spacing: 0.3em;
+      color: rgba(255, 200, 180, 0.8); margin-top: 1rem;
+      animation: fadeInUp 2s 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards; opacity: 0; transform: translateY(20px);
+    }
+    .splash-buttons {
+      margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeInUp 2.2s 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards; opacity: 0; transform: translateY(20px);
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* === APP CONTAINER === */
+    #app-container {
+      display: flex; height: 100%; width: 100%; position: relative; overflow: hidden;
+      opacity: 0; visibility: hidden; transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
     #app-container.visible { opacity: 1; visibility: visible; }
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: var(--scroll-track); border-radius: 10px; }
@@ -54,6 +85,10 @@
     .model-btn { flex: 1 1 auto; min-width: 0; padding: 8px 4px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-dim); cursor: pointer; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.03em; transition: all 0.2s; text-align: center; white-space: nowrap; }
     .model-btn:hover { background: var(--surface2); border-color: var(--accent2); color: #fff; }
     .model-btn.active { background: var(--accent2); border-color: var(--accent-glow); color: #fff; box-shadow: 0 0 12px rgba(244, 63, 94, 0.3); }
+    .sidebar-search { padding: 8px 14px; }
+    .search-input { width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--input-bg); color: #fff; font-size: 0.8rem; outline: none; transition: border 0.2s; }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--text-dim); font-size: 0.75rem; }
     .sidebar-divider { height: 1px; background: var(--border); margin: 0 14px; }
     .sidebar-label { padding: 10px 18px 4px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); font-weight: 600; }
     .sidebar-history { flex: 1; overflow-y: auto; padding: 4px 8px 8px; display: flex; flex-direction: column; gap: 2px; }
@@ -104,11 +139,12 @@
     .chat-bubble.user .bubble-label { color: #fda4af; }
     .chat-bubble.ai .bubble-label { color: #f43f5e; }
     .bubble-time { font-size: 0.6rem; opacity: 0.45; text-align: right; margin-top: 8px; }
-    .copy-message-btn, .edit-user-btn { position: absolute; bottom: 6px; width: 28px; height: 28px; border-radius: 6px; border: 1px solid #5a0000; background: rgba(20,0,0,0.8); color: #fda4af; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); opacity: 0; z-index: 5; }
+    .copy-message-btn, .edit-user-btn, .regenerate-btn { position: absolute; bottom: 6px; width: 28px; height: 28px; border-radius: 6px; border: 1px solid #5a0000; background: rgba(20,0,0,0.8); color: #fda4af; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(4px); opacity: 0; z-index: 5; }
     .chat-bubble.ai .copy-message-btn { left: 6px; right: auto; }
+    .chat-bubble.ai .regenerate-btn { right: 6px; left: auto; }
     .chat-bubble.user .edit-user-btn { left: 6px; right: auto; }
-    .chat-bubble.ai:hover .copy-message-btn, .chat-bubble.user:hover .edit-user-btn { opacity: 0.8; }
-    .copy-message-btn:hover, .edit-user-btn:hover { opacity: 1 !important; background: #be123c; border-color: #f43f5e; color: #fff; box-shadow: 0 0 10px rgba(244,63,94,0.4); transform: scale(1.05); }
+    .chat-bubble.ai:hover .copy-message-btn, .chat-bubble.ai:hover .regenerate-btn, .chat-bubble.user:hover .edit-user-btn { opacity: 0.8; }
+    .copy-message-btn:hover, .edit-user-btn:hover, .regenerate-btn:hover { opacity: 1 !important; background: #be123c; border-color: #f43f5e; color: #fff; box-shadow: 0 0 10px rgba(244,63,94,0.4); transform: scale(1.05); }
     .code-block { margin: 10px 0; border-radius: 10px; overflow: hidden; border: 1px solid #5a0000; background: #0b0000; }
     .code-header { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; background: #200000; font-size: 0.7rem; letter-spacing: 0.04em; color: #fda4af; text-transform: uppercase; }
     .copy-btn { background: transparent; border: 1px solid #6a1b1b; color: #fecdd3; padding: 3px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; transition: 0.2s; }
@@ -131,22 +167,66 @@
     .loading-dot:nth-child(1) { animation-delay: 0s; } .loading-dot:nth-child(2) { animation-delay: 0.2s; } .loading-dot:nth-child(3) { animation-delay: 0.4s; }
     @keyframes loadingDotAnim { 0%,60%,100%{ transform:translateY(0); opacity:0.4; box-shadow:0 0 6px var(--accent); } 30%{ transform:translateY(-10px); opacity:1; box-shadow:0 0 16px var(--accent-glow),0 0 28px var(--accent); } }
     .loading-text { font-size: 0.75rem; color: #be123c; letter-spacing: 0.05em; opacity: 0.8; font-style: italic; text-shadow: 0 0 8px rgba(225,29,72,0.4); }
+    .popup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 300; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; backdrop-filter: blur(6px); }
+    .popup-overlay.active { opacity: 1; pointer-events: auto; }
+    .popup-box { background: linear-gradient(145deg, #1a0000, #0f0000); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; max-width: 420px; width: 90%; box-shadow: 0 0 40px rgba(225, 29, 72, 0.3); position: relative; animation: popupIn 0.35s ease-out; }
+    @keyframes popupIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .popup-close { position: absolute; top: 10px; right: 14px; background: transparent; border: none; color: var(--text-dim); font-size: 1.4rem; cursor: pointer; }
+    .popup-close:hover { color: #fff; }
+    .popup-title { font-size: 1.3rem; font-weight: 700; color: #fff; margin-bottom: 4px; text-align: center; }
+    .popup-subtitle { font-size: 0.8rem; color: var(--text-dim); text-align: center; margin-bottom: 18px; }
+    .popup-section { margin-bottom: 16px; }
+    .popup-section h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-glow); margin-bottom: 6px; font-weight: 600; }
+    .popup-section p, .popup-section ul { font-size: 0.8rem; color: var(--text); line-height: 1.55; }
+    .popup-section ul { list-style: none; padding-left: 0; }
+    .popup-section ul li::before { content: "» "; color: var(--accent); font-weight: 700; }
+    .popup-footer { text-align: center; margin-top: 14px; font-size: 0.7rem; color: var(--text-dim); border-top: 1px solid var(--border); padding-top: 12px; }
+    .popup-footer strong { color: #fff; letter-spacing: 0.04em; }
     @media (max-width: 768px) { #sidebar { position: fixed; left:0; top:0; height:100%; box-shadow:4px 0 24px rgba(0,0,0,0.7); } #sidebar.collapsed { transform:translateX(-100%); margin-left:0; } .chat-bubble { max-width:92%; font-size:0.85rem; } #chat-container { padding:12px 10px; } #input-area { padding: 8px 12px 10px; } }
   </style>
 </head>
 <body class="bg-black">
+  <!-- SPLASH SCREEN -->
   <div id="splash-screen">
-    <div id="shader-container"></div>
+    <canvas id="particle-canvas"></canvas>
     <div class="splash-content">
-      <h1 class="text-6xl md:text-8xl font-bold mb-4 bg-gradient-to-r from-red-400 via-rose-500 to-orange-500 bg-clip-text text-transparent" style="background-clip: text; -webkit-background-clip: text;">WROMXZ AI</h1>
-      <p class="text-xl md:text-2xl text-gray-300 mb-8">Next Generation AI Platform</p>
-      <div class="flex gap-4 justify-center flex-wrap">
+      <h1>WROMXZ AI</h1>
+      <p>Next Generation AI Platform</p>
+      <div class="splash-buttons">
         <button id="btn-get-started" class="px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full hover:bg-white/20 transition-all duration-300 font-semibold text-white cursor-pointer">Get Started</button>
-        <button class="px-8 py-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-full hover:from-red-700 hover:to-orange-700 transition-all duration-300 font-semibold text-white cursor-pointer">Learn More</button>
+        <button id="btn-learn-more" class="px-8 py-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-full hover:from-red-700 hover:to-orange-700 transition-all duration-300 font-semibold text-white cursor-pointer">Learn More</button>
       </div>
     </div>
   </div>
 
+  <!-- Popup -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup-box">
+      <button class="popup-close" id="popup-close">&times;</button>
+      <div class="popup-title">WROMXZ AI</div>
+      <div class="popup-subtitle">Next Generation AI Chat Platform</div>
+      <div class="popup-section">
+        <h3>Fitur Utama</h3>
+        <ul>
+          <li>Multi-model AI: WORMGPT, BLACK BOX, QUILBOT, COPILOT</li>
+          <li>Multi-tab chat dengan riwayat tersimpan di sidebar</li>
+          <li>Edit & hapus pesan, custom nama tab, dan cari chat</li>
+          <li>Regenerate respons AI dengan satu klik</li>
+          <li>Copy pesan & blok kode otomatis terdeteksi</li>
+          <li>Keyboard responsif mengikuti input di perangkat mobile</li>
+          <li>Tema gelap merah dengan animasi partikel & orbs</li>
+          <li>Fullscreen mode & panel geser untuk manajemen tab</li>
+        </ul>
+      </div>
+      <div class="popup-section">
+        <h3>Developer</h3>
+        <p><strong>A [GEN 15]</strong></p>
+      </div>
+      <div class="popup-footer">&copy; 2025 WROMXZ AI &middot; Powered by <strong>Nanzz API</strong></div>
+    </div>
+  </div>
+
+  <!-- APP CONTAINER -->
   <div id="app-container">
     <div id="sidebar-overlay"></div>
     <aside id="sidebar">
@@ -161,10 +241,11 @@
           <button class="model-btn" data-model="copilot">COPILOT</button>
         </div>
       </div>
+      <div class="sidebar-search"><input type="text" class="search-input" id="search-input" placeholder="Cari chat..." autocomplete="off"></div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-label">Riwayat Chat</div>
       <div class="sidebar-history" id="sidebar-history"></div>
-      <div class="sidebar-footer">WROMXZ AI &middot; v3.4</div>
+      <div class="sidebar-footer">WROMXZ AI &middot; v3.8</div>
     </aside>
     <main id="main-area">
       <canvas id="main-bg-canvas"></canvas>
@@ -183,35 +264,142 @@
     </main>
   </div>
 
-  <script type="module">
-    import * as THREE from 'three';
-    const container = document.getElementById('shader-container');
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
-    const material = new THREE.ShaderMaterial({
-      uniforms: { iTime: { value: 0 }, iResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) } },
-      vertexShader: `void main() { gl_Position = vec4(position, 1.0); }`,
-      fragmentShader: `uniform float iTime; uniform vec2 iResolution; #define NUM_OCTAVES 3
-        float rand(vec2 n) { return fract(sin(dot(n, vec2(12.9898,4.1414)))*43758.5453); }
-        float noise(vec2 p) { vec2 ip=floor(p); vec2 u=fract(p); u=u*u*(3.0-2.0*u); return mix(mix(rand(ip),rand(ip+vec2(1.0,0.0)),u.x),mix(rand(ip+vec2(0.0,1.0)),rand(ip+vec2(1.0,1.0)),u.x),u.y)*noise(p)*0.5+0.5; }
-        float fbm(vec2 x) { float v=0.0; float a=0.3; vec2 shift=vec2(100); mat2 rot=mat2(cos(0.5),sin(0.5),-sin(0.5),cos(0.5)); for(int i=0;i<NUM_OCTAVES;++i){v+=a*noise(x);x=rot*x*2.0+shift;a*=0.4;} return v; }
-        void main() { vec2 p=(gl_FragCoord.xy-iResolution.xy*0.5)/iResolution.y*mat2(6.0,-4.0,4.0,6.0); vec2 v; vec4 o=vec4(0.0); float f=2.0+fbm(p)*0.5; for(float i=0.0;i<35.0;i++) { v=p+cos(i*i+p.x*0.08*0.025+i*vec2(13.0,11.0))*3.5; float tailNoise=fbm(v+vec2(0.5,i))*0.3*(1.0-(i/35.0)); vec4 auroraColors=vec4(0.6+0.4*sin(i*0.2),0.05+0.15*cos(i*0.3),0.1+0.2*sin(i*0.4),1.0); vec4 currentContribution=auroraColors*exp(sin(i*i))/length(max(v,vec2(v.x*f*0.015,v.y*1.5))); float thinnessFactor=smoothstep(0.0,1.0,i/35.0)*0.6; o+=currentContribution*(1.0+tailNoise*0.8)*thinnessFactor; } o=tanh(pow(o/100.0,vec4(1.6))); o.r*=1.2; gl_FragColor=o*1.5; }`
-    });
-    const geometry = new THREE.PlaneGeometry(2,2);
-    scene.add(new THREE.Mesh(geometry,material));
-    renderer.render(scene,camera);
-    window.addEventListener('resize',()=>{ renderer.setSize(window.innerWidth,window.innerHeight); material.uniforms.iResolution.value.set(window.innerWidth,window.innerHeight); renderer.render(scene,camera); });
-    window._cleanupShader = () => { container.removeChild(renderer.domElement); geometry.dispose(); material.dispose(); renderer.dispose(); };
+  <script>
+    // ========== SPLASH PARTICLE BACKGROUND ==========
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width, height;
+      let particles = [];
+      const particleCount = 100;
+      const maxDistance = 140;
+      const mouse = { x: null, y: null, radius: 150 };
+      const colorPalette = [
+        'rgba(220, 38, 38, 0.9)',
+        'rgba(239, 68, 68, 0.9)',
+        'rgba(249, 115, 22, 0.9)',
+        'rgba(185, 28, 28, 0.9)',
+        'rgba(252, 211, 77, 0.85)'
+      ];
+
+      class Particle {
+        constructor() { this.reset(); }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.9;
+          this.vy = (Math.random() - 0.5) * 0.9;
+          this.radius = Math.random() * 3.5 + 1.5;
+          this.color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+          this.originalColor = this.color;
+        }
+        update() {
+          this.x += this.vx; this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+          if (mouse.x !== null && mouse.y !== null) {
+            let dx = this.x - mouse.x, dy = this.y - mouse.y;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < mouse.radius) {
+              let force = (mouse.radius - dist) / mouse.radius;
+              let angle = Math.atan2(dy, dx);
+              this.vx += Math.cos(angle) * force * 2.5 * 0.08;
+              this.vy += Math.sin(angle) * force * 2.5 * 0.08;
+              this.color = 'rgba(255, 230, 210, 0.95)';
+            } else { this.color = this.originalColor; }
+          } else { this.color = this.originalColor; }
+          let speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+          if (speed > 2.2) { this.vx = (this.vx/speed)*2.2; this.vy = (this.vy/speed)*2.2; }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+          ctx.fillStyle = this.color;
+          ctx.shadowColor = this.color;
+          ctx.shadowBlur = 12;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+      }
+
+      function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            let dx = particles[i].x - particles[j].x;
+            let dy = particles[i].y - particles[j].y;
+            let dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < maxDistance) {
+              let opacity = 1 - dist / maxDistance;
+              let gradient = ctx.createLinearGradient(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+              let c1 = particles[i].color.replace(/[\d.]+\)$/, (opacity*0.9)+')');
+              let c2 = particles[j].color.replace(/[\d.]+\)$/, (opacity*0.9)+')');
+              if (particles[i].color.includes('255, 230, 210')) c1 = `rgba(255,230,210,${opacity*0.9})`;
+              if (particles[j].color.includes('255, 230, 210')) c2 = `rgba(255,230,210,${opacity*0.9})`;
+              gradient.addColorStop(0, c1); gradient.addColorStop(1, c2);
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = gradient;
+              ctx.lineWidth = 0.9;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = 'rgba(10,4,4,0.15)';
+        ctx.fillRect(0, 0, width, height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        connectParticles();
+        if (mouse.x !== null && mouse.y !== null) {
+          ctx.beginPath(); ctx.arc(mouse.x, mouse.y, mouse.radius, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(255,80,60,0.03)'; ctx.fill();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      function resizeCanvas() {
+        width = window.innerWidth; height = window.innerHeight;
+        canvas.width = width; canvas.height = height;
+        initParticles();
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+      window.addEventListener('touchmove', e => { if (e.touches.length > 0) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; } }, { passive: true });
+      window.addEventListener('touchend', () => { mouse.x = null; mouse.y = null; });
+      resizeCanvas();
+      animate();
+    })();
   </script>
 
   <script>
     (function() {
       const splashScreen = document.getElementById('splash-screen');
       const appContainer = document.getElementById('app-container');
-      document.getElementById('btn-get-started').addEventListener('click', () => { splashScreen.classList.add('hidden'); appContainer.classList.add('visible'); setTimeout(() => { if (window._cleanupShader) window._cleanupShader(); }, 600); initMainBackground(); });
+      const btnGetStarted = document.getElementById('btn-get-started');
+      const btnLearnMore = document.getElementById('btn-learn-more');
+      const popupOverlay = document.getElementById('popup-overlay');
+      const popupClose = document.getElementById('popup-close');
+
+      btnLearnMore.addEventListener('click', () => popupOverlay.classList.add('active'));
+      popupClose.addEventListener('click', () => popupOverlay.classList.remove('active'));
+      popupOverlay.addEventListener('click', e => { if (e.target === popupOverlay) popupOverlay.classList.remove('active'); });
+
+      btnGetStarted.addEventListener('click', () => {
+        splashScreen.classList.add('hidden');
+        appContainer.classList.add('visible');
+        initMainBackground();
+      });
 
       const sidebar = document.getElementById('sidebar');
       const sidebarOverlay = document.getElementById('sidebar-overlay');
@@ -229,8 +417,9 @@
       const mainArea = document.getElementById('main-area');
       const modelButtons = document.querySelectorAll('.model-btn');
       const modelIndicator = document.getElementById('model-indicator');
+      const searchInput = document.getElementById('search-input');
 
-      const STORAGE_KEY = 'wromxz_chat_v23';
+      const STORAGE_KEY = 'wromxz_chat_v27';
       const API_CONFIG = {
         wormgpt: { url: 'https://api-nanzz.my.id/docs/api/ai/worm-gpt.php', param: 'prompt', responsePath: 'result.response', name: 'WORMGPT' },
         blackbox: { url: 'https://api-nanzz.my.id/docs/api/ai/blackbox.php', param: 'q', responsePath: 'result.response', name: 'BLACK BOX' },
@@ -238,7 +427,7 @@
         copilot: { url: 'https://api-nanzz.my.id/docs/api/ai/copilot.php', param: 'q', responsePath: 'result.text', name: 'COPILOT' }
       };
 
-      let state = { tabs: [], activeTabId: null, sidebarOpen: window.innerWidth > 768, activeModel: 'wormgpt' };
+      let state = { tabs: [], activeTabId: null, sidebarOpen: window.innerWidth > 768, activeModel: 'wormgpt', searchQuery: '' };
       let isSending = false, editingMessage = null, mainBgAnimationId = null, renamingTabId = null;
 
       document.addEventListener('contextmenu', e => { if (!e.target.closest('.rename-input')) { e.preventDefault(); e.stopPropagation(); return false; } });
@@ -268,7 +457,7 @@
       function getTabName(tab) { if (tab.customName) return tab.customName; const m = tab.messages.find(m=>m.role==='user'); return m ? (m.content.trim().length>30 ? m.content.trim().substring(0,30)+'...' : m.content.trim()) : (tab.name||'Chat'); }
       function getPreview(tab) { if(!tab.messages.length) return 'Belum ada pesan'; const last = tab.messages[tab.messages.length-1]; const p = last.content.trim(); return (last.role==='user'?'Anda: ':'AI: ') + (p.length>45?p.substring(0,45)+'...':p); }
       function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){} }
-      function loadState() { try { const d = localStorage.getItem(STORAGE_KEY); if(d) { const p = JSON.parse(d); if(p.tabs?.length) { state.tabs = p.tabs; state.activeTabId = p.activeTabId || state.tabs[0].id; state.sidebarOpen = p.sidebarOpen ?? true; state.activeModel = p.activeModel || 'wormgpt'; return true; } } } catch(e){} return false; }
+      function loadState() { try { const d = localStorage.getItem(STORAGE_KEY); if(d) { const p = JSON.parse(d); if(p.tabs?.length) { state.tabs = p.tabs; state.activeTabId = p.activeTabId || state.tabs[0].id; state.sidebarOpen = p.sidebarOpen ?? true; state.activeModel = p.activeModel || 'wormgpt'; state.searchQuery = p.searchQuery || ''; if (searchInput) searchInput.value = state.searchQuery; return true; } } } catch(e){} return false; }
       function getActiveTab() { if(!state.activeTabId && state.tabs.length) state.activeTabId = state.tabs[0].id; return state.tabs.find(t=>t.id===state.activeTabId) || null; }
 
       function updateModelUI() {
@@ -280,10 +469,21 @@
 
       function finishRename() { renamingTabId = null; renderSidebar(); }
 
+      function filterTabs(tabs, query) {
+        if (!query) return tabs;
+        const q = query.toLowerCase();
+        return tabs.filter(tab => {
+          const name = getTabName(tab).toLowerCase();
+          const preview = getPreview(tab).toLowerCase();
+          return name.includes(q) || preview.includes(q);
+        });
+      }
+
       function renderSidebar() {
         sidebarHistory.innerHTML = '';
-        if(!state.tabs.length) { sidebarHistory.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-dim);">Belum ada riwayat</div>'; return; }
-        state.tabs.forEach(tab => {
+        const filteredTabs = filterTabs(state.tabs, state.searchQuery);
+        if(!filteredTabs.length) { sidebarHistory.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-dim);">${state.searchQuery ? 'Tidak ada chat yang cocok' : 'Belum ada riwayat'}</div>`; return; }
+        filteredTabs.forEach(tab => {
           const item = document.createElement('div'); item.className = 'history-item' + (tab.id===state.activeTabId?' active':''); item.dataset.tabId = tab.id;
           if (renamingTabId === tab.id) {
             item.innerHTML = `<input class="rename-input" value="${escapeHtml(getTabName(tab))}" autofocus><button class="btn-edit-tab save-rename" style="opacity:1;">&#10003;</button><button class="btn-edit-tab cancel-rename" style="opacity:1;">&#10005;</button>`;
@@ -309,12 +509,19 @@
         else {
           active.messages.forEach((msg, i) => {
             const bubble = document.createElement('div'); bubble.className = 'chat-bubble ' + (msg.role==='user'?'user':'ai');
-            bubble.innerHTML = msg.role==='ai' ? `<div class="bubble-label">WROMXZ</div><div>${renderMessageContent(msg.content)}</div><div class="bubble-time">${escapeHtml(msg.timestamp)}</div><button class="copy-message-btn" data-message-index="${i}">&#x2398;</button>` : `<div class="bubble-label">ANDA</div><div>${escapeHtml(msg.content).replace(/\n/g,'<br>')}</div><div class="bubble-time">${escapeHtml(msg.timestamp)}</div><button class="edit-user-btn" data-message-index="${i}">&#x270E;</button>`;
+            if (msg.role === 'ai') {
+              bubble.innerHTML = `<div class="bubble-label">WROMXZ</div><div>${renderMessageContent(msg.content)}</div><div class="bubble-time">${escapeHtml(msg.timestamp)}</div>
+                <button class="copy-message-btn" data-message-index="${i}">&#x2398;</button>
+                <button class="regenerate-btn" data-message-index="${i}" title="Regenerate">&#x21bb;</button>`;
+            } else {
+              bubble.innerHTML = `<div class="bubble-label">ANDA</div><div>${escapeHtml(msg.content).replace(/\n/g,'<br>')}</div><div class="bubble-time">${escapeHtml(msg.timestamp)}</div><button class="edit-user-btn" data-message-index="${i}">&#x270E;</button>`;
+            }
             chatContainer.appendChild(bubble);
           });
           chatContainer.querySelectorAll('.copy-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); navigator.clipboard.writeText(b.dataset.code).then(() => { b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1500); }); }));
           chatContainer.querySelectorAll('.copy-message-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); const msg = active.messages[parseInt(b.dataset.messageIndex)]; if(msg) navigator.clipboard.writeText(msg.content).then(() => { b.classList.add('copied'); b.innerHTML='&#x2713;'; setTimeout(()=>{ b.classList.remove('copied'); b.innerHTML='&#x2398;'; },1500); }); }));
           chatContainer.querySelectorAll('.edit-user-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); startEditMessage(parseInt(b.dataset.messageIndex)); }));
+          chatContainer.querySelectorAll('.regenerate-btn').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); regenerateMessage(parseInt(b.dataset.messageIndex)); }));
         }
         requestAnimationFrame(() => { chatContainer.scrollTop = chatContainer.scrollHeight; });
       }
@@ -370,19 +577,29 @@
         chatContainer.scrollTop = chatContainer.scrollHeight; adjustAppHeight();
       }
 
+      async function regenerateMessage(aiIndex) {
+        if (isSending) return;
+        const active = getActiveTab();
+        if (!active || !active.messages[aiIndex] || active.messages[aiIndex].role !== 'ai') return;
+        let userPrompt = null;
+        for (let i = aiIndex - 1; i >= 0; i--) { if (active.messages[i].role === 'user') { userPrompt = active.messages[i].content; break; } }
+        if (!userPrompt) return;
+        active.messages.splice(aiIndex, 1); renderChat();
+        const loadingBubble = createLoadingBubble(); chatContainer.appendChild(loadingBubble); chatContainer.scrollTop = chatContainer.scrollHeight;
+        isSending = true; chatInput.disabled = true; btnSend.disabled = true;
+        try { const aiResp = await fetchAI(userPrompt); loadingBubble.remove(); addMessage(active.id, 'ai', aiResp); }
+        catch(e) { loadingBubble.remove(); addMessage(active.id, 'ai', 'Gagal menghubungi server. Coba lagi.'); }
+        chatInput.disabled = false; btnSend.disabled = false; isSending = false;
+        chatContainer.scrollTop = chatContainer.scrollHeight; adjustAppHeight();
+      }
+
       btnSend.addEventListener('click', e => { e.preventDefault(); sendMessage(); });
       chatInput.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
       chatInput.addEventListener('input', () => { chatInput.style.height = '46px'; chatInput.style.height = Math.min(chatInput.scrollHeight, 130) + 'px'; if (window.visualViewport?.height < window.innerHeight) chatContainer.style.paddingBottom = inputArea.offsetHeight + 10 + 'px'; });
       btnCancelEdit.addEventListener('click', cancelEdit);
 
-      modelButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          state.activeModel = btn.dataset.model;
-          updateModelUI();
-          saveState();
-        });
-      });
+      modelButtons.forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); state.activeModel = btn.dataset.model; updateModelUI(); saveState(); }); });
+      searchInput.addEventListener('input', () => { state.searchQuery = searchInput.value; saveState(); renderSidebar(); });
 
       btnNewChat.addEventListener('click', () => { createTab(); if(window.innerWidth<=768) { state.sidebarOpen=false; updateSidebarVisibility(); saveState(); } });
       btnHamburger.addEventListener('click', () => { state.sidebarOpen = !state.sidebarOpen; updateSidebarVisibility(); saveState(); });
@@ -414,8 +631,9 @@
         window.addEventListener('resize', () => { resize(); create(); });
       }
 
-      if(!loadState()) { state.tabs = [{ id: genId(), name: 'Chat 1', messages: [], createdAt: Date.now(), customName: null }]; state.activeTabId = state.tabs[0].id; state.sidebarOpen = window.innerWidth > 768; state.activeModel = 'wormgpt'; }
+      if(!loadState()) { state.tabs = [{ id: genId(), name: 'Chat 1', messages: [], createdAt: Date.now(), customName: null }]; state.activeTabId = state.tabs[0].id; state.sidebarOpen = window.innerWidth > 768; state.activeModel = 'wormgpt'; state.searchQuery = ''; }
       renderAll(); updateSidebarVisibility(); updateModelUI();
+      if (searchInput) searchInput.value = state.searchQuery;
       new MutationObserver(() => { if (appContainer.classList.contains('visible')) adjustAppHeight(); }).observe(appContainer, { attributes: true, attributeFilter: ['class'] });
       window.addEventListener('beforeunload', () => { if (window.visualViewport) { window.visualViewport.removeEventListener('resize', adjustAppHeight); window.visualViewport.removeEventListener('scroll', adjustAppHeight); } if (mainBgAnimationId) cancelAnimationFrame(mainBgAnimationId); });
     })();
