@@ -3,216 +3,171 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Libra Prompt</title>
+<title>Nova Prompt Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0c0c0e;--sur:rgba(18,18,22,0.75);--sur2:rgba(28,28,34,0.8);
-  --b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.12);
-  --t:#efefef;--t2:#888;--t3:#444;
-  --red:#e05252;--rd:rgba(224,82,82,0.1);
-  --white:#fff;--f:'Inter',sans-serif;--fh:'Manrope',sans-serif;
-  --r:10px;--top:60px;--sw:256px;
+  --bg:#070709;
+  --sur:rgba(15,15,20,0.7);
+  --sur2:rgba(25,25,35,0.85);
+  --b:rgba(255,255,255,0.06);
+  --b2:rgba(255,255,255,0.12);
+  --t:#f3f4f6;
+  --t2:#9ca3af;
+  --t3:#4b5563;
+  --accent:#8b5cf6;
+  --accent-dim:rgba(139,92,246,0.15);
+  --f:'Inter',sans-serif;
+  --fh:'Plus Jakarta Sans',sans-serif;
+  --r:12px;
+  --top:64px;
+  --sw:260px;
 }
 body{
   margin:0;font-family:var(--f);font-size:14px;line-height:1.5;
   color:var(--t);min-height:100vh;overflow-x:hidden;
-  background:#0c0c0e url('https://img2.pixhost.to/images/9402/749849204_1000234697.jpg') center/cover fixed no-repeat;
+  background:var(--bg) url('https://img2.pixhost.to/images/9402/749849204_1000234697.jpg') center/cover fixed no-repeat;
 }
-body::before{content:'';position:fixed;inset:0;background:rgba(6,6,10,0.83);z-index:0;pointer-events:none}
-::-webkit-scrollbar{width:4px;height:4px}
+body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-index:0;pointer-events:none}
+::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
 
-/* OVERLAY */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;opacity:0;pointer-events:none;transition:opacity .22s;backdrop-filter:blur(3px)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px)}
 .ov.on{opacity:1;pointer-events:all}
 
-/* SIDEBAR */
-.sb{position:fixed;top:0;left:0;width:var(--sw);height:100vh;z-index:100;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .26s cubic-bezier(.4,0,.2,1);background:rgba(12,12,16,0.92);backdrop-filter:blur(24px);border-right:1px solid var(--b)}
+.sb{position:fixed;top:0;left:0;width:var(--sw);height:100vh;z-index:100;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);background:rgba(10,10,14,0.94);backdrop-filter:blur(24px);border-right:1px solid var(--b)}
 .sb.open{transform:translateX(0)}
-.sb-head{padding:22px 18px 18px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:var(--fh);font-weight:800;font-size:17px;letter-spacing:-.02em;color:#fff}
-.logo span{color:var(--t2);font-weight:600}
+.sb-head{padding:24px 20px 20px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--fh);font-weight:800;font-size:18px;letter-spacing:-.03em;color:#fff}
+.logo span{color:var(--accent);font-weight:700}
 .ib{background:none;border:none;cursor:pointer;color:var(--t2);padding:6px;display:flex;border-radius:6px;transition:all .14s;align-items:center}
 .ib:hover{color:var(--t);background:rgba(255,255,255,0.06)}
-.sb-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:2px}
-.ni{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--t2);transition:all .18s;user-select:none;border:1px solid transparent}
-.ni:hover{background:rgba(255,255,255,0.05);color:var(--t);padding-left:15px}
-.ni.active{background:rgba(255,255,255,0.07);color:#fff;border-color:var(--b2)}
-.ni .dot{width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .14s}
-.ni.active .dot{background:#fff}
-.sb-foot{padding:14px 18px;border-top:1px solid var(--b);font-size:11px;color:var(--t3);letter-spacing:.04em;display:flex;justify-content:space-between}
+.sb-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--t2);transition:all .2s;user-select:none;border:1px solid transparent}
+.ni:hover{background:rgba(255,255,255,0.04);color:var(--t);padding-left:18px}
+.ni.active{background:var(--accent-dim);color:#fff;border-color:rgba(139,92,246,0.3)}
+.ni .dot{width:6px;height:6px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .2s}
+.ni.active .dot{background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.sb-foot{padding:16px 20px;border-top:1px solid var(--b);font-size:11px;color:var(--t3);letter-spacing:.05em;display:flex;justify-content:space-between}
 
-/* TOPBAR */
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--top);z-index:80;display:flex;align-items:center;padding:0 20px;gap:14px;background:rgba(8,8,12,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--b)}
-.mbtn{background:rgba(255,255,255,0.05);border:1px solid var(--b);border-radius:8px;cursor:pointer;color:var(--t2);padding:8px;display:flex;align-items:center;transition:all .14s}
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--top);z-index:80;display:flex;align-items:center;padding:0 24px;gap:16px;background:rgba(7,7,10,0.75);backdrop-filter:blur(20px);border-bottom:1px solid var(--b)}
+.mbtn{background:rgba(255,255,255,0.04);border:1px solid var(--b);border-radius:8px;cursor:pointer;color:var(--t2);padding:8px;display:flex;align-items:center;transition:all .14s}
 .mbtn:hover{border-color:var(--b2);color:var(--t);background:rgba(255,255,255,0.08)}
-.brand{font-family:var(--fh);font-weight:800;font-size:15px;letter-spacing:-.02em;color:#fff}
-.brand span{color:var(--t2);font-weight:600;font-size:13px}
-.top-r{margin-left:auto;display:flex;align-items:center;gap:10px}
-.crumb{font-size:12px;color:var(--t3);letter-spacing:.02em}
-.atag{background:#fff;color:#0c0c0e;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.06em;text-transform:uppercase;display:none;font-family:var(--fh)}
+.brand{font-family:var(--fh);font-weight:800;font-size:16px;letter-spacing:-.02em;color:#fff}
+.brand span{color:var(--accent);font-weight:600;font-size:14px}
+.top-r{margin-left:auto;display:flex;align-items:center;gap:12px}
+.crumb{font-size:12px;color:var(--t2);letter-spacing:.02em;font-weight:500}
 
-/* MAIN */
-.main{margin-top:var(--top);min-height:calc(100vh - var(--top));padding:36px 28px;max-width:1100px;position:relative;z-index:1}
-.page{display:none}.page.active{display:block;animation:fadeIn .2s ease}
+.main{margin-top:var(--top);min-height:calc(100vh - var(--top));padding:40px 32px;max-width:1200px;position:relative;z-index:1;margin-left:auto;margin-right:auto}
+.page{display:none}.page.active{display:block;animation:fadeIn .25s ease}
 
-/* HEADINGS */
-.ph{margin-bottom:30px}
-.pt{font-family:var(--fh);font-size:26px;font-weight:800;letter-spacing:-.03em;color:#fff;margin-bottom:4px;animation:fadeUp .25s ease}
-.ps{font-size:13px;color:var(--t2);line-height:1.6;animation:fadeUp .28s ease .04s both}
+.ph{margin-bottom:32px}
+.pt{font-family:var(--fh);font-size:28px;font-weight:800;letter-spacing:-.03em;color:#fff;margin-bottom:6px;animation:fadeUp .3s ease}
+.ps{font-size:13.5px;color:var(--t2);line-height:1.6;animation:fadeUp .35s ease both}
 
-/* STATS */
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:34px}
-.sc{background:var(--sur);backdrop-filter:blur(12px);border:1px solid var(--b);border-radius:var(--r);padding:20px;transition:all .18s;animation:fadeUp .3s ease both}
-.sc:nth-child(1){animation-delay:.04s}
-.sc:nth-child(2){animation-delay:.09s}
-.sc:nth-child(3){animation-delay:.14s}
-.sc:hover{border-color:var(--b2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,0,0,0.3)}
-.si{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--t2)}
-.sn{font-family:var(--fh);font-size:34px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
-.sl{font-size:12px;color:var(--t2);font-weight:500}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:36px}
+.sc{background:var(--sur);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:var(--r);padding:24px;transition:all .2s;animation:fadeUp .4s ease both}
+.sc:hover{border-color:rgba(139,92,246,0.3);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.si{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--accent)}
+.sn{font-family:var(--fh);font-size:36px;font-weight:800;color:#fff;line-height:1;margin-bottom:6px}
+.sl{font-size:12.5px;color:var(--t2);font-weight:500}
 
-/* SECTION SEP */
-.sep{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--t2);font-weight:600;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sep{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .sep::after{content:'';flex:1;height:1px;background:var(--b)}
 
-/* RECENT */
-.rl{display:flex;flex-direction:column;gap:8px}
-.rr{background:var(--sur);backdrop-filter:blur(12px);border:1px solid var(--b);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .18s;animation:slideRight .22s ease both}
-.rr:nth-child(1){animation-delay:.05s}
-.rr:nth-child(2){animation-delay:.1s}
-.rr:nth-child(3){animation-delay:.15s}
-.rr:nth-child(4){animation-delay:.2s}
-.rr:nth-child(5){animation-delay:.25s}
-.rr:hover{border-color:var(--b2);background:var(--sur2);transform:translateX(3px)}
-.ri{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;color:var(--t2);flex-shrink:0}
+.rl{display:flex;flex-direction:column;gap:10px}
+.rr{background:var(--sur);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:all .2s;animation:slideRight .25s ease both}
+.rr:hover{border-color:var(--b2);background:var(--sur2);transform:translateX(4px)}
+.ri{width:38px;height:38px;border-radius:8px;background:var(--accent-dim);border:1px solid rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
 .rin{flex:1;min-width:0}
-.rn{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t)}
-.rm{font-size:12px;color:var(--t2);margin-top:2px}
-.chip{font-size:11px;padding:3px 9px;border-radius:5px;background:rgba(255,255,255,0.06);border:1px solid var(--b2);color:var(--t2);white-space:nowrap;flex-shrink:0;font-weight:500}
+.rn{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t)}
+.rm{font-size:12.5px;color:var(--t2);margin-top:2px}
+.chip{font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--b2);color:var(--t2);white-space:nowrap;flex-shrink:0;font-weight:600;letter-spacing:.02em}
+.chip.purple{background:var(--accent-dim);border-color:rgba(139,92,246,0.3);color:rgba(196,181,253,1)}
 
-/* SEARCH */
-.sw{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
-.sbox{flex:1;min-width:180px;background:rgba(255,255,255,0.05);border:1px solid var(--b);border-radius:8px;padding:10px 14px;color:var(--t);font-family:var(--f);font-size:13.5px;outline:none;transition:all .14s}
-.sbox:focus{border-color:var(--b2);background:rgba(255,255,255,0.07);box-shadow:0 0 0 3px rgba(255,255,255,0.04)}
+.sw{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;position:relative}
+.sbox{flex:2;min-width:240px;background:rgba(255,255,255,0.04);border:1px solid var(--b);border-radius:8px;padding:12px 16px;color:var(--t);font-family:var(--f);font-size:14px;outline:none;transition:all .15s}
+.sbox:focus{border-color:var(--accent);background:rgba(255,255,255,0.06);box-shadow:0 0 0 3px rgba(139,92,246,0.15)}
 .sbox::placeholder{color:var(--t3)}
-.fsel{background:rgba(255,255,255,0.05);border:1px solid var(--b);border-radius:8px;padding:10px 12px;color:var(--t2);font-family:var(--f);font-size:13px;outline:none;cursor:pointer;min-width:138px;transition:all .14s}
-.fsel:focus{border-color:var(--b2)}
-.fsel option{background:#111}
 
-/* GRID */
-.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:14px}
-.pc{background:var(--sur);backdrop-filter:blur(12px);border:1px solid var(--b);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;gap:14px;animation:fadeUp .26s ease both}
-.pc:nth-child(1){animation-delay:.03s}.pc:nth-child(2){animation-delay:.07s}.pc:nth-child(3){animation-delay:.11s}
-.pc:nth-child(4){animation-delay:.15s}.pc:nth-child(5){animation-delay:.19s}.pc:nth-child(6){animation-delay:.23s}
-.pc:hover{border-color:var(--b2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.35)}
-.pct{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.pcn{font-family:var(--fh);font-weight:700;font-size:14px;color:#fff;line-height:1.35}
-.pcb{font-size:12px;color:var(--t2);margin-top:3px;font-weight:500}
-.pcp{font-size:12.5px;color:var(--t2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.pcf{display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid var(--b)}
-.cpb{margin-left:auto;display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--b);border-radius:6px;padding:6px 12px;color:var(--t2);font-family:var(--f);font-size:11.5px;font-weight:500;cursor:pointer;transition:all .14s}
-.cpb:hover{border-color:var(--b2);color:var(--t)}
-.cpb:active{transform:scale(.93)}
-.cpb.ok{border-color:#fff;color:#fff}
+.custom-select{position:relative;flex:1;min-width:180px}
+.select-trigger{background:rgba(255,255,255,0.04);border:1px solid var(--b);border-radius:8px;padding:12px 16px;color:var(--t2);font-family:var(--f);font-size:13.5px;outline:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .15s;user-select:none}
+.select-trigger:hover,.custom-select.open .select-trigger{border-color:var(--accent);color:var(--t);background:rgba(255,255,255,0.06)}
+.select-trigger svg{transition:transform .2s ease;color:var(--t3)}
+.select-trigger:hover svg,.custom-select.open .select-trigger svg{color:var(--accent)}
+.custom-select.open .select-trigger svg{transform:rotate(180deg)}
+.select-options{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(12,12,17,0.96);backdrop-filter:blur(24px);border:1px solid var(--b2);border-radius:8px;max-height:220px;overflow-y:auto;z-index:95;display:none;box-shadow:0 16px 40px rgba(0,0,0,0.65);padding:6px;animation:scaleIn .15s cubic-bezier(.16,1,.3,1)}
+.custom-select.open .select-options{display:block}
+.select-option{padding:10px 14px;color:var(--t2);cursor:pointer;border-radius:6px;transition:all .12s;font-size:13.5px;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.select-option:hover{background:rgba(255,255,255,0.04);color:var(--t)}
+.select-option.selected{color:#fff;background:var(--accent-dim);font-weight:600}
+.select-option.selected::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
 
-/* EMPTY & LOAD */
-.empty{text-align:center;padding:64px 20px}
-.empty svg{margin-bottom:16px;opacity:.18;display:block;margin-left:auto;margin-right:auto}
-.empty p{font-size:13px;color:var(--t2)}
-.ldw{text-align:center;padding:52px}
-.spin{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,0.1);border-top-color:var(--t2);border-radius:50%;animation:sp .7s linear infinite;margin-bottom:10px}
-.ldw p,.loading-state p{font-size:12px;color:var(--t3)}
-.loading-state{text-align:center;padding:52px}
-.loading-state .spin{display:block;margin:0 auto 10px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.pc{background:var(--sur);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:var(--r);padding:20px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:16px;animation:fadeUp .3s ease both}
+.pc:hover{border-color:rgba(139,92,246,0.3);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.4)}
+.pct{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pcn{font-family:var(--fh);font-weight:700;font-size:15px;color:#fff;line-height:1.4}
+.pcb{font-size:12.5px;color:var(--t2);margin-top:4px}
+.pcp{font-size:13px;color:var(--t2);line-height:1.7;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;background:rgba(0,0,0,0.15);padding:8px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.02)}
+.pcf{display:flex;align-items:center;gap:8px;padding-top:14px;border-top:1px solid var(--b);margin-top:auto}
+.cpb{margin-left:auto;display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--b);border-radius:6px;padding:6px 14px;color:var(--t2);font-family:var(--f);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.cpb:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.cpb:active{transform:scale(.95)}
+.cpb.ok{border-color:var(--accent);color:#fff;background:var(--accent)}
 
-/* MODAL */
-.mo{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(8px)}
 .mo.open{display:flex}
-.modal{background:rgba(14,14,18,0.95);backdrop-filter:blur(24px);border:1px solid var(--b);border-radius:14px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;display:flex;flex-direction:column;animation:scaleIn .18s ease}
-.mh{padding:20px 22px 16px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(14,14,18,0.98);z-index:1}
-.mt{font-family:var(--fh);font-weight:700;font-size:15px;color:#fff}
+.modal{background:rgba(12,12,16,0.96);backdrop-filter:blur(32px);border:1px solid var(--b);border-radius:16px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;display:flex;flex-direction:column;animation:scaleIn .2s cubic-bezier(.34,1.56,.64,1)}
+.mh{padding:20px 24px;border-bottom:1px solid var(--b);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(12,12,16,0.98);z-index:1}
+.mt{font-family:var(--fh);font-weight:700;font-size:16px;color:#fff}
 .mc{background:none;border:none;cursor:pointer;color:var(--t2);padding:6px;display:flex;border-radius:6px;transition:all .14s;align-items:center}
 .mc:hover{color:var(--t);background:rgba(255,255,255,0.06)}
-.mbody{padding:20px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
-.mfoot{padding:16px 22px;border-top:1px solid var(--b);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:rgba(14,14,18,0.98)}
+.mbody{padding:24px;display:flex;flex-direction:column;gap:16px;flex:1}
+.mfoot{padding:16px 24px;border-top:1px solid var(--b);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:rgba(12,12,16,0.98)}
 
-/* DETAIL */
-.dn{font-family:var(--fh);font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:8px}
-.dc{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
-.dl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);font-weight:600;margin-bottom:8px}
-.db{background:rgba(255,255,255,0.04);border:1px solid var(--b);border-radius:8px;padding:14px 16px;font-size:13px;line-height:1.75;white-space:pre-wrap;color:var(--t);max-height:260px;overflow-y:auto}
+.dn{font-family:var(--fh);font-size:20px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:10px}
+.dc{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.dl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+.db{background:rgba(0,0,0,0.3);border:1px solid var(--b);border-radius:8px;padding:16px;font-size:13.5px;line-height:1.75;white-space:pre-wrap;color:var(--t);max-height:280px;overflow-y:auto;font-family:monospace}
 
-/* FIELDS */
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);font-weight:600}
-.field input,.field textarea{background:rgba(255,255,255,0.05);border:1px solid var(--b);border-radius:8px;padding:10px 13px;color:var(--t);font-family:var(--f);font-size:13.5px;outline:none;transition:all .14s;resize:vertical}
-.field input:focus,.field textarea:focus{border-color:var(--b2);background:rgba(255,255,255,0.07);box-shadow:0 0 0 3px rgba(255,255,255,0.04)}
-.field input::placeholder,.field textarea::placeholder{color:var(--t3)}
-.field textarea{min-height:110px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:8px;padding:10px 18px;font-family:var(--f);font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s;border:1px solid transparent;white-space:nowrap}
+.btn:active:not(:disabled){transform:scale(.97)}
+.bp{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 14px rgba(139,92,246,0.35)}
+.bp:hover{background:#7c3aed;border-color:#7c3aed}
+.bg2{background:none;color:var(--t2);border-color:var(--b)}
+.bg2:hover{color:var(--t);border-color:var(--b2);background:rgba(255,255,255,0.03)}
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;gap:7px;border-radius:8px;padding:9px 16px;font-family:var(--f);font-size:13px;font-weight:600;cursor:pointer;transition:all .14s;border:1px solid transparent;white-space:nowrap}
-.btn:active:not(:disabled){transform:scale(.96)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.bp{background:#fff;color:#0c0c0e;border-color:#fff}.bp:hover{background:#e0e0e0}
-.bg2{background:none;color:var(--t2);border-color:var(--b)}.bg2:hover{color:var(--t);border-color:var(--b2)}
-.bd{background:none;color:var(--red);border-color:var(--b)}.bd:hover{background:var(--rd);border-color:var(--red)}
-.isp{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.25);border-top-color:currentColor;border-radius:50%;animation:sp .7s linear infinite}
+.empty{text-align:center;padding:64px 24px}
+.empty svg{margin:0 auto 16px;opacity:.25;display:block;color:var(--accent)}
+.empty p{font-size:13.5px;color:var(--t2)}
+.ldw{text-align:center;padding:56px}
+.spin{display:inline-block;width:24px;height:24px;border:2px solid rgba(139,92,246,0.1);border-top-color:var(--accent);border-radius:50%;animation:sp .7s linear infinite;margin-bottom:12px}
+.ldw p{font-size:13px;color:var(--t2)}
 
-/* ADMIN GATE */
-.gate{max-width:380px;margin:60px auto;text-align:center}
-.gico{width:58px;height:58px;border-radius:16px;background:rgba(255,255,255,0.05);border:1px solid var(--b);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;color:var(--t2)}
-.gate h2{font-family:var(--fh);font-weight:800;font-size:20px;letter-spacing:-.02em;margin-bottom:6px}
-.gate>p{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:26px}
-
-/* ADMIN PANEL */
-.aph{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;gap:12px;flex-wrap:wrap}
-.apc{display:flex;gap:8px}
-.tw{overflow-x:auto;border:1px solid var(--b);border-radius:var(--r)}
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{text-align:left;padding:11px 16px;border-bottom:1px solid var(--b);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);font-weight:600;background:rgba(255,255,255,0.02)}
-.tbl td{padding:13px 16px;border-bottom:1px solid var(--b);vertical-align:middle}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr{transition:background .12s}
-.tbl tr:hover td{background:rgba(255,255,255,0.03)}
-.cn{font-weight:600;font-size:13.5px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
-.cd{color:var(--t2)}.ta{display:flex;gap:7px}
-
-/* TOASTS */
 .tts{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:999}
-.tt{background:rgba(18,18,22,0.95);backdrop-filter:blur(12px);border:1px solid var(--b);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--t);display:flex;align-items:center;gap:10px;min-width:210px;animation:tin .18s ease;box-shadow:0 8px 28px rgba(0,0,0,0.45)}
-.tt.ok{border-left:3px solid #fff}
-.tt.err{border-left:3px solid var(--red)}
+.tt{background:rgba(15,15,22,0.95);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--t);display:flex;align-items:center;gap:12px;min-width:240px;animation:tin .2s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 36px rgba(0,0,0,0.5)}
+.tt.ok{border-left:4px solid var(--accent)}
+.tt.err{border-left:4px solid #ef4444}
 
-/* ANIMATIONS */
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideRight{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 @keyframes sp{to{transform:rotate(360deg)}}
-@keyframes tin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tin{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
 
-/* SIDEBAR NAV ANIM */
-.sb.open .ni{animation:slideRight .2s ease both}
-.sb.open .ni:nth-child(1){animation-delay:.05s}
-.sb.open .ni:nth-child(2){animation-delay:.1s}
-.sb.open .ni:nth-child(3){animation-delay:.15s}
-
-@media(max-width:640px){
-  .main{padding:24px 14px}
+@media(max-width:768px){
+  .main{padding:24px 16px}
   .pg{grid-template-columns:1fr}
-  .sg{grid-template-columns:1fr 1fr}
+  .sg{grid-template-columns:1fr}
   .sw{flex-direction:column}
-  .fsel{min-width:unset}
-  .aph{flex-direction:column;align-items:flex-start}
-  .tbl{font-size:12px}
-  .tbl th,.tbl td{padding:10px 12px}
+  .custom-select{width:100%}
 }
 </style>
 </head>
@@ -222,104 +177,86 @@ body::before{content:'';position:fixed;inset:0;background:rgba(6,6,10,0.83);z-in
 
 <aside class="sb" id="sb">
   <div class="sb-head">
-    <span class="logo">Libra<span> Prompt</span></span>
+    <span class="logo">Nova<span>Prompt</span></span>
     <button class="ib" onclick="closeSB()">
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
     </button>
   </div>
   <nav class="sb-nav">
     <div class="ni active" onclick="go('dashboard')"><span class="dot"></span>Dashboard</div>
-    <div class="ni" onclick="go('prompts')"><span class="dot"></span>Libra Prompt</div>
-    <div class="ni" onclick="go('admin')"><span class="dot"></span>Admin</div>
+    <div class="ni" onclick="go('prompts')"><span class="dot"></span>Nova Prompt</div>
   </nav>
-  <div class="sb-foot"><span>LIBRA PROMPT</span><span>v1.0</span></div>
+  <div class="sb-foot"><span>NOVA CORE</span><span>v2.0</span></div>
 </aside>
 
 <header class="topbar">
   <button class="mbtn" onclick="openSB()">
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h11M2 11h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h11M2 11h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
   </button>
-  <span class="brand">Libra<span> Prompt</span></span>
+  <span class="brand">Nova<span>Workspace</span></span>
   <div class="top-r">
-    <span class="atag" id="atag">Admin</span>
     <span class="crumb" id="crumb">Dashboard</span>
   </div>
 </header>
 
 <main class="main">
 
+  <!-- DASHBOARD PAGE -->
   <section class="page active" id="page-dashboard">
     <div class="ph">
-      <h1 class="pt">Dashboard</h1>
-      <p class="ps">Overview koleksi prompt yang tersedia.</p>
+      <h1 class="pt">Metrics Control</h1>
+      <p class="ps">Analitik real-time repositori prompt kecerdasan buatan.</p>
     </div>
     <div class="sg">
       <div class="sc">
-        <div class="si"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h11M2 11h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-        <div class="sn" id="s1">—</div><div class="sl">Total Prompt</div>
+        <div class="si"><svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M2 4h11M2 7.5h11M2 11h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="sn" id="s1">—</div><div class="sl">Total Prompts</div>
       </div>
       <div class="sc">
-        <div class="si"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="2" y="2" width="4.5" height="4.5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="2" width="4.5" height="4.5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="8.5" width="4.5" height="4.5" rx="1.2" stroke="currentColor" stroke-width="1.3"/><rect x="8.5" y="8.5" width="4.5" height="4.5" rx="1.2" stroke="currentColor" stroke-width="1.3"/></svg></div>
-        <div class="sn" id="s2">—</div><div class="sl">Kategori AI</div>
+        <div class="si"><svg width="16" height="16" viewBox="0 0 15 15" fill="none"><rect x="2" y="2" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="2" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="8.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="8.5" y="8.5" width="4.5" height="4.5" rx="1" stroke="currentColor" stroke-width="1.5"/></svg></div>
+        <div class="sn" id="s2">—</div><div class="sl">AI Engines</div>
       </div>
       <div class="sc">
-        <div class="si"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M2 13c0-3.038 2.462-5.5 5.5-5.5S13 9.962 13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-        <div class="sn" id="s3">—</div><div class="sl">Creator</div>
+        <div class="si"><svg width="16" height="16" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M2 13c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <div class="sn" id="s3">—</div><div class="sl">Active Creators</div>
       </div>
     </div>
-    <div class="sep">Prompt Terbaru</div>
+    <div class="sep">Aktivitas Terkini</div>
     <div class="rl" id="rl">
-      <div class="ldw"><div class="spin"></div><p>Memuat data...</p></div>
+      <div class="ldw"><div class="spin"></div><p>Synchronizing data...</p></div>
     </div>
   </section>
 
+  <!-- PROMPTS EXPLORER PAGE -->
   <section class="page" id="page-prompts">
     <div class="ph">
-      <h1 class="pt">Libra Prompt</h1>
-      <p class="ps">Jelajahi dan salin prompt dari koleksi.</p>
+      <h1 class="pt">Nova Prompt</h1>
+      <p class="ps">Cari, filter, dan salin blueprint prompt optimal untuk tugas spesifik.</p>
     </div>
     <div class="sw">
-      <input class="sbox" type="text" id="q" placeholder="Cari nama, creator, atau isi prompt..." oninput="filterP()">
-      <select class="fsel" id="fk" onchange="filterP()"><option value="">Semua Kategori AI</option></select>
-      <select class="fsel" id="fj" onchange="filterP()"><option value="">Semua Jenis</option></select>
-    </div>
-    <div class="pg" id="pg">
-      <div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Memuat prompt...</p></div>
-    </div>
-  </section>
+      <input class="sbox" type="text" id="q" placeholder="Cari nama prompt, kreator, atau deskripsi teknis..." oninput="filterP()">
 
-  <section class="page" id="page-admin">
-    <div class="gate" id="gate">
-      <div class="gico"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="10" width="16" height="10" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="15" r="1.5" fill="currentColor"/></svg></div>
-      <h2>Admin Access</h2>
-      <p>Masukkan admin key untuk mengakses panel manajemen prompt.</p>
-      <div class="field" style="text-align:left;margin-bottom:14px">
-        <label>Admin Key</label>
-        <input type="password" id="kin" placeholder="Masukkan key..." onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <button class="btn bp" style="width:100%;justify-content:center" onclick="doLogin()" id="lbtn">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Masuk
-      </button>
-    </div>
-    <div id="ap" style="display:none">
-      <div class="aph">
-        <div><h1 class="pt">Admin Panel</h1><p class="ps" style="margin-bottom:0">Kelola koleksi prompt.</p></div>
-        <div class="apc">
-          <button class="btn bp" onclick="openAdd()">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v10M1.5 6.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Tambah
-          </button>
-          <button class="btn bg2" onclick="doLogout()">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 6.5h7M9 4l2.5 2.5L9 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Logout
-          </button>
+      <!-- FILTER: KATEGORI AI -->
+      <div class="custom-select" id="wrapper-fk">
+        <div class="select-trigger" onclick="event.stopPropagation(); toggleDropdown('fk')">
+          <span id="label-fk">Semua Engine AI</span>
+          <svg width="12" height="12" viewBox="0 0 15 15" fill="none"><path d="M3 6l4.5 4.5L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
+        <div class="select-options" id="options-fk"></div>
       </div>
-      <div class="tw">
-        <table class="tbl">
-          <thead><tr><th>Nama</th><th>Creator</th><th>Jenis</th><th>Kategori AI</th><th>Tanggal</th><th></th></tr></thead>
-          <tbody id="tb"><tr><td colspan="6" style="text-align:center;padding:32px"><div class="spin" style="display:inline-block;margin:0"></div></td></tr></tbody>
-        </table>
+
+      <!-- FILTER: JENIS -->
+      <div class="custom-select" id="wrapper-fj">
+        <div class="select-trigger" onclick="event.stopPropagation(); toggleDropdown('fj')">
+          <span id="label-fj">Semua Jenis</span>
+          <svg width="12" height="12" viewBox="0 0 15 15" fill="none"><path d="M3 6l4.5 4.5L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="select-options" id="options-fj"></div>
       </div>
+    </div>
+
+    <div class="pg" id="pg">
+      <div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Querying prompts storage...</p></div>
     </div>
   </section>
 
@@ -327,282 +264,317 @@ body::before{content:'';position:fixed;inset:0;background:rgba(6,6,10,0.83);z-in
 
 <div class="tts" id="tts"></div>
 
-<!-- MODAL VIEW -->
+<!-- MODAL DETAIL VIEW -->
 <div class="mo" id="mView">
-  <div class="modal" style="max-width:580px">
+  <div class="modal">
     <div class="mh">
-      <span class="mt">Detail Prompt</span>
-      <button class="mc" onclick="closeM('mView')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+      <span class="mt">Struktur Blueprint</span>
+      <button class="mc" onclick="closeM('mView')"><svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
     </div>
     <div class="mbody">
       <div class="dn" id="vn"></div>
       <div class="dc" id="vc"></div>
-      <div class="dl">Isi Prompt</div>
+      <div class="dl">String Input / Instruksi</div>
       <div class="db" id="vp"></div>
     </div>
     <div class="mfoot">
-      <button class="btn bg2" onclick="closeM('mView')">Tutup</button>
-      <button class="btn bp" onclick="cpDetail()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 8.5H2a1 1 0 01-1-1V2a1 1 0 011-1h5.5a1 1 0 011 1v2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Salin Prompt
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL FORM -->
-<div class="mo" id="mForm">
-  <div class="modal">
-    <div class="mh">
-      <span class="mt" id="ftit">Tambah Prompt</span>
-      <button class="mc" onclick="closeM('mForm')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-    </div>
-    <div class="mbody">
-      <input type="hidden" id="fid">
-      <div class="field"><label>Nama Prompt</label><input type="text" id="fn" placeholder="Contoh: Creative Writing Expert"></div>
-      <div class="field"><label>Creator</label><input type="text" id="fc" placeholder="Contoh: MAXOM"></div>
-      <div class="field"><label>Jenis Prompt</label><input type="text" id="fje" placeholder="Contoh: Creative, Technical, Roleplay..."></div>
-      <div class="field"><label>Kategori AI</label><input type="text" id="fka" placeholder="Contoh: ChatGPT, Claude, Gemini..."></div>
-      <div class="field"><label>Isi Prompt</label><textarea id="fp" rows="6" placeholder="Tulis prompt di sini..."></textarea></div>
-    </div>
-    <div class="mfoot">
-      <button class="btn bg2" onclick="closeM('mForm')">Batal</button>
-      <button class="btn bp" id="fbtn" onclick="submitP()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Simpan
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL DELETE -->
-<div class="mo" id="mDel">
-  <div class="modal" style="max-width:370px">
-    <div class="mh">
-      <span class="mt">Hapus Prompt</span>
-      <button class="mc" onclick="closeM('mDel')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4L4 11M4 4l7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-    </div>
-    <div class="mbody"><p style="font-size:13.5px;color:var(--t2);line-height:1.65">Yakin hapus prompt <strong id="dname" style="color:var(--t)"></strong>? Aksi ini tidak bisa di-undo.</p></div>
-    <div class="mfoot">
-      <button class="btn bg2" onclick="closeM('mDel')">Batal</button>
-      <button class="btn bd" id="dbtn" onclick="doDelete()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M4.5 3.5V2h4v1.5M10 3.5l-.5 7.5H3.5L3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Hapus
-      </button>
+      <button class="btn bg2" onclick="closeM('mView')">Kembali</button>
+      <button class="btn bp" onclick="cpDetail()">Salin String</button>
     </div>
   </div>
 </div>
 
 <script>
-const SU='https://wcfvrequnpnjclpwxpqz.supabase.co',SK='sb_publishable_yF1ZnyRojZAIV0htIMDB3w_q9gXj7Qp';
-const $=id=>document.getElementById(id);
-let data=[],isAdmin=false,delId=null,viewP=null;
+// ============================================================
+// SUPABASE CONFIG
+// ============================================================
+const SUPABASE_URL = 'https://wcfvrequnpnjclpwxpqz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_yF1ZnyRojZAIV0htIMDB3w_q9gXj7Qp';
 
-const api=async(path,o={})=>{
-  const r=await fetch(`${SU}/rest/v1/${path}`,{
-    headers:{'apikey':SK,'Authorization':`Bearer ${SK}`,'Content-Type':'application/json','Prefer':o.prefer||'return=representation',...(o.headers||{})},
-    ...o
-  });
-  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'API error')}
-  const t=await r.text();return t?JSON.parse(t):null;
-};
+// ============================================================
+// KATEGORI AI — 12 SLOT (isi sesuai kebutuhanmu)
+// ============================================================
+const KATEGORI_AI_LIST = [
+  'ChatGPT',
+  'Claude',
+  'Gemini',
+  'Copilot',
+  'Perplexity',
+  'Grok',
+  'DeepSeek',
+  'Llama',
+  'Mistral',
+  'Qwen',
+  'Nova AI',
+  'Custom AI',
+];
 
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const openSB=()=>{$('sb').classList.add('open');$('ov').classList.add('on')};
-const closeSB=()=>{$('sb').classList.remove('open');$('ov').classList.remove('on')};
-const openM=id=>$(id).classList.add('open');
-const closeM=id=>$(id).classList.remove('open');
+// ============================================================
+// JENIS PROMPT — 4 SLOT (isi sesuai kebutuhanmu)
+// ============================================================
+const JENIS_LIST = [
+  'Development',
+  'Creative Writing',
+  'Data Science',
+  'Business',
+];
 
-const PAGES={dashboard:'Dashboard',prompts:'Libra Prompt',admin:'Admin'};
-function go(p){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(x=>x.classList.remove('active'));
-  $(`page-${p}`).classList.add('active');
-  document.querySelectorAll('.ni')[{dashboard:0,prompts:1,admin:2}[p]].classList.add('active');
-  $('crumb').textContent=PAGES[p];
+// ============================================================
+// STATE
+// ============================================================
+let dataStore = [];
+let currentActiveViewObject = null;
+let filterAi = '';
+let filterSpek = '';
+
+// ============================================================
+// UTILS
+// ============================================================
+const $ = id => document.getElementById(id);
+const esc = t => String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ============================================================
+// SIDEBAR & MODAL NAVIGATION
+// ============================================================
+const openSB  = () => { $('sb').classList.add('open'); $('ov').classList.add('on'); };
+const closeSB = () => { $('sb').classList.remove('open'); $('ov').classList.remove('on'); };
+const openM   = id => $(id).classList.add('open');
+const closeM  = id => $(id).classList.remove('open');
+
+const PAGES = { dashboard:'Dashboard Tracker', prompts:'Nova Prompt' };
+function go(route) {
+  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(el => el.classList.remove('active'));
+  $(`page-${route}`).classList.add('active');
+  const idx = { dashboard:0, prompts:1 }[route];
+  document.querySelectorAll('.ni')[idx].classList.add('active');
+  $('crumb').textContent = PAGES[route];
   closeSB();
-  if(p==='dashboard')rDash();
-  if(p==='prompts')rPrompts();
-  if(p==='admin'&&isAdmin)loadTbl();
+  if (route === 'dashboard') compileDashboard();
+  if (route === 'prompts')   buildExplorer();
 }
 
-function toast(msg,type='ok'){
-  const el=document.createElement('div');el.className=`tt ${type}`;
-  const ic=type==='ok'
-    ?'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-    :'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v4M7 10h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-  el.innerHTML=`${ic}<span>${msg}</span>`;
+// ============================================================
+// TOAST NOTIFICATIONS
+// ============================================================
+function showNotification(msg, type = 'ok') {
+  const el = document.createElement('div');
+  el.className = `tt ${type}`;
+  const icon = type === 'ok'
+    ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v4M7 10h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+  el.innerHTML = `${icon}<span>${msg}</span>`;
   $('tts').appendChild(el);
-  setTimeout(()=>{el.style.opacity='0';setTimeout(()=>el.remove(),200)},2800);
+  setTimeout(() => { el.style.opacity='0'; setTimeout(() => el.remove(), 250); }, 3000);
 }
 
-async function load(){
-  try{data=await api('prompts?select=*&order=created_at.desc')||[]}
-  catch(e){data=[];console.error(e)}
+// ============================================================
+// SUPABASE FETCH HELPER
+// ============================================================
+async function supabaseFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      ...options.headers
+    },
+    ...options
+  });
+  if (!res.ok) throw new Error(`Supabase error: ${res.status}`);
+  return res.json();
 }
 
-async function rDash(){
-  await load();
-  $('s1').textContent=data.length;
-  $('s2').textContent=new Set(data.map(p=>p.kategori_ai)).size;
-  $('s3').textContent=new Set(data.map(p=>p.creator)).size;
-  const l=$('rl'),r=data.slice(0,5);
-  if(!r.length){l.innerHTML='<div class="empty"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><path d="M5 9h24M5 17h16M5 25h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><p>Belum ada prompt.</p></div>';return}
-  l.innerHTML=r.map(p=>`<div class="rr" onclick='vP(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
-    <div class="ri"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M2 7h8M2 10.5h9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-    <div class="rin"><div class="rn">${esc(p.name)}</div><div class="rm">${esc(p.creator)} &middot; ${esc(p.jenis)}</div></div>
-    <span class="chip">${esc(p.kategori_ai)}</span>
-  </div>`).join('');
+// ============================================================
+// LOAD DATA FROM SUPABASE
+// ============================================================
+async function loadData() {
+  try {
+    const data = await supabaseFetch('prompts?select=*&order=created_at.desc');
+    dataStore = data;
+    return data;
+  } catch (err) {
+    showNotification('Gagal memuat data dari Supabase', 'err');
+    return [];
+  }
 }
 
-async function rPrompts(){
-  if(!data.length)await load();
-  const fk=$('fk'),fj=$('fj');
-  const uk=[...new Set(data.map(p=>p.kategori_ai))].sort();
-  const uj=[...new Set(data.map(p=>p.jenis))].sort();
-  fk.innerHTML='<option value="">Semua Kategori AI</option>'+uk.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join('');
-  fj.innerHTML='<option value="">Semua Jenis</option>'+uj.map(j=>`<option value="${esc(j)}">${esc(j)}</option>`).join('');
+// ============================================================
+// DASHBOARD
+// ============================================================
+async function compileDashboard() {
+  $('rl').innerHTML = '<div class="ldw"><div class="spin"></div><p>Synchronizing data...</p></div>';
+  await loadData();
+
+  $('s1').textContent = dataStore.length;
+  $('s2').textContent = new Set(dataStore.map(d => d.kategori_ai)).size;
+  $('s3').textContent = new Set(dataStore.map(d => d.creator)).size;
+
+  const recent = [...dataStore].slice(0, 5);
+  if (!recent.length) {
+    $('rl').innerHTML = '<div class="empty"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h10M4 18h14" stroke-linecap="round"/></svg><p>Data repositori kosong.</p></div>';
+    return;
+  }
+  $('rl').innerHTML = recent.map(item => `
+    <div class="rr" onclick='viewDetail(${JSON.stringify(item).replace(/'/g,"&#39;")})'>
+      <div class="ri"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2.5 3.5h10M2.5 7.5h7M2.5 11.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="rin">
+        <div class="rn">${esc(item.name)}</div>
+        <div class="rm">${esc(item.creator)} · ${esc(item.jenis)}</div>
+      </div>
+      <span class="chip purple">${esc(item.kategori_ai)}</span>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// EXPLORER: DROPDOWN ENGINE
+// ============================================================
+function toggleDropdown(type) {
+  const wrap = $(`wrapper-${type}`);
+  const isOpen = wrap.classList.contains('open');
+  document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
+  if (!isOpen) wrap.classList.add('open');
+}
+
+function selectOption(type, value, label) {
+  if (type === 'fk') filterAi   = value;
+  if (type === 'fj') filterSpek = value;
+  $(`label-${type}`).textContent = label;
+  document.querySelectorAll(`#options-${type} .select-option`).forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.value === value);
+  });
+  $(`wrapper-${type}`).classList.remove('open');
   filterP();
 }
 
-function filterP(){
-  const q=$('q').value.toLowerCase(),k=$('fk').value,j=$('fj').value;
-  const f=data.filter(p=>
-    (!q||p.name.toLowerCase().includes(q)||p.creator.toLowerCase().includes(q)||p.prompt.toLowerCase().includes(q))&&
-    (!k||p.kategori_ai===k)&&(!j||p.jenis===j)
+window.addEventListener('click', () => {
+  document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
+});
+
+// ============================================================
+// EXPLORER: BUILD FILTERS + GRID
+// ============================================================
+function buildExplorer() {
+  // Build AI filter from KATEGORI_AI_LIST (static 12 slot)
+  const allAiOpt = KATEGORI_AI_LIST.filter(k =>
+    dataStore.some(d => d.kategori_ai === k)
   );
-  const g=$('pg');
-  if(!f.length){g.innerHTML='<div class="empty" style="grid-column:1/-1"><svg width="34" height="34" viewBox="0 0 34 34" fill="none"><circle cx="15" cy="15" r="10" stroke="currentColor" stroke-width="2"/><path d="M23 23l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><p>Tidak ada prompt yang cocok.</p></div>';return}
-  g.innerHTML=f.map(p=>`<div class="pc" onclick='vP(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
-    <div class="pct">
-      <div><div class="pcn">${esc(p.name)}</div><div class="pcb">${esc(p.creator)}</div></div>
-      <span class="chip">${esc(p.kategori_ai)}</span>
-    </div>
-    <div class="pcp">${esc(p.prompt)}</div>
-    <div class="pcf">
-      <span class="chip">${esc(p.jenis)}</span>
-      <button class="cpb" onclick="event.stopPropagation();cpBtn(this,'${esc(p.prompt).replace(/'/g,"&#39;")}')">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 8H2a1 1 0 01-1-1V2a1 1 0 011-1h5a1 1 0 011 1v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Salin
-      </button>
-    </div>
-  </div>`).join('');
+  let htmlAi = `<div class="select-option ${filterAi===''?'selected':''}" data-value="" onclick="selectOption('fk','','Semua Engine AI')">Semua Engine AI</div>`;
+  htmlAi += allAiOpt.map(k =>
+    `<div class="select-option ${filterAi===k?'selected':''}" data-value="${esc(k)}" onclick="selectOption('fk','${esc(k).replace(/'/g,"\\'")}','${esc(k).replace(/'/g,"\\'")}')">
+      ${esc(k)}
+    </div>`
+  ).join('');
+  $('options-fk').innerHTML = htmlAi;
+
+  // Build Jenis filter from JENIS_LIST (static 4 slot)
+  const allJenisOpt = JENIS_LIST.filter(j =>
+    dataStore.some(d => d.jenis === j)
+  );
+  let htmlJ = `<div class="select-option ${filterSpek===''?'selected':''}" data-value="" onclick="selectOption('fj','','Semua Jenis')">Semua Jenis</div>`;
+  htmlJ += allJenisOpt.map(j =>
+    `<div class="select-option ${filterSpek===j?'selected':''}" data-value="${esc(j)}" onclick="selectOption('fj','${esc(j).replace(/'/g,"\\'")}','${esc(j).replace(/'/g,"\\'")}')">
+      ${esc(j)}
+    </div>`
+  ).join('');
+  $('options-fj').innerHTML = htmlJ;
+
+  filterP();
 }
 
-function cpBtn(btn,txt){
-  navigator.clipboard.writeText(txt.replace(/&#39;/g,"'")).then(()=>{
+async function initExplorer() {
+  $('pg').innerHTML = '<div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Querying prompts storage...</p></div>';
+  await loadData();
+  buildExplorer();
+}
+
+// ============================================================
+// FILTER & RENDER GRID
+// ============================================================
+function filterP() {
+  const q = $('q').value.toLowerCase();
+  const filtered = dataStore.filter(p =>
+    (!q || p.name.toLowerCase().includes(q) || p.creator.toLowerCase().includes(q) || p.prompt.toLowerCase().includes(q)) &&
+    (!filterAi   || p.kategori_ai === filterAi) &&
+    (!filterSpek || p.jenis === filterSpek)
+  );
+
+  if (!filtered.length) {
+    $('pg').innerHTML = '<div class="empty" style="grid-column:1/-1"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg><p>Tidak ada prompt yang cocok.</p></div>';
+    return;
+  }
+
+  $('pg').innerHTML = filtered.map(p => `
+    <div class="pc" onclick='viewDetail(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
+      <div class="pct">
+        <div>
+          <div class="pcn">${esc(p.name)}</div>
+          <div class="pcb">by ${esc(p.creator)}</div>
+        </div>
+        <span class="chip purple">${esc(p.kategori_ai)}</span>
+      </div>
+      <div class="pcp">${esc(p.prompt)}</div>
+      <div class="pcf">
+        <span class="chip">${esc(p.jenis)}</span>
+        <button class="cpb" onclick="event.stopPropagation();copyPrompt(this,'${esc(p.prompt).replace(/'/g,"&#39;")}')">
+          Salin
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// COPY PROMPT
+// ============================================================
+function copyPrompt(btn, text) {
+  navigator.clipboard.writeText(text.replace(/&#39;/g,"'")).then(() => {
     btn.classList.add('ok');
-    btn.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Tersalin';
-    setTimeout(()=>{btn.classList.remove('ok');btn.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 8H2a1 1 0 01-1-1V2a1 1 0 011-1h5a1 1 0 011 1v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>Salin'},2000);
-  }).catch(()=>toast('Gagal menyalin','err'));
+    btn.textContent = 'Tersalin!';
+    setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'Salin'; }, 1800);
+  }).catch(() => showNotification('Gagal mengakses clipboard', 'err'));
 }
 
-function vP(p){
-  if(typeof p==='string')p=JSON.parse(p);
-  viewP=p;
-  $('vn').textContent=p.name;
-  $('vc').innerHTML=`<span class="chip">${esc(p.kategori_ai)}</span><span class="chip">${esc(p.jenis)}</span><span class="chip">${esc(p.creator)}</span>`;
-  $('vp').textContent=p.prompt;
+// ============================================================
+// DETAIL MODAL
+// ============================================================
+function viewDetail(obj) {
+  if (typeof obj === 'string') obj = JSON.parse(obj);
+  currentActiveViewObject = obj;
+  $('vn').textContent = obj.name;
+  $('vc').innerHTML = `
+    <span class="chip purple">${esc(obj.kategori_ai)}</span>
+    <span class="chip">${esc(obj.jenis)}</span>
+    <span class="chip">Creator: ${esc(obj.creator)}</span>
+  `;
+  $('vp').textContent = obj.prompt;
   openM('mView');
 }
-function cpDetail(){if(!viewP)return;navigator.clipboard.writeText(viewP.prompt).then(()=>toast('Prompt tersalin')).catch(()=>toast('Gagal','err'))}
 
-async function sha256(s){
-  const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
-  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
+function cpDetail() {
+  if (!currentActiveViewObject) return;
+  navigator.clipboard.writeText(currentActiveViewObject.prompt)
+    .then(() => showNotification('String prompt disalin ke clipboard'));
 }
 
-async function doLogin(){
-  const raw=$('kin').value.trim();
-  if(!raw){toast('Masukkan key terlebih dahulu','err');return}
-  const btn=$('lbtn');btn.disabled=true;btn.innerHTML='<span class="isp"></span> Verifikasi...';
-  try{
-    const h=await sha256(raw);
-    const rows=await api(`admin_keys?key_hash=eq.${encodeURIComponent(h)}&select=id`);
-    if(rows&&rows.length){
-      isAdmin=true;sessionStorage.setItem('la','1');
-      $('gate').style.display='none';$('ap').style.display='block';
-      $('atag').style.display='inline-block';
-      toast('Berhasil masuk sebagai admin');loadTbl();
-    }else{toast('Key tidak valid','err');$('kin').value=''}
-  }catch(e){toast('Error: '+e.message,'err')}
-  finally{btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Masuk'}
-}
-
-function doLogout(){
-  isAdmin=false;sessionStorage.removeItem('la');
-  $('gate').style.display='block';$('ap').style.display='none';
-  $('atag').style.display='none';$('kin').value='';toast('Berhasil logout');
-}
-
-async function loadTbl(){
-  const tb=$('tb');
-  tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:32px"><div class="spin" style="display:inline-block;margin:0"></div></td></tr>';
-  try{
-    data=await api('prompts?select=*&order=created_at.desc')||[];
-    if(!data.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--t2);font-size:13px">Belum ada prompt.</td></tr>';return}
-    tb.innerHTML=data.map(p=>`<tr>
-      <td class="cn">${esc(p.name)}</td>
-      <td class="cd">${esc(p.creator)}</td>
-      <td class="cd">${esc(p.jenis)}</td>
-      <td><span class="chip">${esc(p.kategori_ai)}</span></td>
-      <td class="cd" style="font-size:12px">${fmtD(p.created_at)}</td>
-      <td><div class="ta">
-        <button class="btn bg2" style="padding:6px 10px;font-size:12px" onclick='oEdit(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5l-7 7H1.5v-2l7-7z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Edit
-        </button>
-        <button class="btn bd" style="padding:6px 10px;font-size:12px" onclick="oDel('${p.id}','${esc(p.name).replace(/'/g,"&#39;")}')">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 3h9M4 3V2h4v1M9.5 3l-.5 7H3L2.5 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Hapus
-        </button>
-      </div></td>
-    </tr>`).join('');
-  }catch(e){tb.innerHTML=`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--red);font-size:12px">Error: ${esc(e.message)}</td></tr>`}
-}
-
-function openAdd(){
-  $('ftit').textContent='Tambah Prompt';
-  ['fid','fn','fc','fje','fka','fp'].forEach(i=>$(i).value='');
-  $('fbtn').innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v10M1.5 6.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Tambah';
-  openM('mForm');
-}
-
-function oEdit(p){
-  if(typeof p==='string')p=JSON.parse(p);
-  $('ftit').textContent='Edit Prompt';
-  $('fid').value=p.id;$('fn').value=p.name;$('fc').value=p.creator;
-  $('fje').value=p.jenis;$('fka').value=p.kategori_ai;$('fp').value=p.prompt;
-  $('fbtn').innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Simpan';
-  openM('mForm');
-}
-
-async function submitP(){
-  const id=$('fid').value;
-  const body={name:$('fn').value.trim(),creator:$('fc').value.trim(),jenis:$('fje').value.trim(),kategori_ai:$('fka').value.trim(),prompt:$('fp').value.trim()};
-  for(const[k,v]of Object.entries(body))if(!v){toast(`Field "${k}" wajib diisi`,'err');return}
-  const btn=$('fbtn');btn.disabled=true;btn.innerHTML='<span class="isp"></span>';
-  try{
-    if(id)await api(`prompts?id=eq.${id}`,{method:'PATCH',body:JSON.stringify(body),prefer:'return=minimal'});
-    else await api('prompts',{method:'POST',body:JSON.stringify(body)});
-    toast(id?'Prompt diperbarui':'Prompt ditambahkan');
-    closeM('mForm');data=[];loadTbl();
-  }catch(e){toast('Error: '+e.message,'err')}
-  finally{btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5h9M8 3.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Simpan'}
-}
-
-function oDel(id,name){delId=id;$('dname').textContent=name;openM('mDel')}
-
-async function doDelete(){
-  if(!delId)return;
-  const btn=$('dbtn');btn.disabled=true;btn.innerHTML='<span class="isp"></span>';
-  try{
-    await api(`prompts?id=eq.${delId}`,{method:'DELETE',prefer:'return=minimal'});
-    toast('Prompt dihapus');closeM('mDel');delId=null;data=[];loadTbl();
-  }catch(e){toast('Error: '+e.message,'err')}
-  finally{btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 3.5h9M4.5 3.5V2h4v1.5M10 3.5l-.5 7.5H3.5L3 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Hapus'}
-}
-
-const fmtD=iso=>{if(!iso)return'';return new Date(iso).toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})};
-
-window.addEventListener('DOMContentLoaded',()=>{
-  if(sessionStorage.getItem('la')){isAdmin=true;$('atag').style.display='inline-block'}
-  rDash();
+// ============================================================
+// BOOT
+// ============================================================
+window.addEventListener('DOMContentLoaded', async () => {
+  await compileDashboard();
 });
+
+// Override go() untuk load data on explorer first visit
+const _go = go;
+window.go = function(route) {
+  _go(route);
+  if (route === 'prompts' && dataStore.length === 0) {
+    initExplorer();
+  } else if (route === 'prompts') {
+    buildExplorer();
+  }
+};
 </script>
 </body>
 </html>
