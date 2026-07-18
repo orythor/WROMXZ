@@ -153,7 +153,7 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
 .tts{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:8px;z-index:999}
 .tt{background:rgba(15,15,22,0.95);backdrop-filter:blur(16px);border:1px solid var(--b);border-radius:8px;padding:14px 18px;font-size:13px;color:var(--t);display:flex;align-items:center;gap:12px;min-width:240px;animation:tin .2s cubic-bezier(.16,1,.3,1);box-shadow:0 12px 36px rgba(0,0,0,0.5)}
 .tt.ok{border-left:4px solid var(--accent)}
-.tt.err{border-left:4px solid #ef4444}
+.tt.err{border-left:4px solid #ef4444;background:rgba(24,15,15,0.96);border-color:#ef4444}
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -201,7 +201,7 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
 
 <main class="main">
 
-  <!-- DASHBOARD PAGE -->
+  <!-- PAGE: DASHBOARD -->
   <section class="page active" id="page-dashboard">
     <div class="ph">
       <h1 class="pt">Metrics Control</h1>
@@ -227,7 +227,7 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
     </div>
   </section>
 
-  <!-- PROMPTS EXPLORER PAGE -->
+  <!-- PAGE: PROMPTS EXPLORER -->
   <section class="page" id="page-prompts">
     <div class="ph">
       <h1 class="pt">Nova Prompt</h1>
@@ -235,8 +235,6 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
     </div>
     <div class="sw">
       <input class="sbox" type="text" id="q" placeholder="Cari nama prompt, kreator, atau deskripsi teknis..." oninput="filterP()">
-
-      <!-- FILTER: KATEGORI AI -->
       <div class="custom-select" id="wrapper-fk">
         <div class="select-trigger" onclick="event.stopPropagation(); toggleDropdown('fk')">
           <span id="label-fk">Semua Engine AI</span>
@@ -244,8 +242,6 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
         </div>
         <div class="select-options" id="options-fk"></div>
       </div>
-
-      <!-- FILTER: JENIS -->
       <div class="custom-select" id="wrapper-fj">
         <div class="select-trigger" onclick="event.stopPropagation(); toggleDropdown('fj')">
           <span id="label-fj">Semua Jenis</span>
@@ -254,7 +250,6 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
         <div class="select-options" id="options-fj"></div>
       </div>
     </div>
-
     <div class="pg" id="pg">
       <div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Querying prompts storage...</p></div>
     </div>
@@ -264,7 +259,7 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
 
 <div class="tts" id="tts"></div>
 
-<!-- MODAL DETAIL VIEW -->
+<!-- MODAL: DETAIL VIEW -->
 <div class="mo" id="mView">
   <div class="modal">
     <div class="mh">
@@ -288,11 +283,29 @@ body::before{content:'';position:fixed;inset:0;background:rgba(7,7,10,0.88);z-in
 // ============================================================
 // SUPABASE CONFIG
 // ============================================================
-const SUPABASE_URL = 'https://ekfnrmwylnetumiqxote.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrZm5ybXd5bG5ldHVtaXF4b3RlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2Nzk4OTUsImV4cCI6MjA5OTI1NTg5NX0.E5vtmV7kywElMhBwdRG3hgo6ke61EGfxNxC2Sh8SXEs';
+const SUPA_URL = 'https://wcfvrequnpnjclpwxpqz.supabase.co';
+const SUPA_KEY = 'sb_publishable_yF1ZnyRojZAIV0htIMDB3w_q9gXj7Qp';
+
+async function supaFetch(path, opts = {}) {
+  const res = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': `Bearer ${SUPA_KEY}`,
+      'Content-Type': 'application/json',
+      ...opts.headers
+    },
+    ...opts
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : [];
+}
 
 // ============================================================
-// KATEGORI AI — 12 SLOT (isi sesuai kebutuhanmu)
+// KATEGORI AI — isi 12 slot sesuai kebutuhan
 // ============================================================
 const KATEGORI_AI_LIST = [
   'ChatGPT',
@@ -306,17 +319,17 @@ const KATEGORI_AI_LIST = [
   'Mistral',
   'Qwen',
   'Nova AI',
-  'Custom AI',
+  'Kategori 12',   // <-- ganti isi sesuai kebutuhan
 ];
 
 // ============================================================
-// JENIS PROMPT — 4 SLOT (isi sesuai kebutuhanmu)
+// JENIS PROMPT — isi 4 slot sesuai kebutuhan
 // ============================================================
 const JENIS_LIST = [
   'Jailbreak',
   'Thinking',
   'Karakter',
-  'Img HD',
+  'Img HD',         // <-- ganti isi sesuai kebutuhan
 ];
 
 // ============================================================
@@ -327,37 +340,34 @@ let currentActiveViewObject = null;
 let filterAi = '';
 let filterSpek = '';
 
-// ============================================================
-// UTILS
-// ============================================================
 const $ = id => document.getElementById(id);
 const esc = t => String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 // ============================================================
-// SIDEBAR & MODAL NAVIGATION
+// NAVIGATION
 // ============================================================
-const openSB  = () => { $('sb').classList.add('open'); $('ov').classList.add('on'); };
+const openSB = () => { $('sb').classList.add('open'); $('ov').classList.add('on'); };
 const closeSB = () => { $('sb').classList.remove('open'); $('ov').classList.remove('on'); };
-const openM   = id => $(id).classList.add('open');
-const closeM  = id => $(id).classList.remove('open');
+const openM = id => $(id).classList.add('open');
+const closeM = id => $(id).classList.remove('open');
 
 const PAGES = { dashboard:'Dashboard Tracker', prompts:'Nova Prompt' };
 function go(route) {
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(e => e.classList.remove('active'));
   $(`page-${route}`).classList.add('active');
   const idx = { dashboard:0, prompts:1 }[route];
   document.querySelectorAll('.ni')[idx].classList.add('active');
   $('crumb').textContent = PAGES[route];
   closeSB();
   if (route === 'dashboard') compileDashboard();
-  if (route === 'prompts')   buildExplorer();
+  if (route === 'prompts') buildExplorer();
 }
 
 // ============================================================
-// TOAST NOTIFICATIONS
+// TOAST
 // ============================================================
-function showNotification(msg, type = 'ok') {
+function toast(msg, type='ok') {
   const el = document.createElement('div');
   el.className = `tt ${type}`;
   const icon = type === 'ok'
@@ -365,24 +375,7 @@ function showNotification(msg, type = 'ok') {
     : '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v4M7 10h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
   el.innerHTML = `${icon}<span>${msg}</span>`;
   $('tts').appendChild(el);
-  setTimeout(() => { el.style.opacity='0'; setTimeout(() => el.remove(), 250); }, 3000);
-}
-
-// ============================================================
-// SUPABASE FETCH HELPER
-// ============================================================
-async function supabaseFetch(path, options = {}) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    ...options
-  });
-  if (!res.ok) throw new Error(`Supabase error: ${res.status}`);
-  return res.json();
+  setTimeout(() => { el.style.opacity='0'; el.style.transform='translateX(24px)'; setTimeout(()=>el.remove(),250); }, 3000);
 }
 
 // ============================================================
@@ -390,12 +383,12 @@ async function supabaseFetch(path, options = {}) {
 // ============================================================
 async function loadData() {
   try {
-    const data = await supabaseFetch('prompts?select=*&order=created_at.desc');
+    const data = await supaFetch('prompts?select=*&order=created_at.desc');
     dataStore = data;
-    return data;
-  } catch (err) {
-    showNotification('Gagal memuat data dari Supabase', 'err');
-    return [];
+  } catch(e) {
+    toast('Gagal memuat data dari database', 'err');
+    console.error(e);
+    dataStore = [];
   }
 }
 
@@ -407,16 +400,16 @@ async function compileDashboard() {
   await loadData();
 
   $('s1').textContent = dataStore.length;
-  $('s2').textContent = new Set(dataStore.map(d => d.kategori_ai)).size;
-  $('s3').textContent = new Set(dataStore.map(d => d.creator)).size;
+  $('s2').textContent = new Set(dataStore.map(i => i.kategori_ai)).size;
+  $('s3').textContent = new Set(dataStore.map(i => i.creator)).size;
 
-  const recent = [...dataStore].slice(0, 5);
+  const recent = dataStore.slice(0, 5);
   if (!recent.length) {
     $('rl').innerHTML = '<div class="empty"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h10M4 18h14" stroke-linecap="round"/></svg><p>Data repositori kosong.</p></div>';
     return;
   }
   $('rl').innerHTML = recent.map(item => `
-    <div class="rr" onclick='viewDetail(${JSON.stringify(item).replace(/'/g,"&#39;")})'>
+    <div class="rr" onclick='showDetail(${JSON.stringify(item).replace(/'/g,"&#39;")})'>
       <div class="ri"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2.5 3.5h10M2.5 7.5h7M2.5 11.5h9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
       <div class="rin">
         <div class="rn">${esc(item.name)}</div>
@@ -428,85 +421,65 @@ async function compileDashboard() {
 }
 
 // ============================================================
-// EXPLORER: DROPDOWN ENGINE
+// EXPLORER — DROPDOWN
 // ============================================================
 function toggleDropdown(type) {
-  const wrap = $(`wrapper-${type}`);
-  const isOpen = wrap.classList.contains('open');
-  document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
-  if (!isOpen) wrap.classList.add('open');
+  const w = $(`wrapper-${type}`);
+  const was = w.classList.contains('open');
+  document.querySelectorAll('.custom-select').forEach(e => e.classList.remove('open'));
+  if (!was) w.classList.add('open');
 }
 
-function selectOption(type, value, label) {
-  if (type === 'fk') filterAi   = value;
+function selectOpt(type, value, label) {
+  if (type === 'fk') filterAi = value;
   if (type === 'fj') filterSpek = value;
   $(`label-${type}`).textContent = label;
-  document.querySelectorAll(`#options-${type} .select-option`).forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.value === value);
+  document.querySelectorAll(`#options-${type} .select-option`).forEach(o => {
+    o.classList.toggle('selected', o.dataset.value === value);
   });
   $(`wrapper-${type}`).classList.remove('open');
   filterP();
 }
 
 window.addEventListener('click', () => {
-  document.querySelectorAll('.custom-select').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.custom-select').forEach(e => e.classList.remove('open'));
 });
 
 // ============================================================
-// EXPLORER: BUILD FILTERS + GRID
+// EXPLORER — BUILD & FILTER
 // ============================================================
-function buildExplorer() {
-  // Build AI filter from KATEGORI_AI_LIST (static 12 slot)
-  const allAiOpt = KATEGORI_AI_LIST.filter(k =>
-    dataStore.some(d => d.kategori_ai === k)
-  );
-  let htmlAi = `<div class="select-option ${filterAi===''?'selected':''}" data-value="" onclick="selectOption('fk','','Semua Engine AI')">Semua Engine AI</div>`;
-  htmlAi += allAiOpt.map(k =>
-    `<div class="select-option ${filterAi===k?'selected':''}" data-value="${esc(k)}" onclick="selectOption('fk','${esc(k).replace(/'/g,"\\'")}','${esc(k).replace(/'/g,"\\'")}')">
-      ${esc(k)}
-    </div>`
-  ).join('');
+async function buildExplorer() {
+  $('pg').innerHTML = '<div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Querying prompts storage...</p></div>';
+  await loadData();
+
+  // Build AI dropdown
+  let htmlAi = `<div class="select-option ${filterAi===''?'selected':''}" data-value="" onclick="selectOpt('fk','','Semua Engine AI')">Semua Engine AI</div>`;
+  htmlAi += KATEGORI_AI_LIST.map(e => `<div class="select-option ${filterAi===e?'selected':''}" data-value="${esc(e)}" onclick="selectOpt('fk','${esc(e).replace(/'/g,"\\'")}','${esc(e).replace(/'/g,"\\'")}' )">${esc(e)}</div>`).join('');
   $('options-fk').innerHTML = htmlAi;
 
-  // Build Jenis filter from JENIS_LIST (static 4 slot)
-  const allJenisOpt = JENIS_LIST.filter(j =>
-    dataStore.some(d => d.jenis === j)
-  );
-  let htmlJ = `<div class="select-option ${filterSpek===''?'selected':''}" data-value="" onclick="selectOption('fj','','Semua Jenis')">Semua Jenis</div>`;
-  htmlJ += allJenisOpt.map(j =>
-    `<div class="select-option ${filterSpek===j?'selected':''}" data-value="${esc(j)}" onclick="selectOption('fj','${esc(j).replace(/'/g,"\\'")}','${esc(j).replace(/'/g,"\\'")}')">
-      ${esc(j)}
-    </div>`
-  ).join('');
+  // Build Jenis dropdown
+  let htmlJ = `<div class="select-option ${filterSpek===''?'selected':''}" data-value="" onclick="selectOpt('fj','','Semua Jenis')">Semua Jenis</div>`;
+  htmlJ += JENIS_LIST.map(s => `<div class="select-option ${filterSpek===s?'selected':''}" data-value="${esc(s)}" onclick="selectOpt('fj','${esc(s).replace(/'/g,"\\'")}','${esc(s).replace(/'/g,"\\'")}' )">${esc(s)}</div>`).join('');
   $('options-fj').innerHTML = htmlJ;
 
   filterP();
 }
 
-async function initExplorer() {
-  $('pg').innerHTML = '<div class="ldw" style="grid-column:1/-1"><div class="spin"></div><p>Querying prompts storage...</p></div>';
-  await loadData();
-  buildExplorer();
-}
-
-// ============================================================
-// FILTER & RENDER GRID
-// ============================================================
 function filterP() {
-  const q = $('q').value.toLowerCase();
-  const filtered = dataStore.filter(p =>
+  const q = ($('q') ? $('q').value : '').toLowerCase();
+  const matched = dataStore.filter(p =>
     (!q || p.name.toLowerCase().includes(q) || p.creator.toLowerCase().includes(q) || p.prompt.toLowerCase().includes(q)) &&
-    (!filterAi   || p.kategori_ai === filterAi) &&
+    (!filterAi || p.kategori_ai === filterAi) &&
     (!filterSpek || p.jenis === filterSpek)
   );
 
-  if (!filtered.length) {
-    $('pg').innerHTML = '<div class="empty" style="grid-column:1/-1"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg><p>Tidak ada prompt yang cocok.</p></div>';
+  const grid = $('pg');
+  if (!matched.length) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg><p>Tidak ada prompt yang cocok.</p></div>';
     return;
   }
-
-  $('pg').innerHTML = filtered.map(p => `
-    <div class="pc" onclick='viewDetail(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
+  grid.innerHTML = matched.map(p => `
+    <div class="pc" onclick='showDetail(${JSON.stringify(p).replace(/'/g,"&#39;")})'>
       <div class="pct">
         <div>
           <div class="pcn">${esc(p.name)}</div>
@@ -517,37 +490,27 @@ function filterP() {
       <div class="pcp">${esc(p.prompt)}</div>
       <div class="pcf">
         <span class="chip">${esc(p.jenis)}</span>
-        <button class="cpb" onclick="event.stopPropagation();copyPrompt(this,'${esc(p.prompt).replace(/'/g,"&#39;")}')">
-          Salin
-        </button>
+        <button class="cpb" onclick="event.stopPropagation();doCopy(this,'${esc(p.prompt).replace(/'/g,"&#39;")}')">Salin</button>
       </div>
     </div>
   `).join('');
 }
 
-// ============================================================
-// COPY PROMPT
-// ============================================================
-function copyPrompt(btn, text) {
+function doCopy(btn, text) {
   navigator.clipboard.writeText(text.replace(/&#39;/g,"'")).then(() => {
-    btn.classList.add('ok');
-    btn.textContent = 'Tersalin!';
-    setTimeout(() => { btn.classList.remove('ok'); btn.textContent = 'Salin'; }, 1800);
-  }).catch(() => showNotification('Gagal mengakses clipboard', 'err'));
+    btn.classList.add('ok'); btn.textContent='Tersalin!';
+    setTimeout(() => { btn.classList.remove('ok'); btn.textContent='Salin'; }, 1800);
+  }).catch(() => toast('Gagal mengakses clipboard','err'));
 }
 
 // ============================================================
 // DETAIL MODAL
 // ============================================================
-function viewDetail(obj) {
+function showDetail(obj) {
   if (typeof obj === 'string') obj = JSON.parse(obj);
   currentActiveViewObject = obj;
   $('vn').textContent = obj.name;
-  $('vc').innerHTML = `
-    <span class="chip purple">${esc(obj.kategori_ai)}</span>
-    <span class="chip">${esc(obj.jenis)}</span>
-    <span class="chip">Creator: ${esc(obj.creator)}</span>
-  `;
+  $('vc').innerHTML = `<span class="chip purple">${esc(obj.kategori_ai)}</span><span class="chip">${esc(obj.jenis)}</span><span class="chip">Creator: ${esc(obj.creator)}</span>`;
   $('vp').textContent = obj.prompt;
   openM('mView');
 }
@@ -555,26 +518,16 @@ function viewDetail(obj) {
 function cpDetail() {
   if (!currentActiveViewObject) return;
   navigator.clipboard.writeText(currentActiveViewObject.prompt)
-    .then(() => showNotification('String prompt disalin ke clipboard'));
+    .then(() => toast('String prompt disalin ke clipboard'))
+    .catch(() => toast('Gagal mengakses clipboard','err'));
 }
 
 // ============================================================
-// BOOT
+// INIT
 // ============================================================
-window.addEventListener('DOMContentLoaded', async () => {
-  await compileDashboard();
+window.addEventListener('DOMContentLoaded', () => {
+  compileDashboard();
 });
-
-// Override go() untuk load data on explorer first visit
-const _go = go;
-window.go = function(route) {
-  _go(route);
-  if (route === 'prompts' && dataStore.length === 0) {
-    initExplorer();
-  } else if (route === 'prompts') {
-    buildExplorer();
-  }
-};
 </script>
 </body>
 </html>
