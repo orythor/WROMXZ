@@ -37,9 +37,9 @@ Code Structure
 - CSS Variables - easy theme color customization
 - Modular event handling - centralized state with auto re-render
 
-API Configuration
+#API Configuration
 
-Change the API endpoint in the code:
+*Change the API endpoint in the code:
 
 const API_URL = 'sensored';
 
@@ -50,12 +50,12 @@ Make sure the API returns this format:
     "response": "AI response text"
   }
 }
-
+*
 Disclaimer
 
 "Use it wisely. Misuse is not my responsibility."
 
-This source code is made for educational purposes only. Use beyond that is the user's responsibility.
+#This source code is made for educational purposes only. Use beyond that is the user's responsibility.
 
 Important Notes
 
