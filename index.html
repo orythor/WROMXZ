@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVAPROMPT — Libra Prompt Hub</title>
+    <title>NOVAPROMPT</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
         * {
@@ -903,20 +903,33 @@
                 ${p.description ? `<div style="font-size:0.8rem;color:var(--text-dim);line-height:1.5;">${p.description}</div>` : ''}
                 <p class="card-preview">${p.content}</p>
                 <div class="card-actions">
-                    <button class="action-btn copy" onclick="copyText(\`${p.content.replace(/`/g, '\\`')}\`, this)">
+                    <button class="action-btn copy" data-action="copy" data-id="${p.id}">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
                         Salin
                     </button>
-                    <button class="action-btn" onclick="downloadText(\`${p.content.replace(/`/g, '\\`')}\`, '${p.title.replace(/'/g, "\\'")}')">
+                    <button class="action-btn" data-action="download" data-id="${p.id}">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download
                     </button>
-                    <button class="action-btn" onclick="openViewModal(${p.id})">
+                    <button class="action-btn" data-action="view" data-id="${p.id}">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                         View
                     </button>
                 </div>
             </div>`).join('');
+
+        // Attach event listeners setelah render — hindari inline onclick
+        grid.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.id);
+                const action = btn.dataset.action;
+                const prompt = allPrompts.find(x => x.id === id);
+                if (!prompt) return;
+                if (action === 'copy')     copyText(prompt.content, btn);
+                if (action === 'download') downloadText(prompt.content, prompt.title);
+                if (action === 'view')     openViewModal(id);
+            });
+        });
     }
 
     // ─── FILTER / SEARCH ──────────────────────────────────────────────────────
