@@ -849,6 +849,215 @@
             transition: color 0.15s;
         }
         .chat-clear-btn:hover { color: var(--text-dim); }
+        /* ── DOWNLOADER PAGE ── */
+        .dl-page { padding: 2rem; max-width: 860px; margin: 0 auto; }
+
+        .dl-platforms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .dl-platform-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.1rem 0.75rem;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: rgba(14,14,14,0.6);
+            cursor: pointer;
+            transition: all 0.18s ease;
+            color: var(--text-dim);
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+        .dl-platform-btn:hover { border-color: var(--border-bright); background: rgba(22,22,22,0.8); color: var(--text); transform: translateY(-2px); }
+        .dl-platform-btn.active { border-color: rgba(255,255,255,0.25); background: rgba(30,30,30,0.9); color: var(--text); }
+        .dl-platform-btn svg { transition: transform 0.18s; }
+        .dl-platform-btn:hover svg { transform: scale(1.08); }
+        .dl-platform-icon {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 0.1rem;
+        }
+
+        .dl-panel {
+            background: rgba(10,10,10,0.6);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            animation: fadeUp 0.3s ease forwards;
+        }
+
+        .dl-panel-head {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .dl-panel-head-icon {
+            width: 36px; height: 36px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .dl-panel-head h3 { font-size: 1rem; font-weight: 600; }
+        .dl-panel-head p  { font-size: 0.75rem; color: var(--text-dim); margin-top: 2px; }
+
+        .dl-panel-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+
+        .dl-input-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .dl-url-input {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            color: var(--text);
+            font-size: 0.88rem;
+            transition: border-color 0.15s;
+        }
+        .dl-url-input::placeholder { color: var(--text-muted); }
+        .dl-url-input:focus { outline: none; border-color: var(--border-bright); }
+        .dl-fetch-btn {
+            padding: 0.85rem 1.5rem;
+            background: var(--accent);
+            color: var(--accent-inv);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 0.4rem;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+        }
+        .dl-fetch-btn:hover { background: rgba(255,255,255,0.85); }
+        .dl-fetch-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .dl-result { display: none; flex-direction: column; gap: 1rem; }
+        .dl-result.show { display: flex; }
+
+        .dl-result-card {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            animation: fadeUp 0.3s ease forwards;
+        }
+
+        .dl-media-preview {
+            width: 100%;
+            position: relative;
+            background: #000;
+        }
+        .dl-media-preview img {
+            width: 100%; max-height: 300px; object-fit: cover;
+            display: block;
+        }
+        .dl-media-preview video {
+            width: 100%; max-height: 300px;
+            display: block; background: #000;
+        }
+
+        .dl-result-info {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .dl-result-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.35rem; line-height: 1.4; }
+        .dl-result-meta  { font-size: 0.72rem; color: var(--text-dim); display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .dl-meta-item    { display: flex; align-items: center; gap: 0.3rem; }
+
+        .dl-download-btns {
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .dl-btn {
+            display: flex; align-items: center; gap: 0.4rem;
+            padding: 0.6rem 1.1rem;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.03);
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+        .dl-btn:hover { background: rgba(255,255,255,0.08); border-color: var(--border-bright); }
+        .dl-btn.primary { background: var(--accent); color: var(--accent-inv); border-color: var(--accent); }
+        .dl-btn.primary:hover { background: rgba(255,255,255,0.85); }
+
+        .dl-quality-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--border);
+            margin-left: 0.2rem;
+        }
+
+        .dl-error {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255,95,95,0.06);
+            border: 1px solid rgba(255,95,95,0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #ff8080;
+        }
+        .dl-error.show { display: flex; }
+
+        .dl-loading {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+        .dl-loading.show { display: flex; }
+        .dl-spinner {
+            width: 18px; height: 18px;
+            border: 2px solid var(--border);
+            border-top-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        .dl-multi-endpoint {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .dl-platforms { grid-template-columns: repeat(3, 1fr); }
+            .dl-input-row { flex-direction: column; }
+            .dl-fetch-btn { width: 100%; justify-content: center; }
+        }
+        @media (max-width: 400px) {
+            .dl-platforms { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 860px) {
             .prompt-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.6rem; }
@@ -902,12 +1111,16 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 Chat AI
             </div>
+            <div class="nav-item" data-page="downloader">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Downloader
+            </div>
 
         </div>
     </div>
 
     <div class="sidebar-footer">
-        <p></p>
+        <p>Blueprint dikalibrasi untuk struktur penalaran model Libra. Token output bervariasi sesuai temperatur runtime.</p>
     </div>
 </nav>
 
@@ -971,7 +1184,7 @@
             <div>
                 <div class="hero-eyebrow">
                     <span class="dot"></span>
-                    Libra Prompt NOVAHUB
+                    Libra Prompt Architecture
                 </div>
             </div>
 
@@ -985,7 +1198,7 @@
 
             <div class="hero" style="text-align:center;">
                 <h1>Sistem Prompt<br>Terstruktur</h1>
-                <p>Prompt HUB</p>
+                <p>Optimalkan workflow LLM engineering dengan blueprint arsitektur prompt Libra yang presisi, minimalis, dan deterministik.</p>
             </div>
 
             <div class="hero-cta">
@@ -1014,19 +1227,19 @@
         <div class="hub-header">
             <div>
                 <h2>Prompt Hub</h2>
-                <p>tinggal pencet salin atau download</p>
+                <p>Seluruh blueprint tersedia dari database Supabase secara real-time</p>
             </div>
         </div>
 
         <div class="search-wrap">
             <svg class="search-icon-pos" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" class="search-input" id="search-input" placeholder="Search name prompt...">
+            <input type="text" class="search-input" id="search-input" placeholder="Cari blueprint prompt secara instan...">
         </div>
 
         <div class="prompt-grid" id="prompt-grid">
             <div class="state-box">
                 <div class="spinner"></div>
-                <p>Waiting for loading......</p>
+                <p>Memuat prompts dari database...</p>
             </div>
         </div>
     </section>
@@ -1037,58 +1250,58 @@
             <div class="chat-topbar">
                 <div class="chat-topbar-left">
                     <h2>Chat AI</h2>
-                    <p id="chat-status-text">Waiting konfigurasi...</p>
+                    <p id="chat-status-text">Memuat konfigurasi...</p>
                 </div>
                 <div class="custom-select-wrap" id="model-select-wrap">
                     <div class="custom-select-trigger" id="model-trigger">
                         <span class="trigger-badge badge-or">OR</span>
-                        <span class="trigger-label">Nemotron 120B</span>
+                        <span class="trigger-label">Nemotron 120B (NVidia)</span>
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                     </div>
                     <div class="custom-select-dropdown" id="model-dropdown">
-                        <div class="dropdown-group-label">EKSTERNAL</div>
+                        <div class="dropdown-group-label">OpenRouter — Free</div>
                         <div class="dropdown-item active" data-value="or:nvidia/nemotron-3-super-120b-a12b:free" data-badge="or" data-label="Nemotron 120B (NVidia)">
                             <div class="di-icon or">NV</div>
                             <div class="di-info">
                                 <span class="di-name">Nemotron 120B</span>
-                                <span class="di-sub">NVidia</span>
+                                <span class="di-sub">NVidia · nemotron-3-super</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:poolside/laguna-xs-2.1:free" data-badge="or" data-label="Laguna XS 2.1 (Poolside)">
                             <div class="di-icon or">PS</div>
                             <div class="di-info">
                                 <span class="di-name">Laguna XS 2.1</span>
-                                <span class="di-sub">Poolside</span>
+                                <span class="di-sub">Poolside · laguna-xs</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:qwen/qwen3-next-80b-a3b-instruct:free" data-badge="or" data-label="Qwen3 80B (Alibaba)">
                             <div class="di-icon or">QW</div>
                             <div class="di-info">
                                 <span class="di-name">Qwen3 80B</span>
-                                <span class="di-sub">Alibaba</span>
+                                <span class="di-sub">Alibaba · qwen3-next</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:cognitivecomputations/dolphin-mistral-24b-venice-edition:free" data-badge="or" data-label="Dolphin Mistral 24B">
                             <div class="di-icon or">DM</div>
                             <div class="di-info">
                                 <span class="di-name">Dolphin Mistral 24B</span>
-                                <span class="di-sub">CogComp</span>
+                                <span class="di-sub">CogComp · venice-edition</span>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <div class="dropdown-group-label">INTERNAL</div>
+                        <div class="dropdown-group-label">Fallback Auto-Switch</div>
                         <div class="dropdown-item" data-value="gemini:gemini-2.0-flash" data-badge="gemini" data-label="Gemini 2.0 Flash">
                             <div class="di-icon gemini">GM</div>
                             <div class="di-info">
                                 <span class="di-name">Gemini 2.0 Flash</span>
-                                <span class="di-sub">Google</span>
+                                <span class="di-sub">Google · auto-rotate keys</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="groq:llama-3.3-70b-versatile" data-badge="groq" data-label="Groq LLaMA 3.3 70B">
                             <div class="di-icon groq">GQ</div>
                             <div class="di-info">
                                 <span class="di-name">Groq LLaMA 3.3 70B</span>
-                                <span class="di-sub">Groq</span>
+                                <span class="di-sub">Groq · auto-rotate keys</span>
                             </div>
                         </div>
                     </div>
@@ -1099,7 +1312,7 @@
                 <div class="chat-empty" id="chat-empty">
                     <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     <h3>Chat AI</h3>
-                    <p></p>
+                    <p>Mulai percakapan dengan AI. Model tersedia via OpenRouter, Gemini, dan Groq dengan auto-fallback jika terkena limit.</p>
                 </div>
             </div>
 
@@ -1112,9 +1325,107 @@
                 </div>
                 <div class="chat-footer-info">
                     <span id="chat-model-label">Pilih model di atas</span>
-                    <button class="chat-clear-btn" id="chat-clear-btn">DELETE HISTORY</button>
+                    <button class="chat-clear-btn" id="chat-clear-btn">Hapus riwayat</button>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- PAGE: DOWNLOADER -->
+    <section class="page" id="page-downloader">
+        <div class="dl-page">
+
+            <!-- Header -->
+            <div style="margin-bottom:1.75rem;">
+                <h2 style="font-size:1.2rem;font-weight:700;letter-spacing:-0.3px;margin-bottom:0.3rem;">Downloader</h2>
+                <p style="font-size:0.8rem;color:var(--text-dim);">Download konten dari berbagai platform. Endpoint aman via Supabase.</p>
+            </div>
+
+            <!-- Platform Selector -->
+            <div class="dl-platforms" id="dl-platforms">
+                <!-- TikTok -->
+                <button class="dl-platform-btn active" data-platform="tiktok">
+                    <div class="dl-platform-icon" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.08);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" style="color:#fff;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+                    </div>
+                    TikTok
+                </button>
+                <!-- YouTube -->
+                <button class="dl-platform-btn" data-platform="youtube">
+                    <div class="dl-platform-icon" style="background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.2);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.55 3.5 12 3.5 12 3.5s-7.55 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14C4.45 20.5 12 20.5 12 20.5s7.55 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.81zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>
+                    </div>
+                    YouTube
+                </button>
+                <!-- Spotify -->
+                <button class="dl-platform-btn" data-platform="spotify">
+                    <div class="dl-platform-icon" style="background:rgba(30,215,96,0.1);border:1px solid rgba(30,215,96,0.2);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+                    </div>
+                    Spotify
+                </button>
+                <!-- Instagram -->
+                <button class="dl-platform-btn" data-platform="instagram">
+                    <div class="dl-platform-icon" style="background:rgba(225,48,108,0.1);border:1px solid rgba(225,48,108,0.2);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="url(#ig-grad)"><defs><linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </div>
+                    Instagram
+                </button>
+                <!-- Pinterest -->
+                <button class="dl-platform-btn" data-platform="pinterest">
+                    <div class="dl-platform-icon" style="background:rgba(230,0,35,0.1);border:1px solid rgba(230,0,35,0.2);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#e60023"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+                    </div>
+                    Pinterest
+                </button>
+                <!-- Facebook -->
+                <button class="dl-platform-btn" data-platform="facebook">
+                    <div class="dl-platform-icon" style="background:rgba(24,119,242,0.1);border:1px solid rgba(24,119,242,0.2);">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </div>
+                    Facebook
+                </button>
+            </div>
+
+            <!-- Download Panel -->
+            <div class="dl-panel" id="dl-panel">
+                <div class="dl-panel-head" id="dl-panel-head">
+                    <div class="dl-panel-head-icon" id="dl-head-icon" style="background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.08);">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:#fff;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+                    </div>
+                    <div>
+                        <h3 id="dl-panel-title">TikTok Downloader</h3>
+                        <p id="dl-panel-sub">Download video TikTok tanpa watermark</p>
+                    </div>
+                </div>
+                <div class="dl-panel-body">
+                    <div class="dl-input-row">
+                        <input type="text" class="dl-url-input" id="dl-url-input" placeholder="Paste URL TikTok di sini...">
+                        <button class="dl-fetch-btn" id="dl-fetch-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            Cari
+                        </button>
+                    </div>
+
+                    <!-- Loading -->
+                    <div class="dl-loading" id="dl-loading">
+                        <div class="dl-spinner"></div>
+                        <span id="dl-loading-text">Mencari konten...</span>
+                    </div>
+
+                    <!-- Error -->
+                    <div class="dl-error" id="dl-error">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <span id="dl-error-msg">Terjadi kesalahan</span>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="dl-result" id="dl-result"></div>
+
+                    <div class="dl-multi-endpoint" id="dl-endpoint-info"></div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -1250,6 +1561,10 @@
         if (id === 'chatai') {
             history.replaceState(null, '', '#chatAI');
             if (!chatInitialized) initChat();
+        } else if (id === 'downloader') {
+            const meta = DL_PLATFORMS[dlActivePlatform];
+            if (meta) history.replaceState(null, '', meta.hash);
+            loadDlEndpoints();
         } else {
             if (window.location.hash) history.replaceState(null, '', window.location.pathname);
         }
@@ -1760,8 +2075,364 @@
             </div>`;
     });
 
+    // ══════════════════════════════════════════════════════════
+    // DOWNLOADER MODULE
+    // ══════════════════════════════════════════════════════════
+    const DL_SB_URL  = 'https://aqrguidwwaubnfeajsoi.supabase.co';
+    const DL_SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxcmd1aWR3d2F1Ym5mZWFqc29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM3ODE1MTIsImV4cCI6MjA5OTM1NzUxMn0.TInhcQGlpaMr6UWmO8eXmjjtO3rUQYcMzv7YJOMVdMs';
+
+    let dlEndpoints  = {};   // { tiktok: [{url, priority}], ... }
+    let dlEndpointsLoaded = false;
+    let dlActivePlatform  = 'tiktok';
+
+    // ── Platform meta ──────────────────────────────────────────
+    const DL_PLATFORMS = {
+        tiktok: {
+            label: 'TikTok Downloader',
+            sub: 'Download video TikTok tanpa watermark',
+            placeholder: 'Paste URL TikTok (vt.tiktok.com / vm.tiktok.com)...',
+            color: '#fff', bg: 'rgba(0,0,0,0.5)', border: 'rgba(255,255,255,0.08)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="color:#fff;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>`,
+            hash: '#downloader/tiktok'
+        },
+        youtube: {
+            label: 'YouTube Downloader',
+            sub: 'Download video & audio YouTube',
+            placeholder: 'Paste URL YouTube (youtube.com / youtu.be)...',
+            color: '#ff4444', bg: 'rgba(255,0,0,0.1)', border: 'rgba(255,0,0,0.2)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.55 3.5 12 3.5 12 3.5s-7.55 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14C4.45 20.5 12 20.5 12 20.5s7.55 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.81zM9.75 15.5V8.5l6.5 3.5-6.5 3.5z"/></svg>`,
+            hash: '#downloader/youtube'
+        },
+        spotify: {
+            label: 'Spotify Downloader',
+            sub: 'Download lagu Spotify dalam format MP3',
+            placeholder: 'Paste URL Spotify (open.spotify.com/track/...)...',
+            color: '#1ed760', bg: 'rgba(30,215,96,0.1)', border: 'rgba(30,215,96,0.2)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1ed760"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>`,
+            hash: '#downloader/spotify'
+        },
+        instagram: {
+            label: 'Instagram Downloader',
+            sub: 'Download foto, video & reels Instagram',
+            placeholder: 'Paste URL Instagram (instagram.com/reel/...)...',
+            color: '#e1306c', bg: 'rgba(225,48,108,0.1)', border: 'rgba(225,48,108,0.2)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="url(#ig-grad2)"><defs><linearGradient id="ig-grad2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+            hash: '#downloader/instagram'
+        },
+        pinterest: {
+            label: 'Pinterest Downloader',
+            sub: 'Download gambar & video Pinterest',
+            placeholder: 'Paste URL Pinterest (pin.it / pinterest.com)...',
+            color: '#e60023', bg: 'rgba(230,0,35,0.1)', border: 'rgba(230,0,35,0.2)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="#e60023"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>`,
+            hash: '#downloader/pinterest'
+        },
+        facebook: {
+            label: 'Facebook Downloader',
+            sub: 'Download video Facebook & Reels',
+            placeholder: 'Paste URL Facebook (facebook.com / fb.watch)...',
+            color: '#1877f2', bg: 'rgba(24,119,242,0.1)', border: 'rgba(24,119,242,0.2)',
+            icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
+            hash: '#downloader/facebook'
+        }
+    };
+
+    // ── Load endpoints from Supabase ───────────────────────────
+    async function loadDlEndpoints() {
+        if (dlEndpointsLoaded) return;
+        try {
+            const res = await fetch(`${DL_SB_URL}/rest/v1/dl_endpoints?select=platform,endpoint_url,priority&is_active=eq.true&order=platform,priority`, {
+                headers: { 'apikey': DL_SB_ANON, 'Authorization': `Bearer ${DL_SB_ANON}` }
+            });
+            if (!res.ok) throw new Error('Gagal load endpoints');
+            const rows = await res.json();
+            dlEndpoints = {};
+            rows.forEach(r => {
+                // Decrypt (base64 decode)
+                let url = r.endpoint_url;
+                try { url = atob(r.endpoint_url); } catch(e) {}
+                if (!dlEndpoints[r.platform]) dlEndpoints[r.platform] = [];
+                dlEndpoints[r.platform].push({ url, priority: r.priority });
+            });
+            dlEndpointsLoaded = true;
+        } catch(e) {
+            console.error('DL endpoint load error:', e);
+        }
+    }
+
+    // ── Platform switch ────────────────────────────────────────
+    function dlSwitchPlatform(platform) {
+        dlActivePlatform = platform;
+        const meta = DL_PLATFORMS[platform];
+
+        // Update buttons
+        document.querySelectorAll('.dl-platform-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.platform === platform);
+        });
+
+        // Update panel header
+        document.getElementById('dl-head-icon').style.background = meta.bg;
+        document.getElementById('dl-head-icon').style.border = `1px solid ${meta.border}`;
+        document.getElementById('dl-head-icon').innerHTML = meta.icon;
+        document.getElementById('dl-panel-title').textContent = meta.label;
+        document.getElementById('dl-panel-sub').textContent = meta.sub;
+        document.getElementById('dl-url-input').placeholder = meta.placeholder;
+        document.getElementById('dl-url-input').value = '';
+
+        // Reset result
+        dlResetResult();
+
+        // Update hash
+        history.replaceState(null, '', meta.hash);
+    }
+
+    function dlResetResult() {
+        document.getElementById('dl-result').classList.remove('show');
+        document.getElementById('dl-result').innerHTML = '';
+        document.getElementById('dl-error').classList.remove('show');
+        document.getElementById('dl-loading').classList.remove('show');
+        document.getElementById('dl-endpoint-info').textContent = '';
+    }
+
+    function dlShowError(msg) {
+        document.getElementById('dl-loading').classList.remove('show');
+        document.getElementById('dl-error').classList.add('show');
+        document.getElementById('dl-error-msg').textContent = msg;
+    }
+
+    function dlShowLoading(text = 'Mencari konten...') {
+        document.getElementById('dl-loading').classList.add('show');
+        document.getElementById('dl-loading-text').textContent = text;
+    }
+
+    // ── Try endpoints with fallback ────────────────────────────
+    async function dlFetch(platform, url) {
+        await loadDlEndpoints();
+        const endpoints = dlEndpoints[platform] || [];
+        if (!endpoints.length) throw new Error(`Endpoint ${platform} belum dikonfigurasi di database`);
+
+        let lastErr = null;
+        for (let i = 0; i < endpoints.length; i++) {
+            const ep = endpoints[i];
+            document.getElementById('dl-endpoint-info').textContent =
+                endpoints.length > 1 ? `Mencoba endpoint ${i+1}/${endpoints.length}...` : '';
+            try {
+                const apiUrl = ep.url + encodeURIComponent(url);
+                const res = await fetch(apiUrl);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                document.getElementById('dl-endpoint-info').textContent =
+                    endpoints.length > 1 ? `✓ Endpoint ${i+1} berhasil` : '';
+                return { data, endpointIdx: i };
+            } catch(e) {
+                lastErr = e;
+                if (i < endpoints.length - 1) {
+                    document.getElementById('dl-endpoint-info').textContent =
+                        `Endpoint ${i+1} gagal, mencoba berikutnya...`;
+                    await new Promise(r => setTimeout(r, 600));
+                }
+            }
+        }
+        throw new Error(lastErr?.message || 'Semua endpoint gagal');
+    }
+
+    // ── Parse response per platform ────────────────────────────
+    function dlParseResult(platform, data) {
+        // Normalize ke format: { title, thumb, duration, author, items:[{label,url,type}] }
+        const d = data?.result || data?.data || data || {};
+
+        if (platform === 'tiktok') {
+            const videos = [];
+            if (d.video || d.play || d.nowm || d.video_no_watermark) {
+                videos.push({ label: 'Video (No Watermark)', url: d.nowm || d.video_no_watermark || d.play || d.video, type: 'video/mp4', ext: 'mp4' });
+            }
+            if (d.video_watermark || d.watermark) {
+                videos.push({ label: 'Video (Watermark)', url: d.video_watermark || d.watermark, type: 'video/mp4', ext: 'mp4' });
+            }
+            if (d.music || d.audio) {
+                videos.push({ label: 'Audio MP3', url: d.music || d.audio, type: 'audio/mpeg', ext: 'mp3' });
+            }
+            return { title: d.title || d.desc || 'TikTok Video', thumb: d.cover || d.thumbnail || d.thumb, author: d.author?.nickname || d.author || '', items: videos };
+        }
+
+        if (platform === 'youtube') {
+            const items = [];
+            const formats = d.formats || d.videos || d.qualities || [];
+            if (Array.isArray(formats) && formats.length) {
+                formats.forEach(f => {
+                    items.push({ label: f.quality || f.label || f.resolution || 'Download', url: f.url || f.download_url, type: 'video/mp4', ext: f.ext || 'mp4' });
+                });
+            } else if (d.url || d.download_url) {
+                items.push({ label: 'Download Video', url: d.url || d.download_url, type: 'video/mp4', ext: 'mp4' });
+            }
+            if (d.audio || d.mp3) {
+                items.push({ label: 'Audio MP3', url: d.audio || d.mp3, type: 'audio/mpeg', ext: 'mp3' });
+            }
+            return { title: d.title || 'YouTube Video', thumb: d.thumbnail || d.thumb, author: d.channel || d.author || '', duration: d.duration, items };
+        }
+
+        if (platform === 'spotify') {
+            const url = d.download_url || d.url || d.mp3 || d.audio;
+            return {
+                title: d.title || d.name || 'Spotify Track',
+                thumb: d.thumbnail || d.cover || d.image,
+                author: d.artist || d.artists || d.author || '',
+                items: url ? [{ label: 'Download MP3', url, type: 'audio/mpeg', ext: 'mp3' }] : []
+            };
+        }
+
+        if (platform === 'instagram') {
+            const items = [];
+            const medias = d.medias || d.urls || d.data || (d.url ? [{ url: d.url }] : []);
+            if (Array.isArray(medias)) {
+                medias.forEach((m, i) => {
+                    const u = m.url || m.download_url || m;
+                    const isVideo = (m.type === 'video') || (typeof u === 'string' && u.includes('.mp4'));
+                    items.push({ label: isVideo ? `Video ${i+1}` : `Gambar ${i+1}`, url: u, type: isVideo ? 'video/mp4' : 'image/jpeg', ext: isVideo ? 'mp4' : 'jpg' });
+                });
+            }
+            return { title: d.title || d.caption || 'Instagram Media', thumb: d.thumbnail || d.thumb || d.cover, author: d.author || '', items };
+        }
+
+        if (platform === 'pinterest') {
+            const url = d.url || d.download_url || d.video || d.image;
+            const isVideo = d.type === 'video' || (url && url.includes('.mp4'));
+            return {
+                title: d.title || 'Pinterest Media',
+                thumb: d.thumbnail || d.thumb || (!isVideo ? url : null),
+                author: '',
+                items: url ? [{ label: isVideo ? 'Download Video' : 'Download Gambar', url, type: isVideo ? 'video/mp4' : 'image/jpeg', ext: isVideo ? 'mp4' : 'jpg' }] : []
+            };
+        }
+
+        if (platform === 'facebook') {
+            const items = [];
+            if (d.hd) items.push({ label: 'Video HD', url: d.hd, type: 'video/mp4', ext: 'mp4' });
+            if (d.sd) items.push({ label: 'Video SD', url: d.sd, type: 'video/mp4', ext: 'mp4' });
+            if (!items.length && (d.url || d.download_url)) {
+                items.push({ label: 'Download Video', url: d.url || d.download_url, type: 'video/mp4', ext: 'mp4' });
+            }
+            return { title: d.title || 'Facebook Video', thumb: d.thumbnail || d.thumb, author: '', items };
+        }
+
+        return { title: 'Media', thumb: null, author: '', items: [] };
+    }
+
+    // ── Render result ──────────────────────────────────────────
+    function dlRenderResult(platform, parsed) {
+        const el = document.getElementById('dl-result');
+        el.innerHTML = '';
+
+        if (!parsed.items.length) {
+            dlShowError('Tidak ada konten yang bisa didownload dari URL ini.');
+            return;
+        }
+
+        const safeTitle = parsed.title ? parsed.title.replace(/</g,'&lt;').replace(/>/g,'&gt;') : 'Media';
+        const safeAuthor = parsed.author ? parsed.author.replace(/</g,'&lt;').replace(/>/g,'&gt;') : '';
+
+        const card = document.createElement('div');
+        card.className = 'dl-result-card';
+
+        // Thumbnail
+        let thumbHtml = '';
+        if (parsed.thumb) {
+            const isVideo = parsed.items[0]?.type?.includes('video');
+            if (isVideo && platform !== 'spotify') {
+                thumbHtml = `<div class="dl-media-preview"><img src="${parsed.thumb}" alt="thumbnail" onerror="this.parentElement.style.display='none'"></div>`;
+            } else {
+                thumbHtml = `<div class="dl-media-preview"><img src="${parsed.thumb}" alt="thumbnail" onerror="this.parentElement.style.display='none'"></div>`;
+            }
+        }
+
+        // Download buttons
+        const btnHtml = parsed.items.map(item => `
+            <a class="dl-btn primary" href="${item.url}" target="_blank" download="${safeTitle.slice(0,60)}.${item.ext}"
+               onclick="dlTrackDownload('${platform}', '${item.ext}')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                ${item.label}
+                <span class="dl-quality-badge">.${item.ext}</span>
+            </a>`).join('');
+
+        card.innerHTML = `
+            ${thumbHtml}
+            <div class="dl-result-info">
+                <div class="dl-result-title">${safeTitle}</div>
+                <div class="dl-result-meta">
+                    ${safeAuthor ? `<span class="dl-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${safeAuthor}</span>` : ''}
+                    ${parsed.duration ? `<span class="dl-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${parsed.duration}</span>` : ''}
+                    <span class="dl-meta-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>${parsed.items.length} file tersedia</span>
+                </div>
+            </div>
+            <div class="dl-download-btns">${btnHtml}</div>`;
+
+        el.appendChild(card);
+        el.classList.add('show');
+    }
+
+    function dlTrackDownload(platform, ext) {
+        console.log(`[DL] Download: ${platform} .${ext}`);
+    }
+
+    // ── Main fetch handler ─────────────────────────────────────
+    async function dlDoFetch() {
+        const url = document.getElementById('dl-url-input').value.trim();
+        if (!url) { dlShowError('Masukkan URL terlebih dahulu'); return; }
+
+        dlResetResult();
+        dlShowLoading('Memuat endpoint...');
+        document.getElementById('dl-fetch-btn').disabled = true;
+
+        try {
+            dlShowLoading('Mencari konten...');
+            const { data } = await dlFetch(dlActivePlatform, url);
+            document.getElementById('dl-loading').classList.remove('show');
+            const parsed = dlParseResult(dlActivePlatform, data);
+            dlRenderResult(dlActivePlatform, parsed);
+        } catch(e) {
+            dlShowError(e.message);
+        } finally {
+            document.getElementById('dl-fetch-btn').disabled = false;
+        }
+    }
+
+    // ── Event listeners ────────────────────────────────────────
+    document.querySelectorAll('.dl-platform-btn').forEach(btn => {
+        btn.addEventListener('click', () => dlSwitchPlatform(btn.dataset.platform));
+    });
+
+    document.getElementById('dl-fetch-btn')?.addEventListener('click', dlDoFetch);
+
+    document.getElementById('dl-url-input')?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') dlDoFetch();
+    });
+
+    // Paste handler — auto fetch
+    document.getElementById('dl-url-input')?.addEventListener('paste', () => {
+        setTimeout(() => {
+            const val = document.getElementById('dl-url-input').value.trim();
+            if (val.startsWith('http')) dlDoFetch();
+        }, 100);
+    });
+
+    // Handle hash for downloader page
+    function handleDownloaderHash() {
+        const hash = window.location.hash;
+        if (hash.startsWith('#downloader/')) {
+            const platform = hash.replace('#downloader/', '');
+            if (DL_PLATFORMS[platform]) {
+                switchPage('downloader');
+                dlSwitchPlatform(platform);
+            }
+        }
+    }
+
+    // Preload endpoints when page loads
+    loadDlEndpoints();
+
     // Handle hash on load
     handleHash();
+    handleDownloaderHash();
     (async function init() {
         // Preload stat on dashboard
         try {
