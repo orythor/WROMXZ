@@ -307,6 +307,23 @@
         .stat-divider { width: 1px; height: 40px; background: var(--border); }
 
         /* HUB PAGE */
+        .hub-banner {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            max-height: 200px;
+        }
+        .hub-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            max-height: 200px;
+        }
+
         .hub-header {
             display: flex;
             justify-content: space-between;
@@ -352,8 +369,9 @@
         /* PROMPT GRID */
         .prompt-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.25rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: start;
         }
 
         .prompt-card {
@@ -361,71 +379,98 @@
             backdrop-filter: blur(16px);
             border: 1px solid var(--border);
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: 1.1rem;
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 0.85rem;
             transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
             animation: fadeUp 0.4s ease forwards;
+            min-width: 0; /* prevent overflow */
+            box-sizing: border-box;
+            width: 100%;
         }
         .prompt-card:hover {
             border-color: var(--border-bright);
             background: var(--bg-card-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.7);
         }
 
-        .card-meta { display: flex; justify-content: space-between; align-items: flex-start; }
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.4rem;
+            min-width: 0;
+        }
         .tag {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             font-weight: 700;
-            letter-spacing: 0.8px;
-            padding: 0.25rem 0.65rem;
+            letter-spacing: 0.5px;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
             border: 1px solid;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .tag { color: var(--text-dim); border-color: var(--border); background: rgba(255,255,255,0.03); }
 
-        .card-title { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.3px; line-height: 1.3; }
+        .card-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            line-height: 1.35;
+            word-break: break-word;
+            min-width: 0;
+        }
 
         .card-preview {
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.82rem;
-            line-height: 1.65;
+            font-size: 0.75rem;
+            line-height: 1.6;
             color: var(--text-dim);
             background: rgba(0,0,0,0.45);
-            padding: 1rem;
+            padding: 0.75rem;
             border-radius: 6px;
             border: 1px solid rgba(255,255,255,0.03);
-            max-height: 100px;
+            max-height: 90px;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             flex: 1;
+            word-break: break-word;
+            min-width: 0;
         }
 
         .card-actions {
             display: flex;
-            gap: 0.4rem;
+            gap: 0.3rem;
+            width: 100%;
         }
         .action-btn {
             flex: 1;
-            padding: 0.6rem 0.4rem;
+            min-width: 0;
+            padding: 0.55rem 0.25rem;
             border: 1px solid var(--border);
             background: rgba(0,0,0,0.2);
             color: var(--text);
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.72rem;
+            font-size: 0.65rem;
             font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.3rem;
+            gap: 0.25rem;
             transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
         }
+        .action-btn svg { flex-shrink: 0; }
         .action-btn:hover { background: rgba(255,255,255,0.06); border-color: var(--border-bright); }
         .action-btn.copy:hover { background: var(--text); color: var(--accent-inv); border-color: var(--text); }
         .action-btn.copied { background: rgba(255,255,255,0.12) !important; border-color: var(--text) !important; }
@@ -849,6 +894,91 @@
             transition: color 0.15s;
         }
         .chat-clear-btn:hover { color: var(--text-dim); }
+
+        /* video CSS removed */
+
+        /* ── NOVA SRC PAGE ── */
+        .src-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; backdrop-filter: blur(6px); }
+        .src-card-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); font-weight: 700; margin-bottom: 0.75rem; }
+        .src-input-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .src-url-input {
+            flex: 1; min-width: 200px; background: rgba(0,0,0,0.4); border: 1px solid var(--border);
+            border-radius: 6px; padding: 0.7rem 1rem; color: var(--text);
+            font-size: 0.85rem; font-family: ui-monospace, monospace; transition: border-color 0.15s;
+        }
+        .src-url-input::placeholder { color: var(--text-muted); }
+        .src-url-input:focus { outline: none; border-color: var(--border-bright); }
+        .src-select {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 6px;
+            padding: 0.7rem 0.9rem; color: var(--text); font-size: 0.82rem;
+            cursor: pointer; appearance: none; min-width: 130px;
+        }
+        .src-select:focus { outline: none; border-color: var(--border-bright); }
+        .src-select option { background: #0a0a0a; }
+        .code-container { background: rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 1rem; }
+        .code-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.6rem 1rem; background: rgba(10,10,10,0.8); border-bottom: 1px solid var(--border);
+            font-size: 0.7rem; font-family: monospace; color: var(--text-dim); flex-wrap: wrap; gap: 0.4rem;
+        }
+        .code-header-actions { display: flex; gap: 0.35rem; }
+        .code-body {
+            max-height: 45vh; overflow-y: auto; padding: 1rem;
+            font-family: ui-monospace, monospace; font-size: 0.78rem;
+            line-height: 1.7; color: #c8d0e8; white-space: pre-wrap; word-break: break-all;
+            scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.06) transparent;
+            counter-reset: line;
+        }
+        .code-line { display: block; counter-increment: line; padding-left: 2.8em; position: relative; min-height: 1.7em; }
+        .code-line::before { content: counter(line); position: absolute; left: 0; width: 2.2em; text-align: right; color: var(--text-muted); font-size: 0.68rem; user-select: none; }
+        .code-empty { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+        .src-console { background: rgba(0,0,0,0.6); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+        .src-console-head {
+            display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 1rem;
+            background: rgba(5,5,5,0.9); border-bottom: 1px solid var(--border);
+            font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); font-weight: 700;
+        }
+        .console-dot-anim { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); transition: all 0.3s; }
+        .console-dot-anim.active { background: #6fff9e; box-shadow: 0 0 10px #6fff9e; animation: sdot-pulse 1s infinite; }
+        .src-console-body { max-height: 140px; overflow-y: auto; padding: 0.6rem 1rem; font-family: monospace; font-size: 0.72rem; line-height: 1.6; scrollbar-width: thin; }
+        .src-log { display: flex; gap: 0.6rem; padding: 0.2rem 0; }
+        .src-log-time { color: var(--text-muted); flex-shrink: 0; }
+        .src-log.info  .src-log-msg { color: #60b4ff; }
+        .src-log.ok    .src-log-msg { color: #6fff9e; }
+        .src-log.error .src-log-msg { color: #ff5f5f; }
+        .src-log.warn  .src-log-msg { color: #ffd166; }
+
+        /* ── MORSE PAGE ── */
+        .morse-wrap { max-width: 900px; margin: 0 auto; }
+        .morse-modebar {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 8px; padding: 0.75rem 1.25rem;
+            font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--text-dim); margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .morse-status-badge { display: flex; align-items: center; gap: 0.5rem; font-weight: 600; color: var(--text); }
+        .morse-status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); transition: all 0.3s; }
+        .morse-status-dot.active { background: #a89cf5; box-shadow: 0 0 10px #a89cf5; animation: sdot-pulse 1s infinite; }
+        .morse-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .morse-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .morse-card-head { display: flex; align-items: center; justify-content: space-between; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); font-weight: 700; }
+        .morse-actions { display: flex; gap: 0.35rem; }
+        .morse-btn { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--border-bright); background: transparent; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+        .morse-btn:hover, .morse-btn.active { background: var(--text); color: #000; border-color: var(--text); }
+        .morse-textarea { width: 100%; height: 200px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.9rem; resize: none; outline: none; padding: 0.85rem; line-height: 1.6; font-family: ui-monospace, monospace; transition: border-color 0.15s; }
+        .morse-textarea::placeholder { color: var(--text-muted); }
+        .morse-textarea:focus { border-color: var(--border-bright); }
+        .morse-textarea.output { letter-spacing: 0.2em; word-spacing: 0.3em; }
+        .morse-footer { text-align: center; color: var(--text-muted); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 1rem; }
+
+        /* PREVIEW MODAL */
+        #src-preview-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.94); backdrop-filter: blur(12px); z-index: 500; align-items: center; justify-content: center; display: none; }
+        #src-preview-modal.show { display: flex; }
+        .preview-modal-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; width: 92vw; height: 88vh; display: flex; flex-direction: column; box-shadow: 0 0 48px rgba(124,111,247,0.15); }
+        .preview-modal-head { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--border); font-size: 0.82rem; font-weight: 600; }
+        .preview-modal-head span { color: var(--text-dim); font-weight: 400; font-size: 0.75rem; }
+        #preview-iframe { width: 100%; height: 100%; border: none; background: #fff; border-radius: 0 0 12px 12px; }
         /* ── DOWNLOADER PAGE ── */
         .dl-page { padding: 2rem; max-width: 860px; margin: 0 auto; }
 
@@ -1058,8 +1188,43 @@
             .dl-platforms { grid-template-columns: repeat(2, 1fr); }
         }
 
+        /* Prompt grid breakpoints */
+        @media (max-width: 1024px) {
+            .prompt-grid { gap: 0.85rem; }
+            .card-title { font-size: 0.85rem; }
+            .card-preview { font-size: 0.72rem; }
+            .action-btn { font-size: 0.6rem; padding: 0.5rem 0.2rem; }
+        }
+        @media (max-width: 768px) {
+            .prompt-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.65rem;
+            }
+            .prompt-card { padding: 0.9rem; gap: 0.7rem; }
+            .card-title { font-size: 0.8rem; }
+            .card-preview { font-size: 0.68rem; padding: 0.6rem; max-height: 72px; }
+            .action-btn { font-size: 0.58rem; padding: 0.45rem 0.15rem; gap: 0.15rem; }
+            .action-btn svg { width: 10px; height: 10px; }
+        }
+        @media (max-width: 480px) {
+            /* Tetap 2 kolom tapi lebih compact */
+            .prompt-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.5rem;
+            }
+            .prompt-card { padding: 0.75rem; gap: 0.6rem; }
+            .card-title { font-size: 0.75rem; }
+            .card-preview { font-size: 0.65rem; padding: 0.5rem; max-height: 64px; -webkit-line-clamp: 2; }
+            .tag { font-size: 0.55rem; padding: 0.15rem 0.4rem; }
+            .card-actions { gap: 0.2rem; }
+            .action-btn { font-size: 0.55rem; padding: 0.4rem 0.1rem; }
+        }
+        @media (max-width: 360px) {
+            /* Fallback ke 1 kolom hanya di layar sangat kecil */
+            .prompt-grid { grid-template-columns: 1fr; gap: 0.6rem; }
+        }
+
         @media (max-width: 860px) {
-            .prompt-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.6rem; }
             .form-row { grid-template-columns: 1fr; }
         }
@@ -1071,7 +1236,6 @@
             .modal-head, .modal-body, .modal-foot { padding: 1.25rem; }
         }
         @media (max-width: 420px) {
-            .card-actions { flex-direction: column; }
             .hero-cta { flex-direction: column; align-items: stretch; }
             .btn-primary, .btn-ghost { justify-content: center; }
         }
@@ -1109,18 +1273,26 @@
             </div>
             <div class="nav-item" data-page="chatai">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                Chat AI
+                NV AI
             </div>
             <div class="nav-item" data-page="downloader">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                 Downloader
+            </div>
+            <div class="nav-item" data-page="nova-src">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                NOVA SRC
+            </div>
+            <div class="nav-item" data-page="morse">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="5" y2="12"/><line x1="10" y1="12" x2="14" y2="12"/><line x1="19" y1="12" x2="19" y2="12"/><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg>
+                Morse
             </div>
 
         </div>
     </div>
 
     <div class="sidebar-footer">
-        <p>2025-2026 by ©AXv15</p>
+        <p>2026-2027 ©AXv</p>
     </div>
 </nav>
 
@@ -1181,26 +1353,31 @@
     <!-- DASHBOARD -->
     <section class="page active" id="page-dashboard">
         <div class="dashboard-wrap fade-up">
+
+            <!-- EYEBROW -->
             <div>
                 <div class="hero-eyebrow">
                     <span class="dot"></span>
-                    Libra Prompt NOVA
+                    Libra Prompt Nova
                 </div>
             </div>
 
+            <!-- NOVA ICON -->
             <div style="display:inline-flex; justify-content:center;">
-                <svg class="nova-icon" width="80" height="80" viewBox="0 0 64 64" fill="none">
+                <svg class="nova-icon" width="64" height="64" viewBox="0 0 64 64" fill="none">
                     <path d="M32 2L62 32L32 62L2 32L32 2Z" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3 3"/>
                     <path d="M32 6C32 18 18 32 6 32C18 32 32 46 32 58C32 46 46 32 58 32C46 32 32 18 32 6Z" fill="#ffffff"/>
                     <circle cx="32" cy="32" r="3" fill="#000" stroke="#fff" stroke-width="1.5"/>
                 </svg>
             </div>
 
+            <!-- HERO TEXT -->
             <div class="hero" style="text-align:center;">
                 <h1>Libra Prompt<br>By NOVA</h1>
-                <p>Admin gabut mau nambahin teks apa saran nanti chat CH gua,Terserah teks apa aja yg penting nyambung</p>
+                <p>Admin gabut mau nambahin teks apa saran nanti chat CH gua,Terserah teks apa aja yg penting nyambung.</p>
             </div>
 
+            <!-- CTA -->
             <div class="hero-cta">
                 <button class="btn-primary" id="go-to-hub">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -1208,6 +1385,7 @@
                 </button>
             </div>
 
+            <!-- STATS -->
             <div class="stats-row">
                 <div class="stat">
                     <div class="stat-num" id="stat-total">—</div>
@@ -1231,15 +1409,20 @@
             </div>
         </div>
 
+        <!-- BANNER IMAGE -->
+        <div class="hub-banner">
+            <img src="https://files.catbox.moe/edid13.jpg" alt="NOVAPROMPT Banner" onerror="this.parentElement.style.display='none'">
+        </div>
+
         <div class="search-wrap">
             <svg class="search-icon-pos" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" class="search-input" id="search-input" placeholder="Cari blueprint prompt secara instan...">
+            <input type="text" class="search-input" id="search-input" placeholder="Search....">
         </div>
 
         <div class="prompt-grid" id="prompt-grid">
             <div class="state-box">
                 <div class="spinner"></div>
-                <p>Loading...</p>
+                <p>Loading.....</p>
             </div>
         </div>
     </section>
@@ -1249,58 +1432,58 @@
         <div class="chat-wrap">
             <div class="chat-topbar">
                 <div class="chat-topbar-left">
-                    <h2>Chat AI</h2>
-                    <p id="chat-status-text">Memuat konfigurasi...</p>
+                    <h2>NV Bot</h2>
+                    <p id="chat-status-text">Loading...</p>
                 </div>
                 <div class="custom-select-wrap" id="model-select-wrap">
                     <div class="custom-select-trigger" id="model-trigger">
                         <span class="trigger-badge badge-or">OR</span>
-                        <span class="trigger-label">Nemotron 120B</span>
+                        <span class="trigger-label">Nemotron</span>
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
                     </div>
                     <div class="custom-select-dropdown" id="model-dropdown">
-                        <div class="dropdown-group-label">AI External</div>
+                        <div class="dropdown-group-label">External</div>
                         <div class="dropdown-item active" data-value="or:nvidia/nemotron-3-super-120b-a12b:free" data-badge="or" data-label="Nemotron 120B (NVidia)">
                             <div class="di-icon or">NV</div>
                             <div class="di-info">
-                                <span class="di-name">Nemotron 120B</span>
-                                <span class="di-sub">NVidia · nemotron-3-super</span>
+                                <span class="di-name">Nemotron</span>
+                                <span class="di-sub">NVidia</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:poolside/laguna-xs-2.1:free" data-badge="or" data-label="Laguna XS 2.1 (Poolside)">
                             <div class="di-icon or">PS</div>
                             <div class="di-info">
-                                <span class="di-name">Laguna XS 2.1</span>
-                                <span class="di-sub">Poolside · laguna-xs</span>
+                                <span class="di-name">Laguna</span>
+                                <span class="di-sub">Poolside</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:qwen/qwen3-next-80b-a3b-instruct:free" data-badge="or" data-label="Qwen3 80B (Alibaba)">
                             <div class="di-icon or">QW</div>
                             <div class="di-info">
-                                <span class="di-name">Qwen3 80B</span>
-                                <span class="di-sub">Alibaba · qwen3-next</span>
+                                <span class="di-name">Qwen3</span>
+                                <span class="di-sub">Alibaba</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="or:cognitivecomputations/dolphin-mistral-24b-venice-edition:free" data-badge="or" data-label="Dolphin Mistral 24B">
                             <div class="di-icon or">DM</div>
                             <div class="di-info">
-                                <span class="di-name">Dolphin Mistral 24B</span>
-                                <span class="di-sub">CogComp · venice-edition</span>
+                                <span class="di-name">Dolphin</span>
+                                <span class="di-sub">CogComp</span>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <div class="dropdown-group-label">AI Internal</div>
+                        <div class="dropdown-group-label">Internal</div>
                         <div class="dropdown-item" data-value="gemini:gemini-2.0-flash" data-badge="gemini" data-label="Gemini 2.0 Flash">
                             <div class="di-icon gemini">GM</div>
                             <div class="di-info">
-                                <span class="di-name">Gemini 2.0 Flash</span>
+                                <span class="di-name">Gemini</span>
                                 <span class="di-sub">Google</span>
                             </div>
                         </div>
                         <div class="dropdown-item" data-value="groq:llama-3.3-70b-versatile" data-badge="groq" data-label="Groq LLaMA 3.3 70B">
                             <div class="di-icon groq">GQ</div>
                             <div class="di-info">
-                                <span class="di-name">Groq LLaMA 3.3 70B</span>
+                                <span class="di-name">Groq</span>
                                 <span class="di-sub">Groq</span>
                             </div>
                         </div>
@@ -1311,7 +1494,7 @@
             <div class="chat-messages" id="chat-messages">
                 <div class="chat-empty" id="chat-empty">
                     <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    <h3>Chat AI</h3>
+                    <h3>NV Bot</h3>
                     <p></p>
                 </div>
             </div>
@@ -1324,8 +1507,8 @@
                     </button>
                 </div>
                 <div class="chat-footer-info">
-                    <span id="chat-model-label">Pilih model</span>
-                    <button class="chat-clear-btn" id="chat-clear-btn">DELETE HISTORY</button>
+                    <span id="chat-model-label">Pilih Model</span>
+                    <button class="chat-clear-btn" id="chat-clear-btn">Delete History</button>
                 </div>
             </div>
         </div>
@@ -1400,7 +1583,7 @@
                 </div>
                 <div class="dl-panel-body">
                     <div class="dl-input-row">
-                        <input type="text" class="dl-url-input" id="dl-url-input" placeholder="Paste URL TikTok di sini...">
+                        <input type="text" class="dl-url-input" id="dl-url-input" placeholder="Paste...">
                         <button class="dl-fetch-btn" id="dl-fetch-btn">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                             Cari
@@ -1410,7 +1593,7 @@
                     <!-- Loading -->
                     <div class="dl-loading" id="dl-loading">
                         <div class="dl-spinner"></div>
-                        <span id="dl-loading-text">Mencari konten...</span>
+                        <span id="dl-loading-text">Menghubungi server....</span>
                     </div>
 
                     <!-- Error -->
@@ -1429,7 +1612,114 @@
         </div>
     </section>
 
+    <!-- PAGE: NOVA SRC -->
+    <section class="page" id="page-nova-src">
+        <div class="src-card">
+            <div class="src-card-label">Fetch Source Code</div>
+            <div class="src-input-row">
+                <input class="src-url-input" id="src-url" placeholder="https://example.com" value="">
+                <select class="src-select" id="src-proxy-type">
+                    <option value="cors">CORSProxy</option>
+                    <option value="regular">Proxy</option>
+                </select>
+                <select class="src-select" id="src-proxy-select" style="min-width:180px;"></select>
+                <button class="btn-primary btn-sm" id="src-fetch-btn" style="white-space:nowrap;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    Fetch
+                </button>
+                <button class="btn-ghost btn-sm" id="src-auto-btn" style="white-space:nowrap;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 17.5A9 9 0 1 0 2 12"/></svg>
+                    Auto
+                </button>
+            </div>
+        </div>
+
+        <div class="code-container">
+            <div class="code-header">
+                <span id="src-file-label" style="font-size:0.72rem;">No file</span>
+                <div class="code-header-actions">
+                    <button class="btn-ghost btn-sm" id="src-copy-btn" disabled>Copy</button>
+                    <button class="btn-ghost btn-sm" id="src-download-btn" disabled>Download</button>
+                    <button class="btn-ghost btn-sm" id="src-preview-btn" disabled>Preview</button>
+                </div>
+            </div>
+            <div class="code-body" id="src-code-body"><div class="code-empty"></div></div>
+        </div>
+
+        <div class="src-console">
+            <div class="src-console-head">
+                <span class="console-dot-anim" id="src-dot"></span>
+                Console
+            </div>
+            <div class="src-console-body" id="src-console"><div class="src-log info"><span class="src-log-time">--:--:--</span><span class="src-log-msg">Console ready.</span></div></div>
+        </div>
+    </section>
+
+    <!-- PAGE: MORSE -->
+    <section class="page" id="page-morse">
+        <div class="morse-wrap">
+            <div class="morse-modebar">
+                <span>Mode: Dua Arah (Encode &amp; Decode)</span>
+                <div class="morse-status-badge">
+                    <div class="morse-status-dot" id="morse-status-dot"></div>
+                    <span id="morse-status-text">Mikrofon Mati</span>
+                </div>
+            </div>
+            <div class="morse-grid">
+                <!-- Teks Normal -->
+                <div class="morse-card">
+                    <div class="morse-card-head">
+                        <span>Teks Normal</span>
+                        <div class="morse-actions">
+                            <button class="morse-btn" id="morse-clear-btn" title="Hapus">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="morse-textarea" id="morse-text-input" placeholder=""></textarea>
+                </div>
+                <!-- Morse Code -->
+                <div class="morse-card">
+                    <div class="morse-card-head">
+                        <span>Kode Morse</span>
+                        <div class="morse-actions">
+                            <input type="file" id="morse-file-input" accept="audio/*" style="display:none;">
+                            <button class="morse-btn" id="morse-upload-btn" title="Upload Audio">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            </button>
+                            <button class="morse-btn" id="morse-listen-btn" title="Mikrofon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                            </button>
+                            <button class="morse-btn" id="morse-play-btn" title="Putar Suara">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                            </button>
+                            <button class="morse-btn" id="morse-download-btn" title="Download WAV">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            </button>
+                            <button class="morse-btn" id="morse-copy-btn" title="Salin Morse">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea class="morse-textarea output" id="morse-output" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="morse-footer">Generator Morse</div>
+        </div>
+    </section>
+
 </main>
+
+<!-- PREVIEW MODAL -->
+<div id="src-preview-modal">
+    <div class="preview-modal-box">
+        <div class="preview-modal-head">
+            <div>Preview <span id="preview-url-label"></span></div>
+            <button class="close-btn" id="preview-close-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        </div>
+        <iframe id="preview-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+</div>
 
 <script>
     // ─── CONFIG ───────────────────────────────────────────────────────────────
@@ -1553,21 +1843,29 @@
     function switchPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`page-${id}`).classList.add('active');
+        document.getElementById(`page-${id}`)?.classList.add('active');
         document.querySelector(`.nav-item[data-page="${id}"]`)?.classList.add('active');
         toggleSidebar(false);
         if (id === 'hub') loadPrompts();
-        // Hash sync
-        if (id === 'chatai') {
-            history.replaceState(null, '', '#chatAI');
-            if (!chatInitialized) initChat();
-        } else if (id === 'downloader') {
-            const meta = DL_PLATFORMS[dlActivePlatform];
-            if (meta) history.replaceState(null, '', meta.hash);
-            loadDlEndpoints();
-        } else {
-            if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-        }
+        // Hash sync per page
+        try {
+            if (id === 'chatai') {
+                history.replaceState(null, '', '#chatAI');
+                if (!chatInitialized) initChat();
+            } else if (id === 'downloader') {
+                const meta = DL_PLATFORMS?.[dlActivePlatform];
+                if (meta?.hash) history.replaceState(null, '', meta.hash);
+                else history.replaceState(null, '', '#downloader/tiktok');
+            } else if (id === 'nova-src') {
+                history.replaceState(null, '', '#/nova-src');
+                renderSrcProxySelect();
+            } else if (id === 'morse') {
+                history.replaceState(null, '', '#/morse');
+                initMorse();
+            } else {
+                if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+            }
+        } catch(e) {}
     }
 
     document.querySelectorAll('.nav-item').forEach(item => {
@@ -1757,9 +2055,9 @@
     // ─── HASH ROUTING (/chatAI) ───────────────────────────────────────────────
     function handleHash() {
         const hash = window.location.hash;
-        if (hash === '#chatAI' || hash === '#chatai') {
-            switchPage('chatai');
-        }
+        if (hash === '#chatAI' || hash === '#chatai') switchPage('chatai');
+        else if (hash === '#/nova-src') switchPage('nova-src');
+        else if (hash === '#/morse') switchPage('morse');
     }
     window.addEventListener('hashchange', handleHash);
 
@@ -2082,14 +2380,46 @@
     const DL_APIS = {
         yt: {
             name: 'YouTube',
-            v1: 'https://api.emiliabot.my.id/download/youtube?url=',
-            v2: 'https://api-nanzz.my.id/docs/api/downloader/ytdl.php?url='
+            v1: 'https://api.emiliabot.my.id/download/youtube?url=',       // emiliabot
+            v2: 'https://api-nanzz.my.id/docs/api/downloader/ytdl.php?url=', // nanzz
+            v3mp4: 'https://api-faa.my.id/faa/ytmp4?url=',                 // faa MP4
+            v3mp3: 'https://api-faa.my.id/faa/ytmp3?url=',                 // faa MP3
+            v4mp4: 'https://api.lolhuman.xyz/api/ytvideo?apikey=62ccb3e3a2140428a299f592&url=', // lolhuman MP4
+            v4mp3: 'https://api.lolhuman.xyz/api/ytaudio?apikey=62ccb3e3a2140428a299f592&url=', // lolhuman MP3
+            v5: 'https://api.synoxcloud.xyz/download/youtube?url='          // synoxcloud
         },
-        tt: { name: 'TikTok',    url: 'https://api-nanzz.my.id/docs/api/downloader/tiktok.php?url=' },
-        ig: { name: 'Instagram', url: 'https://api-nanzz.my.id/docs/api/downloader/Instagram.php?url=' },
-        sp: { name: 'Spotify',   url: 'https://api-nanzz.my.id/docs/api/downloader/spotify-dl.php?url=' },
-        fb: { name: 'Facebook',  url: 'https://api.emiliabot.my.id/download/facebook-dl?url=' },
-        pt: { name: 'Pinterest', url: 'https://api.emiliabot.my.id/download/pinterest-dl?url=' }
+        tt: {
+            name: 'TikTok',
+            v1:   'https://api-nanzz.my.id/docs/api/downloader/tiktok.php?url=', // nanzz
+            v2:   'https://api.yupra.my.id/api/downloader/tiktok?url=',           // yupra
+            v3:   { url: 'https://api.yuulabs.web.id/api/downloader/tiktok', method: 'POST' }, // yuulabs POST
+            v4:   'https://api-faa.my.id/faa/tiktok?url=',                        // faa
+            v5:   'https://api.synoxcloud.xyz/download/tiktok?url='               // synoxcloud
+        },
+        ig: {
+            name: 'Instagram',
+            v1:   'https://api-nanzz.my.id/docs/api/downloader/Instagram.php?url=', // nanzz
+            v2:   { url: 'https://api.yuulabs.web.id/api/downloader/instagram', method: 'POST' }, // yuulabs POST
+            v3:   'https://api.lolhuman.xyz/api/instagram?apikey=62ccb3e3a2140428a299f592&url=', // lolhuman
+            v4:   'https://api.synoxcloud.xyz/download/instagram?url='               // synoxcloud
+        },
+        sp: {
+            name: 'Spotify',
+            v1:   'https://api-nanzz.my.id/docs/api/downloader/spotify-dl.php?url=', // nanzz
+            v2:   'https://api.yupra.my.id/api/downloader/spotify?url=',              // yupra
+            v3:   'https://api.lolhuman.xyz/api/spotify?apikey=62ccb3e3a2140428a299f592&url=', // lolhuman
+            v4:   'https://api.synoxcloud.xyz/download/spotify?url='                  // synoxcloud
+        },
+        fb: {
+            name: 'Facebook',
+            v1:   'https://api.emiliabot.my.id/download/facebook-dl?url=',            // emiliabot
+            v2:   'https://api.lolhuman.xyz/api/facebook?apikey=62ccb3e3a2140428a299f592&url=', // lolhuman
+            v3:   'https://api.synoxcloud.xyz/download/facebook?url='                 // synoxcloud
+        },
+        pt: {
+            name: 'Pinterest',
+            v1:   'https://api.emiliabot.my.id/download/pinterest-dl?url='           // emiliabot
+        }
     };
 
     const PLATFORM_TO_TAB = {
@@ -2122,9 +2452,98 @@
     let dlCurrentTab = 'tt';
 
     // ── Helpers ────────────────────────────────────────────────
-    function dlJSON(url) {
-        return fetch(url).then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
+    // ── CORS Proxies — auto rotate kalau satu gagal ────────────
+    const DL_CORS_PROXIES = [
+        url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+        url => `https://cors.eu.org/${url}`,
+        url => `https://thingproxy.freeboard.io/fetch/${url}`,
+        url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+    ];
+    let dlProxyIdx = 0;
+
+    async function dlFetchWithProxy(url, opts = {}, timeout = 30000) {
+        const ctrl = new AbortController();
+        const tid  = setTimeout(() => ctrl.abort(), timeout);
+        let lastErr;
+
+        // Coba endpoint langsung dulu (bisa jalan kalau API support CORS)
+        try {
+            const r = await fetch(url, { ...opts, signal: ctrl.signal });
+            clearTimeout(tid);
+            if (r.ok) return r;
+            throw new Error('HTTP ' + r.status);
+        } catch(e) {
+            if (e.name === 'AbortError') { clearTimeout(tid); throw new Error('Timeout (30s)'); }
+            lastErr = e;
+            console.warn('[DL] Direct fetch failed:', e.message, '— trying proxies...');
+        }
+
+        // Coba semua proxy, mulai dari yang terakhir sukses
+        for (let attempt = 0; attempt < DL_CORS_PROXIES.length; attempt++) {
+            const idx = (dlProxyIdx + attempt) % DL_CORS_PROXIES.length;
+            const proxyUrl = DL_CORS_PROXIES[idx](url);
+            const ctrl2 = new AbortController();
+            const tid2  = setTimeout(() => ctrl2.abort(), timeout);
+            try {
+                dlSetMsg(`Mencoba proxy ${attempt + 1}/${DL_CORS_PROXIES.length}...`, 'info');
+                const r = await fetch(proxyUrl, { signal: ctrl2.signal });
+                clearTimeout(tid2);
+                if (r.ok) {
+                    dlProxyIdx = idx; // simpan proxy yang berhasil
+                    return r;
+                }
+                throw new Error('HTTP ' + r.status);
+            } catch(e) {
+                clearTimeout(tid2);
+                if (e.name === 'AbortError') { lastErr = new Error('Proxy timeout'); continue; }
+                lastErr = e;
+                console.warn(`[DL] Proxy ${idx + 1} failed:`, e.message);
+            }
+        }
+        throw new Error('Semua proxy gagal: ' + (lastErr?.message || 'unknown'));
     }
+
+    async function dlJSON(url, timeout = 30000) {
+        const r = await dlFetchWithProxy(url, {}, timeout);
+        const text = await r.text();
+        try { return JSON.parse(text); }
+        catch(e) { throw new Error('Response bukan JSON: ' + text.slice(0, 100)); }
+    }
+
+    async function dlJSONPost(url, body, timeout = 30000) {
+        const opts = { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) };
+
+        // POST tidak bisa lewat proxy GET, coba langsung dulu
+        const ctrl = new AbortController();
+        const tid  = setTimeout(() => ctrl.abort(), timeout);
+        try {
+            const r = await fetch(url, { ...opts, signal: ctrl.signal });
+            clearTimeout(tid);
+            if (r.ok) { const t = await r.text(); return JSON.parse(t); }
+            throw new Error('HTTP ' + r.status);
+        } catch(e) {
+            clearTimeout(tid);
+            if (e.name === 'AbortError') throw new Error('POST Timeout (30s)');
+            // Fallback: allorigins POST wrapper
+            console.warn('[DL] POST direct failed:', e.message, '— trying allorigins POST...');
+        }
+
+        // allorigins bisa handle POST via their API
+        const proxyPost = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+        const ctrl2 = new AbortController();
+        const tid2  = setTimeout(() => ctrl2.abort(), timeout);
+        try {
+            const r = await fetch(proxyPost, { ...opts, signal: ctrl2.signal });
+            clearTimeout(tid2);
+            if (r.ok) { const t = await r.text(); return JSON.parse(t); }
+            throw new Error('HTTP ' + r.status);
+        } catch(e) {
+            clearTimeout(tid2);
+            throw new Error('POST via proxy juga gagal: ' + e.message);
+        }
+    }
+
     function dlBuild(base, u, extra) { return base + encodeURIComponent(u) + (extra||''); }
 
     function dlSetMsg(text, type='info') {
@@ -2187,113 +2606,191 @@
         if (el) { el.classList.add('show'); document.getElementById('dl-error-msg').textContent = msg; }
     }
 
+    // ── Helper POST ────────────────────────────────────────────
+    function dlJSONPost(url, body) {
+        return fetch(url, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body) })
+            .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); });
+    }
+
     // ── Handler per platform ───────────────────────────────────
     async function handleYT(u) {
-        let btns = '';
-        try {
-            const r = await dlJSON(DL_APIS.yt.v1 + encodeURIComponent(u));
-            if (r?.status && r?.data) {
-                const d = r.data;
-                if(d.mp3) btns += dlMakeBtn('MP3 Audio', d.mp3, 'audio', true);
-                if(d.mp4) btns += dlMakeBtn('MP4 Video', d.mp4, 'video');
-                dlShowResult(d.thumbnail, d.title, d.author, 'YouTube · Emiliabot', btns);
-                dlSetMsg('Berhasil via Emiliabot', 'ok'); return;
+        let btns='', d=null;
+
+        try { // V1 emiliabot
+            const r=await dlJSON(DL_APIS.yt.v1+encodeURIComponent(u));
+            if(r?.status&&r?.data){ d=r.data; btns='';
+                if(d.mp3) btns+=dlMakeBtn('MP3 Audio',d.mp3,'audio',true);
+                if(d.mp4) btns+=dlMakeBtn('MP4 Video',d.mp4,'video');
+                if(btns){ dlShowResult(d.thumbnail,d.title,d.author,'YouTube · Emiliabot',btns); dlSetMsg('OK via Emiliabot','ok'); return; }
             }
-        } catch(e) { console.warn('YT V1:', e.message); }
-        const r2 = await dlJSON(DL_APIS.yt.v2 + encodeURIComponent(u));
-        if (!r2?.status) throw new Error(r2?.message||'Kedua endpoint YouTube gagal');
-        const d = r2.data||r2.result||{};
-        if(d.mp3) btns += dlMakeBtn('MP3 Audio', d.mp3, 'audio', true);
-        if(d.mp4) btns += dlMakeBtn('MP4 Video', d.mp4, 'video');
-        (d.downloads||[]).forEach(x=>{
-            const lbl=(x.type||x.quality||'File').toUpperCase();
-            btns += dlMakeBtn(lbl, x.url||x.link, lbl.includes('MP3')?'audio':'video');
-        });
-        dlShowResult(d.thumbnail||'', d.title||'YouTube Video', d.author||d.channel||'', 'YouTube · Nanzz', btns);
-        dlSetMsg('Berhasil via Nanzz', 'ok');
+        } catch(e){ console.warn('YT V1:',e.message); }
+
+        try { // V2 nanzz
+            const r=await dlJSON(DL_APIS.yt.v2+encodeURIComponent(u));
+            if(r?.status){ d=r.data||r.result||{}; btns='';
+                if(d.mp3) btns+=dlMakeBtn('MP3 Audio',d.mp3,'audio',true);
+                if(d.mp4) btns+=dlMakeBtn('MP4 Video',d.mp4,'video');
+                (d.downloads||[]).forEach(x=>{ const l=(x.type||x.quality||'File').toUpperCase(); btns+=dlMakeBtn(l,x.url||x.link,l.includes('MP3')?'audio':'video'); });
+                if(btns){ dlShowResult(d.thumbnail||'',d.title||'YouTube Video',d.author||d.channel||'','YouTube · Nanzz',btns); dlSetMsg('OK via Nanzz','ok'); return; }
+            }
+        } catch(e){ console.warn('YT V2:',e.message); }
+
+        try { // V3 faa (mp4+mp3 parallel)
+            const [r4,r3]=await Promise.allSettled([dlJSON(DL_APIS.yt.v3mp4+encodeURIComponent(u)),dlJSON(DL_APIS.yt.v3mp3+encodeURIComponent(u))]);
+            const mp4=r4.status==='fulfilled'?(r4.value?.url||r4.value?.download||r4.value?.link||r4.value?.mp4):null;
+            const mp3=r3.status==='fulfilled'?(r3.value?.url||r3.value?.download||r3.value?.link||r3.value?.mp3):null;
+            const m=r4.status==='fulfilled'?r4.value:{};
+            btns=''; if(mp3) btns+=dlMakeBtn('MP3 Audio',mp3,'audio',true); if(mp4) btns+=dlMakeBtn('MP4 Video',mp4,'video');
+            if(btns){ dlShowResult(m.thumbnail||'',m.title||'YouTube Video',m.author||'','YouTube · FAA',btns); dlSetMsg('OK via FAA','ok'); return; }
+        } catch(e){ console.warn('YT V3:',e.message); }
+
+        try { // V4 lolhuman (mp4+mp3 parallel)
+            const [r4,r3]=await Promise.allSettled([dlJSON(DL_APIS.yt.v4mp4+encodeURIComponent(u)),dlJSON(DL_APIS.yt.v4mp3+encodeURIComponent(u))]);
+            const getUrl=v=>typeof v==='string'?v:(v?.link||v?.url||null);
+            const mp4=r4.status==='fulfilled'?getUrl(r4.value?.result||r4.value?.url||r4.value):null;
+            const mp3=r3.status==='fulfilled'?getUrl(r3.value?.result||r3.value?.url||r3.value):null;
+            const m=r4.status==='fulfilled'?r4.value:{};
+            btns=''; if(mp3) btns+=dlMakeBtn('MP3 Audio',mp3,'audio',true); if(mp4) btns+=dlMakeBtn('MP4 Video',mp4,'video');
+            if(btns){ dlShowResult(m.thumbnail||'',m.title||'YouTube Video',m.author||'','YouTube · Lolhuman',btns); dlSetMsg('OK via Lolhuman','ok'); return; }
+        } catch(e){ console.warn('YT V4:',e.message); }
+
+        try { // V5 synoxcloud
+            const r=await dlJSON(DL_APIS.yt.v5+encodeURIComponent(u));
+            d=r?.data||r?.result||r||{}; btns='';
+            if(d.mp3||d.audio) btns+=dlMakeBtn('MP3 Audio',d.mp3||d.audio,'audio',true);
+            if(d.mp4||d.video) btns+=dlMakeBtn('MP4 Video',d.mp4||d.video,'video');
+            (d.formats||d.downloads||[]).forEach(x=>{ const l=(x.quality||x.type||'File').toUpperCase(); btns+=dlMakeBtn(l,x.url||x.link,l.includes('MP3')?'audio':'video'); });
+            if(btns){ dlShowResult(d.thumbnail||'',d.title||'YouTube Video',d.author||'','YouTube · Synox',btns); dlSetMsg('OK via Synox','ok'); return; }
+        } catch(e){ console.warn('YT V5:',e.message); }
+
+        throw new Error('Semua 5 endpoint YouTube gagal');
     }
 
     async function handleTT(u) {
-        const r = await dlJSON(DL_APIS.tt.url + encodeURIComponent(u));
-        if (!r?.status) throw new Error(r?.message||'API TikTok gagal');
-        const d = r.result||r.data||{};
-        let btns = '';
-        const list = d.downloads||[];
-        if (list.length) {
-            list.forEach(x=>{
-                const lbl=(x.type||x.quality||'File').toUpperCase();
-                btns += dlMakeBtn(lbl, x.url||x.link, lbl.includes('MP3')?'audio':'video');
-            });
-        } else {
-            if(d.nowm_hd) btns += dlMakeBtn('MP4 No WM HD', d.nowm_hd, 'video', true);
-            if(d.nowm)    btns += dlMakeBtn('MP4 No WM',    d.nowm,    'video', !d.nowm_hd);
-            if(d.hd)      btns += dlMakeBtn('MP4 HD',       d.hd,      'video');
-            if(d.mp4||d.watermark||d.wm) btns += dlMakeBtn('MP4 WM', d.mp4||d.watermark||d.wm, 'video');
-            if(d.mp3||d.music) btns += dlMakeBtn('MP3 Audio', d.mp3||d.music, 'audio');
-        }
-        btns += dlMakeBtn('No WM',  dlBuild(DL_APIS.tt.url, u, '&type=nowm'), 'video');
-        btns += dlMakeBtn('HD',     dlBuild(DL_APIS.tt.url, u, '&type=hd'),   'video');
-        btns += dlMakeBtn('MP3',    dlBuild(DL_APIS.tt.url, u, '&type=mp3'),  'audio');
-        dlShowResult(d.thumbnail||d.cover||'', d.title||d.desc||'TikTok Video', d.author?.nickname||d.author||'TikTok', 'TikTok Downloader', btns);
-        dlSetMsg('TikTok siap didownload', 'ok');
+        const buildBtns=(d,baseUrl)=>{ let b='';
+            const list=d.downloads||[];
+            if(list.length){ list.forEach(x=>{ const l=(x.type||x.quality||'File').toUpperCase(); b+=dlMakeBtn(l,x.url||x.link,l.includes('MP3')?'audio':'video'); }); }
+            else {
+                if(d.nowm_hd) b+=dlMakeBtn('No WM HD',d.nowm_hd,'video',true);
+                if(d.nowm)    b+=dlMakeBtn('No WM',d.nowm,'video',!d.nowm_hd);
+                if(d.hd)      b+=dlMakeBtn('HD',d.hd,'video');
+                if(d.mp4||d.watermark||d.wm) b+=dlMakeBtn('WM',d.mp4||d.watermark||d.wm,'video');
+                if(d.mp3||d.music||d.audio) b+=dlMakeBtn('MP3',d.mp3||d.music||d.audio,'audio');
+            }
+            if(baseUrl){ b+=dlMakeBtn('No WM',dlBuild(baseUrl,u,'&type=nowm'),'video'); b+=dlMakeBtn('HD',dlBuild(baseUrl,u,'&type=hd'),'video'); b+=dlMakeBtn('MP3',dlBuild(baseUrl,u,'&type=mp3'),'audio'); }
+            return b;
+        };
+
+        try { const r=await dlJSON(DL_APIS.tt.v1+encodeURIComponent(u)); if(r?.status){ const d=r.result||r.data||{}; const b=buildBtns(d,DL_APIS.tt.v1); dlShowResult(d.thumbnail||d.cover||'',d.title||d.desc||'TikTok',d.author?.nickname||d.author||'','TikTok · Nanzz',b); dlSetMsg('OK via Nanzz','ok'); return; } } catch(e){ console.warn('TT V1:',e.message); }
+        try { const r=await dlJSON(DL_APIS.tt.v2+encodeURIComponent(u)); if(r?.status){ const d=r.result||r.data||{}; const b=buildBtns(d,null); dlShowResult(d.thumbnail||d.cover||'',d.title||d.desc||'TikTok',d.author?.nickname||d.author||'','TikTok · Yupra',b); dlSetMsg('OK via Yupra','ok'); return; } } catch(e){ console.warn('TT V2:',e.message); }
+
+        try { // V3 yuulabs POST
+            const r=await dlJSONPost(DL_APIS.tt.v3.url,{url:u});
+            const d=r?.data||r?.result||r||{}; let b='';
+            if(d.no_watermark||d.nowm) b+=dlMakeBtn('No WM',d.no_watermark||d.nowm,'video',true);
+            if(d.watermark||d.wm)      b+=dlMakeBtn('WM',d.watermark||d.wm,'video');
+            if(d.audio||d.music)       b+=dlMakeBtn('MP3',d.audio||d.music,'audio');
+            (d.downloads||d.medias||[]).forEach((x,i)=>{ b+=dlMakeBtn(`File ${i+1}`,x.url||x.link||x,'video'); });
+            if(b){ dlShowResult(d.thumbnail||d.cover||'',d.title||d.desc||'TikTok',d.author?.nickname||d.author||'','TikTok · Yuulabs',b); dlSetMsg('OK via Yuulabs','ok'); return; }
+        } catch(e){ console.warn('TT V3:',e.message); }
+
+        try { // V4 faa
+            const r=await dlJSON(DL_APIS.tt.v4+encodeURIComponent(u));
+            const d=r?.data||r?.result||r||{}; let b='';
+            if(d.url||d.download||d.link) b+=dlMakeBtn('Download',d.url||d.download||d.link,'video',true);
+            (d.downloads||[]).forEach((x,i)=>{ b+=dlMakeBtn((x.type||`Video ${i+1}`).toUpperCase(),x.url||x.link,'video'); });
+            if(b){ dlShowResult(d.thumbnail||'',d.title||'TikTok',d.author||'','TikTok · FAA',b); dlSetMsg('OK via FAA','ok'); return; }
+        } catch(e){ console.warn('TT V4:',e.message); }
+
+        try { // V5 synoxcloud
+            const r=await dlJSON(DL_APIS.tt.v5+encodeURIComponent(u));
+            const d=r?.data||r?.result||r||{}; let b='';
+            if(d.nowm||d.no_watermark) b+=dlMakeBtn('No WM',d.nowm||d.no_watermark,'video',true);
+            if(d.watermark||d.wm||d.url) b+=dlMakeBtn('WM',d.watermark||d.wm||d.url,'video');
+            if(d.audio||d.mp3||d.music) b+=dlMakeBtn('MP3',d.audio||d.mp3||d.music,'audio');
+            if(b){ dlShowResult(d.thumbnail||'',d.title||'TikTok',d.author||'','TikTok · Synox',b); dlSetMsg('OK via Synox','ok'); return; }
+        } catch(e){ console.warn('TT V5:',e.message); }
+
+        throw new Error('Semua 5 endpoint TikTok gagal');
     }
 
     async function handleIG(u) {
-        const r = await dlJSON(DL_APIS.ig.url + encodeURIComponent(u));
-        let urls = [];
-        if(r?.debug?.result?.download_urls)    urls = r.debug.result.download_urls;
-        else if(r?.result?.downloads)           urls = r.result.downloads.map(x=>x.url||x.link);
-        else if(r?.download_urls)               urls = r.download_urls;
-        else if(Array.isArray(r?.result?.urls)) urls = r.result.urls;
-        if (!urls.length) throw new Error('Tidak ada link download dari Instagram');
-        let btns = '';
-        urls.forEach((link,i)=>{
-            const isVid = link.includes('.mp4')||link.includes('video');
-            btns += dlMakeBtn(isVid?`Video ${i+1}`:`Gambar ${i+1}`, link, isVid?'video':'image', i===0);
-        });
-        dlShowResult('', 'Instagram Media', 'Instagram', `${urls.length} file tersedia`, btns);
-        dlSetMsg('Instagram siap', 'ok');
+        const parseUrls=(r)=>{
+            let urls=[];
+            if(r?.debug?.result?.download_urls)    urls=r.debug.result.download_urls;
+            else if(r?.result?.downloads)           urls=r.result.downloads.map(x=>x.url||x.link||x);
+            else if(r?.download_urls)               urls=r.download_urls;
+            else if(Array.isArray(r?.result?.urls)) urls=r.result.urls;
+            else if(Array.isArray(r?.data))         urls=r.data.map(x=>(typeof x==='string'?x:x.url||x.link||x)).filter(x=>typeof x==='string'&&x.startsWith('http'));
+            else if(r?.result?.url)                 urls=[r.result.url];
+            else if(r?.url)                         urls=[r.url];
+            return urls.filter(Boolean);
+        };
+        const buildBtns=(urls)=>{ let b=''; urls.forEach((link,i)=>{ const isV=link.includes('.mp4')||link.includes('video'); b+=dlMakeBtn(isV?`Video ${i+1}`:`Gambar ${i+1}`,link,isV?'video':'image',i===0); }); return b; };
+
+        try { const r=await dlJSON(DL_APIS.ig.v1+encodeURIComponent(u)); const urls=parseUrls(r); if(urls.length){ dlShowResult('','Instagram Media','Instagram',`${urls.length} file · Nanzz`,buildBtns(urls)); dlSetMsg('OK via Nanzz','ok'); return; } } catch(e){ console.warn('IG V1:',e.message); }
+        try { const r=await dlJSONPost(DL_APIS.ig.v2.url,{url:u}); const urls=parseUrls(r); if(urls.length){ dlShowResult('','Instagram Media','Instagram',`${urls.length} file · Yuulabs`,buildBtns(urls)); dlSetMsg('OK via Yuulabs','ok'); return; } } catch(e){ console.warn('IG V2:',e.message); }
+        try { const r=await dlJSON(DL_APIS.ig.v3+encodeURIComponent(u)); const urls=parseUrls(r); if(urls.length){ dlShowResult('','Instagram Media','Instagram',`${urls.length} file · Lolhuman`,buildBtns(urls)); dlSetMsg('OK via Lolhuman','ok'); return; } } catch(e){ console.warn('IG V3:',e.message); }
+        try { const r=await dlJSON(DL_APIS.ig.v4+encodeURIComponent(u)); const urls=parseUrls(r); if(urls.length){ dlShowResult('','Instagram Media','Instagram',`${urls.length} file · Synox`,buildBtns(urls)); dlSetMsg('OK via Synox','ok'); return; } } catch(e){ console.warn('IG V4:',e.message); }
+
+        throw new Error('Semua 4 endpoint Instagram gagal');
     }
 
     async function handleSP(u) {
-        const r = await dlJSON(DL_APIS.sp.url + encodeURIComponent(u));
-        if (!r?.status) throw new Error(r?.message||'Spotify gagal');
-        const m = r.metadata||{};
-        const dlUrl = r.download_url||r.url||r.mp3;
-        if (!dlUrl) throw new Error('Link download Spotify tidak ditemukan');
-        dlShowResult(m.image||'', m.name||'Spotify Track', m.artist||'', 'Spotify · '+(m.duration||''), dlMakeBtn('Download MP3', dlUrl, 'audio', true));
-        dlSetMsg('Spotify siap', 'ok');
+        const tryShow=(r,src)=>{
+            const m=r.metadata||{}; const dlUrl=r.download_url||r.url||r.mp3||(r.result&&typeof r.result==='string'?r.result:null);
+            if(!dlUrl) return false;
+            dlShowResult(m.image||'',m.name||'Spotify Track',m.artist||'','Spotify · '+src,dlMakeBtn('Download MP3',dlUrl,'audio',true));
+            dlSetMsg('OK via '+src,'ok'); return true;
+        };
+
+        try { const r=await dlJSON(DL_APIS.sp.v1+encodeURIComponent(u)); if(r?.status&&tryShow(r,'Nanzz')) return; } catch(e){ console.warn('SP V1:',e.message); }
+        try { const r=await dlJSON(DL_APIS.sp.v2+encodeURIComponent(u)); if(r?.status&&tryShow(r,'Yupra')) return; } catch(e){ console.warn('SP V2:',e.message); }
+        try { // V3 lolhuman
+            const r=await dlJSON(DL_APIS.sp.v3+encodeURIComponent(u));
+            const d=r?.result||r?.data||r||{}; const url=d.download||d.url||d.link||(typeof r.result==='string'?r.result:null);
+            if(url){ dlShowResult(d.image||d.thumbnail||'',d.title||d.name||'Spotify Track',d.artist||'','Spotify · Lolhuman',dlMakeBtn('Download MP3',url,'audio',true)); dlSetMsg('OK via Lolhuman','ok'); return; }
+        } catch(e){ console.warn('SP V3:',e.message); }
+        try { // V4 synoxcloud
+            const r=await dlJSON(DL_APIS.sp.v4+encodeURIComponent(u));
+            const d=r?.data||r?.result||r||{}; const url=d.download_url||d.url||d.mp3||d.audio;
+            if(url){ dlShowResult(d.image||d.thumbnail||'',d.title||d.name||'Spotify Track',d.artist||'','Spotify · Synox',dlMakeBtn('Download MP3',url,'audio',true)); dlSetMsg('OK via Synox','ok'); return; }
+        } catch(e){ console.warn('SP V4:',e.message); }
+
+        throw new Error('Semua 4 endpoint Spotify gagal');
     }
 
     async function handleFB(u) {
-        const r = await dlJSON(DL_APIS.fb.url + encodeURIComponent(u));
-        const d = r?.data||r?.result||r||{};
-        let btns = '';
-        if(d.hd)  btns += dlMakeBtn('MP4 HD', d.hd,  'video', true);
-        if(d.sd)  btns += dlMakeBtn('MP4 SD', d.sd,  'video');
-        if(d.mp4) btns += dlMakeBtn('MP4',    d.mp4, 'video');
-        if(d.mp3) btns += dlMakeBtn('MP3',    d.mp3, 'audio');
-        (d.downloads||[]).forEach(x=>{ btns += dlMakeBtn((x.type||'File').toUpperCase(), x.url||x.link, 'video'); });
-        btns += dlMakeBtn('Coba MP4', dlBuild(DL_APIS.fb.url, u, '&type=mp4'), 'video');
-        btns += dlMakeBtn('Coba MP3', dlBuild(DL_APIS.fb.url, u, '&type=mp3'), 'audio');
-        dlShowResult(d.thumbnail||'', d.title||'Video Facebook', 'Facebook', 'Facebook Downloader', btns);
-        dlSetMsg('FB kadang limit, coba satu-satu', 'warn');
+        const tryShow=(r,src)=>{
+            const d=r?.data||r?.result||r||{}; let b='';
+            if(d.hd||d.hd_url||d.high) b+=dlMakeBtn('MP4 HD',d.hd||d.hd_url||d.high,'video',true);
+            if(d.sd||d.sd_url||d.low)  b+=dlMakeBtn('MP4 SD',d.sd||d.sd_url||d.low,'video');
+            if(d.mp4||d.url)            b+=dlMakeBtn('MP4',d.mp4||d.url,'video');
+            (d.downloads||[]).forEach(x=>{ b+=dlMakeBtn((x.type||'Video').toUpperCase(),x.url||x.link,'video'); });
+            if(!b) return false;
+            dlShowResult(d.thumbnail||'',d.title||'Facebook Video','Facebook','Facebook · '+src,b);
+            dlSetMsg('OK via '+src,'ok'); return true;
+        };
+        try { const r=await dlJSON(DL_APIS.fb.v1+encodeURIComponent(u)); if(tryShow(r,'Emiliabot')) return; } catch(e){ console.warn('FB V1:',e.message); }
+        try { const r=await dlJSON(DL_APIS.fb.v2+encodeURIComponent(u)); if(tryShow(r,'Lolhuman')) return; } catch(e){ console.warn('FB V2:',e.message); }
+        try { const r=await dlJSON(DL_APIS.fb.v3+encodeURIComponent(u)); if(tryShow(r,'Synox')) return; } catch(e){ console.warn('FB V3:',e.message); }
+
+        throw new Error('Semua 3 endpoint Facebook gagal');
     }
 
     async function handlePT(u) {
-        const r = await dlJSON(DL_APIS.pt.url + encodeURIComponent(u));
-        const d = r?.data||r?.result||r||{};
-        let btns = '';
-        if(d.mp4)   btns += dlMakeBtn('MP4 Video', d.mp4,  'video', true);
-        if(d.image) btns += dlMakeBtn('Gambar',    d.image,'image');
-        if(d.mp3)   btns += dlMakeBtn('MP3',       d.mp3,  'audio');
-        btns += dlMakeBtn('Coba MP4',    dlBuild(DL_APIS.pt.url, u, '&type=mp4'),   'video');
-        btns += dlMakeBtn('Coba Gambar', dlBuild(DL_APIS.pt.url, u, '&type=image'), 'image');
-        dlShowResult(d.thumbnail||d.image||'', d.title||'Pin Pinterest', 'Pinterest', 'Pinterest Downloader', btns);
-        dlSetMsg('Pinterest siap', 'ok');
+        const r=await dlJSON(DL_APIS.pt.v1+encodeURIComponent(u));
+        const d=r?.data||r?.result||r||{}; let btns='';
+        if(d.mp4||d.video) btns+=dlMakeBtn('MP4 Video',d.mp4||d.video,'video',true);
+        if(d.image||d.img) btns+=dlMakeBtn('Gambar',d.image||d.img,'image');
+        if(d.mp3)           btns+=dlMakeBtn('MP3',d.mp3,'audio');
+        btns+=dlMakeBtn('Coba MP4',   dlBuild(DL_APIS.pt.v1,u,'&type=mp4'),'video');
+        btns+=dlMakeBtn('Coba Gambar',dlBuild(DL_APIS.pt.v1,u,'&type=image'),'image');
+        dlShowResult(d.thumbnail||d.image||'',d.title||'Pin Pinterest','Pinterest','Pinterest Downloader',btns);
+        dlSetMsg('Pinterest siap','ok');
     }
 
-    // ── Auto detect platform ────────────────────────────────────
+        // ── Auto detect platform ────────────────────────────────────
     function dlAutoDetect(url) {
         const map = [
             [/youtu\.be|youtube\.com/i, 'yt'],
@@ -2395,6 +2892,346 @@
     // Handle hash on load
     handleHash();
     handleDownloaderHash();
+
+    // ══════════════════════════════════════════════════════════
+    // NOVA SRC MODULE
+    // ══════════════════════════════════════════════════════════
+    const CORS_PROXIES = [
+        'https://api.allorigins.win/raw?url=','https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/','https://api.codetabs.com/v1/proxy?quest=',
+        'https://thingproxy.freeboard.io/fetch/','https://cors.eu.org/',
+        'https://proxy.cors.sh/','https://cors-proxy.fringe.zone/',
+        'https://corsproxy-io.herokuapp.com/','https://cors-proxy.fly.dev/',
+        'https://cors-proxy-1.fly.dev/','https://cors-proxy-2.fly.dev/',
+        'https://cors-proxy-3.fly.dev/','https://cors-proxy-4.fly.dev/'
+    ];
+
+    let srcFetched = '', srcUrl = 'https://example.com';
+    let srcIsFetching = false, srcProxyType = 'cors', srcProxyIdx = 0;
+
+    function srcLog(msg, type = 'info') {
+        const el = document.getElementById('src-console');
+        if (!el) return;
+        const time = new Date().toTimeString().slice(0,8);
+        const d = document.createElement('div');
+        d.className = `src-log ${type}`;
+        d.innerHTML = `<span class="src-log-time">${time}</span><span class="src-log-msg">${msg.replace(/</g,'&lt;')}</span>`;
+        el.appendChild(d); el.scrollTop = el.scrollHeight;
+    }
+
+    function renderSrcCode(text) {
+        const body = document.getElementById('src-code-body');
+        if (!body) return;
+        if (!text) { body.innerHTML = '<div class="code-empty">No content</div>'; return; }
+        body.innerHTML = text.split('\n').map(line => `<span class="code-line">${line.replace(/</g,'&lt;')}</span>`).join('');
+    }
+
+    function renderSrcProxySelect() {
+        const sel = document.getElementById('src-proxy-select');
+        if (!sel) return;
+        const list = srcProxyType === 'cors' ? CORS_PROXIES : [];
+        sel.innerHTML = list.map((p,i) => `<option value="${i}" ${i===srcProxyIdx?'selected':''}>${'CORS #'+(i+1)} ${p.slice(0,36)}</option>`).join('');
+    }
+
+    async function doSrcFetch() {
+        if (srcIsFetching) return;
+        const urlEl = document.getElementById('src-url');
+        let url = (urlEl?.value || '').trim();
+        if (!url) return;
+        if (!/^https?:\/\//i.test(url)) { url = 'https://' + url; if(urlEl) urlEl.value = url; }
+        srcUrl = url;
+        const pIdx = parseInt(document.getElementById('src-proxy-select')?.value || '0');
+        srcProxyIdx = pIdx;
+        const proxy = CORS_PROXIES[pIdx] || CORS_PROXIES[0];
+        srcIsFetching = true;
+        document.getElementById('src-dot')?.classList.add('active');
+        document.getElementById('src-fetch-btn').disabled = true;
+        srcLog('Fetching: ' + url, 'info');
+        srcLog('Proxy: CORS #' + (pIdx+1), 'info');
+        document.getElementById('src-code-body').innerHTML = '<div class="code-empty">Loading...</div>';
+        try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 25000);
+            const res = await fetch(proxy + encodeURIComponent(url), { signal: ctrl.signal });
+            clearTimeout(tid);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const text = await res.text();
+            srcFetched = text;
+            srcLog('OK! ' + text.length + ' chars', 'ok');
+            renderSrcCode(text);
+            document.getElementById('src-file-label').textContent = url;
+            ['src-copy-btn','src-download-btn','src-preview-btn'].forEach(id => { const el=document.getElementById(id); if(el) el.disabled=false; });
+        } catch(e) {
+            srcLog('Failed: ' + e.message, 'error');
+            document.getElementById('src-code-body').innerHTML = `<div class="code-empty">Error: ${e.message}</div>`;
+        }
+        srcIsFetching = false;
+        document.getElementById('src-dot')?.classList.remove('active');
+        document.getElementById('src-fetch-btn').disabled = false;
+    }
+
+    async function doSrcAuto() {
+        if (srcIsFetching) return;
+        const urlEl = document.getElementById('src-url');
+        let url = (urlEl?.value || '').trim();
+        if (!url) return;
+        if (!/^https?:\/\//i.test(url)) { url = 'https://' + url; if(urlEl) urlEl.value = url; }
+        srcUrl = url;
+        srcIsFetching = true;
+        document.getElementById('src-dot')?.classList.add('active');
+        document.getElementById('src-fetch-btn').disabled = true;
+        srcLog('Auto: trying ' + CORS_PROXIES.length + ' proxies...', 'info');
+        document.getElementById('src-code-body').innerHTML = '<div class="code-empty">Auto-fetching...</div>';
+        let ok = false;
+        for (let i = 0; i < CORS_PROXIES.length; i++) {
+            srcLog(`[${i+1}/${CORS_PROXIES.length}] Trying CORS #${i+1}...`, 'info');
+            try {
+                const ctrl = new AbortController();
+                const tid = setTimeout(() => ctrl.abort(), 10000);
+                const res = await fetch(CORS_PROXIES[i] + encodeURIComponent(url), { signal: ctrl.signal });
+                clearTimeout(tid);
+                if (res.ok) {
+                    const text = await res.text();
+                    srcFetched = text;
+                    srcLog('Success via CORS #' + (i+1) + ' — ' + text.length + ' chars', 'ok');
+                    renderSrcCode(text);
+                    document.getElementById('src-file-label').textContent = url + ' (auto)';
+                    ['src-copy-btn','src-download-btn','src-preview-btn'].forEach(id => { const el=document.getElementById(id); if(el) el.disabled=false; });
+                    ok = true; break;
+                }
+            } catch(e) { srcLog('Error: ' + e.message, 'warn'); }
+        }
+        if (!ok) {
+            srcLog('All proxies failed.', 'error');
+            document.getElementById('src-code-body').innerHTML = '<div class="code-empty">Auto-fetch failed. Try manual.</div>';
+        }
+        srcIsFetching = false;
+        document.getElementById('src-dot')?.classList.remove('active');
+        document.getElementById('src-fetch-btn').disabled = false;
+    }
+
+    function srcCopy() {
+        if (!srcFetched) return;
+        navigator.clipboard.writeText(srcFetched).then(() => srcLog('Copied!', 'ok')).catch(() => srcLog('Copy failed', 'error'));
+    }
+    function srcDownload() {
+        if (!srcFetched) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([srcFetched], {type:'text/html'}));
+        try { a.download = new URL(srcUrl).hostname + '_source.html'; } catch(_) { a.download = 'source.html'; }
+        a.click(); srcLog('Downloaded.', 'ok');
+    }
+    function srcPreview() {
+        if (!srcFetched) return;
+        document.getElementById('preview-url-label').textContent = srcUrl;
+        const blob = new Blob([srcFetched], {type:'text/html'});
+        document.getElementById('preview-iframe').src = URL.createObjectURL(blob);
+        document.getElementById('src-preview-modal').classList.add('show');
+    }
+    function srcClosePreview() {
+        document.getElementById('src-preview-modal').classList.remove('show');
+        document.getElementById('preview-iframe').src = 'about:blank';
+    }
+
+    // NOVA SRC event listeners
+    document.getElementById('src-fetch-btn')?.addEventListener('click', doSrcFetch);
+    document.getElementById('src-auto-btn')?.addEventListener('click', doSrcAuto);
+    document.getElementById('src-copy-btn')?.addEventListener('click', srcCopy);
+    document.getElementById('src-download-btn')?.addEventListener('click', srcDownload);
+    document.getElementById('src-preview-btn')?.addEventListener('click', srcPreview);
+    document.getElementById('preview-close-btn')?.addEventListener('click', srcClosePreview);
+    document.getElementById('src-preview-modal')?.addEventListener('click', e => { if(e.target===e.currentTarget) srcClosePreview(); });
+    document.getElementById('src-url')?.addEventListener('keydown', e => { if(e.key==='Enter') doSrcFetch(); });
+    document.getElementById('src-proxy-type')?.addEventListener('change', function() { srcProxyType=this.value; srcProxyIdx=0; renderSrcProxySelect(); });
+    document.getElementById('src-proxy-select')?.addEventListener('change', function() { srcProxyIdx=parseInt(this.value)||0; });
+    renderSrcProxySelect();
+
+    // ══════════════════════════════════════════════════════════
+    // MORSE MODULE
+    // ══════════════════════════════════════════════════════════
+    let morseInited = false;
+    function initMorse() {
+        if (morseInited) return;
+        morseInited = true;
+
+        const MORSE = {'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.','0':'-----','.':'.-.-.-',',':'--..--','?':'..--..','!':'-.-.--','-':'-....-','/':'-..-.','@':'.--.-.','=':'-...-'};
+        const RMORSE = Object.fromEntries(Object.entries(MORSE).map(([k,v])=>[v,k]));
+
+        const textIn = document.getElementById('morse-text-input');
+        const morseOut = document.getElementById('morse-output');
+        const statusDot = document.getElementById('morse-status-dot');
+        const statusText = document.getElementById('morse-status-text');
+
+        function encode(t) { return t.toUpperCase().split('').map(c=>c===' '?'/':MORSE[c]||c).join(' '); }
+        function decode(m) { if(!m) return ''; return m.trim().split(/\s*\/\s*/).map(w=>w.trim().split(/\s+/).map(s=>RMORSE[s]||s).join('')).join(' '); }
+
+        textIn?.addEventListener('input', () => { if(document.activeElement===textIn) morseOut.value=encode(textIn.value); });
+        morseOut?.addEventListener('input', () => { if(document.activeElement===morseOut) textIn.value=decode(morseOut.value); });
+
+        document.getElementById('morse-clear-btn')?.addEventListener('click', () => { textIn.value=''; morseOut.value=''; textIn.focus(); });
+        document.getElementById('morse-copy-btn')?.addEventListener('click', async () => {
+            if(!morseOut.value) return;
+            await navigator.clipboard.writeText(morseOut.value);
+            const b = document.getElementById('morse-copy-btn');
+            b.classList.add('active'); setTimeout(()=>b.classList.remove('active'),300);
+        });
+
+        // Play audio
+        let audioCtx=null, isPlaying=false;
+        async function playMorse(morse) {
+            if(isPlaying||!morse.trim()) return;
+            isPlaying=true;
+            if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+            const u=70, dash=u*3, sp=u, lp=u*3, wp=u*7;
+            for(const word of morse.split('/')) {
+                for(const letter of word.trim().split(/\s+/).filter(Boolean)) {
+                    for(const sym of letter) {
+                        if(sym==='.'||sym==='-') {
+                            const dur=sym==='.'?u:dash;
+                            const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+                            osc.type='sine'; osc.frequency.value=600;
+                            osc.connect(gain); gain.connect(audioCtx.destination);
+                            osc.start(); await new Promise(r=>setTimeout(r,dur)); osc.stop();
+                            await new Promise(r=>setTimeout(r,sp));
+                        }
+                    }
+                    await new Promise(r=>setTimeout(r,lp));
+                }
+                await new Promise(r=>setTimeout(r,wp));
+            }
+            isPlaying=false;
+        }
+        document.getElementById('morse-play-btn')?.addEventListener('click', ()=>playMorse(morseOut.value));
+
+        // Download WAV
+        function buildSched(morse) {
+            const u=0.07, dash=u*3, sp=u, lp=u*3, wp=u*7;
+            let t=0.05; const s=[];
+            for(const word of morse.trim().split('/')) {
+                for(const letter of word.trim().split(/\s+/).filter(Boolean)) {
+                    for(const sym of letter) {
+                        if(sym==='.'||sym==='-'){const d=sym==='.'?u:dash;s.push({start:t,duration:d});t+=d+sp;}
+                    }
+                    t+=lp-sp;
+                }
+                t+=wp-lp;
+            }
+            return {schedule:s, totalDuration:Math.max(t+0.2,0.5)};
+        }
+        function bufToWav(buf) {
+            const sr=buf.sampleRate, ch=buf.getChannelData(0);
+            const ab=new ArrayBuffer(44+ch.length*2), v=new DataView(ab);
+            function ws(o,s){for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));}
+            ws(0,'RIFF');v.setUint32(4,36+ch.length*2,true);ws(8,'WAVE');ws(12,'fmt ');
+            v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);
+            v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);
+            ws(36,'data');v.setUint32(40,ch.length*2,true);
+            let o=44;for(let i=0;i<ch.length;i++,o+=2){const s=Math.max(-1,Math.min(1,ch[i]));v.setInt16(o,s<0?s*0x8000:s*0x7FFF,true);}
+            return new Blob([ab],{type:'audio/wav'});
+        }
+        document.getElementById('morse-download-btn')?.addEventListener('click', async ()=>{
+            if(!morseOut.value) return;
+            const {schedule,totalDuration}=buildSched(morseOut.value);
+            const sr=44100;
+            const oc=new(window.OfflineAudioContext||window.webkitOfflineAudioContext)(1,Math.ceil(sr*totalDuration),sr);
+            for(const item of schedule) {
+                const osc=oc.createOscillator(), g=oc.createGain();
+                osc.type='sine'; osc.frequency.value=600;
+                g.gain.setValueAtTime(0,item.start);
+                g.gain.linearRampToValueAtTime(0.8,item.start+0.005);
+                g.gain.setValueAtTime(0.8,item.start+item.duration-0.005);
+                g.gain.linearRampToValueAtTime(0,item.start+item.duration);
+                osc.connect(g); g.connect(oc.destination);
+                osc.start(item.start); osc.stop(item.start+item.duration);
+            }
+            const rendered=await oc.startRendering();
+            const a=document.createElement('a');
+            a.href=URL.createObjectURL(bufToWav(rendered));
+            a.download=`morse_${Date.now()}.wav`; a.click();
+        });
+
+        // Mikrofon
+        let isListening=false, micStream=null, micCtx=null, analyser=null, rafId=null;
+        let sigOn=false, sigStart=0, silStart=0;
+        const UD=80, DDT=UD*2, LST=UD*3.5, WST=UD*7;
+
+        async function startMic() {
+            try {
+                micStream=await navigator.mediaDevices.getUserMedia({audio:true});
+                micCtx=new(window.AudioContext||window.webkitAudioContext)();
+                const src=micCtx.createMediaStreamSource(micStream);
+                analyser=micCtx.createAnalyser(); analyser.fftSize=1024;
+                src.connect(analyser);
+                isListening=true;
+                document.getElementById('morse-listen-btn').classList.add('active');
+                statusDot.classList.add('active'); statusText.textContent='Mendengarkan...';
+                silStart=performance.now(); sigOn=false;
+                processMic();
+            } catch(e) { alert('Tidak bisa akses mikrofon'); }
+        }
+        function stopMic() {
+            isListening=false;
+            if(rafId) cancelAnimationFrame(rafId);
+            micStream?.getTracks().forEach(t=>t.stop());
+            micCtx?.close();
+            document.getElementById('morse-listen-btn').classList.remove('active');
+            statusDot.classList.remove('active'); statusText.textContent='Mikrofon Mati';
+        }
+        function processMic() {
+            if(!isListening) return;
+            const buf=new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(buf);
+            let sum=0; for(let i=8;i<=30;i++) sum+=buf[i];
+            const vol=sum/23, now=performance.now();
+            if(vol>50) {
+                if(!sigOn){sigOn=true;sigStart=now;const sd=now-silStart;if(sd>=WST){if(morseOut.value.trim()&&!morseOut.value.endsWith('/ '))morseOut.value=morseOut.value.trim()+' / ';}else if(sd>=LST){if(morseOut.value&&!morseOut.value.endsWith(' '))morseOut.value+=' ';}}
+            } else {
+                if(sigOn){sigOn=false;silStart=now;const sd=now-sigStart;if(sd>20){morseOut.value+=(sd<DDT?'.':'-');textIn.value=decode(morseOut.value);}}
+            }
+            rafId=requestAnimationFrame(processMic);
+        }
+        document.getElementById('morse-listen-btn')?.addEventListener('click', ()=>isListening?stopMic():startMic());
+
+        // Upload audio file
+        document.getElementById('morse-upload-btn')?.addEventListener('click', ()=>document.getElementById('morse-file-input').click());
+        document.getElementById('morse-file-input')?.addEventListener('change', async e=>{
+            const file=e.target.files[0]; if(!file) return;
+            statusDot.classList.add('active'); statusText.textContent='Menganalisis audio...';
+            try {
+                const ab=await file.arrayBuffer();
+                const dctx=new(window.AudioContext||window.webkitAudioContext)();
+                const audioBuffer=await dctx.decodeAudioData(ab);
+                const pcm=audioBuffer.getChannelData(0), sr=audioBuffer.sampleRate;
+                const ws=Math.floor(sr*0.005), nw=Math.floor(pcm.length/ws);
+                const env=new Float32Array(nw); let maxA=0;
+                for(let i=0;i<nw;i++){let s=0;for(let j=0;j<ws;j++)s+=Math.abs(pcm[i*ws+j]);env[i]=s/ws;if(env[i]>maxA)maxA=env[i];}
+                if(maxA===0){alert('File audio kosong.');return;}
+                for(let i=0;i<nw;i++) env[i]/=maxA;
+                const THR=0.25; const states=[]; let cs=env[0]>THR?'ON':'OFF', cnt=0;
+                for(let i=0;i<nw;i++){const st=env[i]>THR?'ON':'OFF';if(st===cs)cnt++;else{states.push({type:cs,ms:(cnt*ws/sr)*1000});cs=st;cnt=1;}}
+                if(cnt>0) states.push({type:cs,ms:(cnt*ws/sr)*1000});
+                const clean=states.filter(s=>s.ms>=20);
+                const ons=clean.filter(s=>s.type==='ON').map(s=>s.ms).sort((a,b)=>a-b);
+                if(!ons.length){alert('Tidak ada nada morse.');return;}
+                const ed=Math.max(ons[0],30), ddt=ed*2.1, lst=ed*2.5, wst=ed*5.5;
+                let pm='';
+                for(const s of clean){
+                    if(s.type==='OFF'){if(s.ms>=wst){if(pm.trim()&&!pm.endsWith('/ '))pm=pm.trim()+' / ';}else if(s.ms>=lst){if(pm&&!pm.endsWith(' '))pm+=' ';}}
+                    else{pm+=s.ms<ddt?'.':'-';}
+                }
+                morseOut.value=pm.trim(); textIn.value=decode(morseOut.value);
+                statusText.textContent='Sukses!'; setTimeout(()=>{statusDot.classList.remove('active');statusText.textContent='Mikrofon Mati';},1500);
+            } catch(err){console.error(err);alert('Gagal memproses audio.');}
+            finally{ statusDot.classList.remove('active');e.target.value=''; }
+        });
+    }
+
+    // ── Extended hash handler ────────────────────────────────
+    (function() {
+        const h = window.location.hash;
+        if (h === '#/nova-src') switchPage('nova-src');
+        else if (h === '#/morse') switchPage('morse');
+    })();
     (async function init() {
         // Preload stat on dashboard
         try {
