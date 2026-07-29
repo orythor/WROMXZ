@@ -1724,7 +1724,7 @@
 <script>
     // ─── CONFIG ───────────────────────────────────────────────────────────────
     const SUPABASE_URL  = 'https://dgpzbeupgzmqxnqsdnfv.supabase.co';
-    const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncHpiZXVwZ3ptcXhucXNkbmZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzOTU3NzAsImV4cCI6MjA5OTk3MTc3MH0.tm9MDxrKBvlPL_p5EER7mFpto1wMcWRwAYxPK0nAn9Q';
+    const SUPABASE_KEY  = 'sb_publishable_-Or38mACOePRkWW2KElUvg_f6ijvzOw';
     const TABLE         = 'prompts';
 
     // ─── SUPABASE HELPERS ─────────────────────────────────────────────────────
@@ -1850,17 +1850,17 @@
         // Hash sync per page
         try {
             if (id === 'chatai') {
-                history.replaceState(null, '', '#chatAI');
+                history.replaceState(null, '', 'chatAI');
                 if (!chatInitialized) initChat();
             } else if (id === 'downloader') {
                 const meta = DL_PLATFORMS?.[dlActivePlatform];
                 if (meta?.hash) history.replaceState(null, '', meta.hash);
-                else history.replaceState(null, '', '#downloader/tiktok');
+                else history.replaceState(null, '', 'downloader/tiktok');
             } else if (id === 'nova-src') {
-                history.replaceState(null, '', '#/nova-src');
+                history.replaceState(null, '', '/nova-src');
                 renderSrcProxySelect();
             } else if (id === 'morse') {
-                history.replaceState(null, '', '#/morse');
+                history.replaceState(null, '', '/morse');
                 initMorse();
             } else {
                 if (window.location.hash) history.replaceState(null, '', window.location.pathname);
