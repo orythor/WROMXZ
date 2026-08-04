@@ -1,0 +1,29 @@
+<div class="tool-wrap">
+            <div class="tool-header">
+                <h2>QR Generator</h2>
+                <p>Buat QR code dari teks, URL, atau konten apapun secara instan.</p>
+            </div>
+            <div class="tool-card">
+                <textarea class="tts-textarea" id="qr-text" placeholder="https://... atau teks apapun" maxlength="1000" style="min-height:80px;"></textarea>
+                <div class="tts-char-count"><span id="qr-count">0</span> / 1000</div>
+
+                <div class="qr-size-row">
+                    <label>Ukuran:</label>
+                    <select class="qr-size-select" id="qr-size">
+                        <option value="200">200 × 200</option>
+                        <option value="300" selected>300 × 300</option>
+                        <option value="500">500 × 500</option>
+                        <option value="800">800 × 800</option>
+                    </select>
+                </div>
+
+                <button class="tool-btn" id="qr-gen-btn" style="width:100%;justify-content:center;padding:0.75rem;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                    Buat QR Code
+                </button>
+
+                <div class="tool-result" id="qr-result">
+                    <div id="qr-inner"></div>
+                </div>
+            </div>
+        </div>
