@@ -1,0 +1,38 @@
+<div class="dashboard-wrap fade-up">
+    <div class="hero">
+        <div class="hero-badge">✦ LIBRA INTELLIGENCE SYSTEM</div>
+        <h1>Nova<span>Prompt</span></h1>
+        <p class="hero-sub">Platform pusat prompt AI eksklusif untuk membantu aktivitas pembuatan konten, coding, roleplay, dan alur kerja kreatif Anda.</p>
+        <div class="hero-cta">
+            <button class="btn-primary" id="go-to-hub">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                Jelajahi Hub
+            </button>
+            <button class="btn-ghost">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                Dokumentasi
+            </button>
+        </div>
+    </div>
+    <div class="stats-row" id="stats-row">
+        <div class="stat-card"><span class="stat-num" id="stat-total">—</span><span class="stat-label">Total Prompt</span></div>
+        <div class="stat-card"><span class="stat-num">∞</span><span class="stat-label">Token Potential</span></div>
+        <div class="stat-card"><span class="stat-num">v13</span><span class="stat-label">System</span></div>
+    </div>
+</div>
+
+<script>
+// Init dashboard
+(function() {
+    document.getElementById('go-to-hub')?.addEventListener('click', () => {
+        if (typeof switchPage === 'function') switchPage('hub');
+    });
+    // Load stat count
+    if (typeof getPrompts === 'function') {
+        getPrompts().then(data => {
+            const el = document.getElementById('stat-total');
+            if (el && data) el.textContent = data.length;
+        }).catch(() => {});
+    }
+})();
+</script>
