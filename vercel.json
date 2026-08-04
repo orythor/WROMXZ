@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/dashboard",       "destination": "/index.html" },
+    { "source": "/hub",             "destination": "/index.html" },
+    { "source": "/tools/host-info", "destination": "/index.html" },
+    { "source": "/tools/anime",     "destination": "/index.html" },
+    { "source": "/tools/qr",        "destination": "/index.html" },
+    { "source": "/cipherx",         "destination": "/index.html" },
+    { "source": "/(.*)",            "destination": "/index.html" }
+  ]
+}
