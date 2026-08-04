@@ -1,0 +1,144 @@
+<!-- Banner -->
+        <div class="cx-banner">
+            <img src="https://img2.pixhost.to/images/9745/753993035_1000241583.jpg"
+                 class="cx-banner-img" alt="" onerror="this.style.display='none'">
+            <div class="cx-banner-grid"></div>
+            <div class="cx-banner-overlay"></div>
+            <div class="cx-banner-text">
+                <div class="cx-banner-eyebrow">Universal Cryptography Studio</div>
+                <div class="cx-banner-title">CipherX</div>
+            </div>
+            <div class="cx-banner-badge" id="cx-count-badge">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.9v9.2L12 22l-9-4.9V6.9L12 2z"/></svg>
+                <span id="cx-total-count">0</span> Cipher Types
+            </div>
+        </div>
+
+        <!-- Mobile cipher picker — custom dropdown -->
+        <div class="cx-mobile-bar">
+            <div class="cx-dropdown" id="cx-dropdown">
+                <div class="cx-dropdown-trigger" id="cx-dropdown-trigger">
+                    <span class="cx-dropdown-label" id="cx-dropdown-label">Sandi Morse</span>
+                    <span class="cx-dropdown-cat-chip" id="cx-dropdown-cat">Klasik</span>
+                    <svg class="cx-dropdown-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="cx-dropdown-panel" id="cx-dropdown-panel">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="cx-body">
+
+            <!-- Inner sidebar with accordion -->
+            <nav class="cx-sidebar" id="cx-sidebar">
+                <!-- Rendered by JS -->
+            </nav>
+
+            <!-- Workspace -->
+            <div class="cx-workspace">
+
+                <!-- Cipher header -->
+                <div class="cx-cipher-header">
+                    <div>
+                        <div class="cx-cipher-badge" id="cx-cat-badge">Klasik</div>
+                        <div class="cx-cipher-title" id="cx-title">Sandi Morse</div>
+                        <div class="cx-cipher-desc" id="cx-desc">Sandi internasional menggunakan titik dan garis.</div>
+                    </div>
+                    <div class="cx-mode-wrap">
+                        <button class="cx-mode-btn cx-mode-active" id="cx-encode-btn">Encode</button>
+                        <button class="cx-mode-btn cx-mode-inactive" id="cx-decode-btn">Decode</button>
+                    </div>
+                </div>
+
+                <!-- Info box -->
+                <div class="cx-info-box" id="cx-info-box" style="display:none;"></div>
+
+                <!-- IO Grid -->
+                <div class="cx-io-grid">
+                    <div>
+                        <div class="cx-io-label">Input <span id="cx-in-count">0 karakter</span></div>
+                        <textarea class="cx-textarea" id="cx-input" placeholder="Ketik atau tempel teks..."></textarea>
+                        <div class="cx-io-actions">
+                            <button class="cx-act-link" id="cx-clear-btn">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Hapus
+                            </button>
+                            <button class="cx-act-link" id="cx-paste-btn">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                Tempel
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="cx-io-label">Hasil <span id="cx-out-count">0 karakter</span></div>
+                        <textarea class="cx-textarea" id="cx-output" readonly placeholder="Hasil konversi..."></textarea>
+                        <div class="cx-io-actions">
+                            <span></span>
+                            <button class="cx-act-link" id="cx-swap-btn" title="Tukar input ↔ output">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+                                Tukar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="cx-actions">
+                    <button class="cx-btn cx-btn-ghost" id="cx-copy-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        Salin Hasil
+                    </button>
+                    <div class="cx-dl-wrap">
+                        <button class="cx-btn cx-btn-ghost" id="cx-dl-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Unduh
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div class="cx-dl-menu" id="cx-dl-menu">
+                            <button class="cx-dl-item" id="cx-dl-txt">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Format .TXT
+                            </button>
+                            <button class="cx-dl-item" id="cx-dl-json">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h8M4 18h8"/></svg>
+                                Format .JSON
+                            </button>
+                            <button class="cx-dl-item" id="cx-dl-audio">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15.536 11.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                                Putar Beep
+                            </button>
+                        </div>
+                    </div>
+                    <button class="cx-btn cx-btn-white" id="cx-test-toggle-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                        Tes Sandi
+                    </button>
+                </div>
+
+                <!-- Test Panel -->
+                <div class="cx-test-panel" id="cx-test-panel" style="display:none;">
+                    <div class="cx-test-header">
+                        <div class="cx-test-title">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547"/></svg>
+                            Tes Interaktif
+                            <span class="cx-score">✦ <span id="cx-t-correct">0</span>/<span id="cx-t-total">0</span></span>
+                        </div>
+                        <div style="display:flex;gap:0.75rem;align-items:center;">
+                            <button class="cx-act-link" id="cx-skip-btn">Lewati</button>
+                            <button class="cx-act-link" id="cx-close-test-btn">✕ Tutup</button>
+                        </div>
+                    </div>
+                    <p style="font-size:0.72rem;color:var(--text-dim);margin-bottom:0.7rem;" id="cx-test-q">Tebak teks asli dari sandi berikut.</p>
+                    <div class="cx-challenge" id="cx-challenge">···</div>
+                    <div class="cx-test-row">
+                        <input type="text" class="cx-test-input" id="cx-test-input" placeholder="Ketik jawaban...">
+                        <button class="cx-btn cx-btn-white" id="cx-submit-btn" style="padding:0.55rem 1.1rem;">Kirim</button>
+                    </div>
+                    <div class="cx-test-fb" id="cx-test-fb"></div>
+                </div>
+
+            </div><!-- /cx-workspace -->
+        </div><!-- /cx-body -->
